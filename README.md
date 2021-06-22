@@ -9,7 +9,7 @@ Optional nice-to-haves:
 To run this app:
 1. open a Terminal or Command Prompt window
 2. navigate to any folder (this will be the project "root" folder)
-3. call `git clone {link}`
+3. call `git clone https://github.com/olmigs/flaskapp.git`
 4. navigate to folder `flaskapp/` (e.g. `cd flaskapp/`) and call `python3 server.py`
 5. open a second Terminal or Command Prompt window
 6. navigate to folder `flaskapp/client/` and call `yarn dev`
