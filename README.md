@@ -1,14 +1,16 @@
-Requirements:
+# CT-X700/X800/CDP-S350 RBK File Editor
+
+## Requirements:
 - [Python 3.9](https://www.python.org/downloads/)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/) (Javascript package manager)
 
-Optional nice-to-haves:
+## Optional nice-to-haves:
 - Rust (latest stable build)
 - Tauri (latest stable)
 
-To run this app:
+## To run this app:
 1. open a Terminal or Command Prompt window
-2. navigate to any folder (this will be the project "root" folder)
+2. navigate to any folder (this will be where the project lives on your device)
 3. call `git clone https://github.com/olmigs/flaskapp.git`
 4. navigate to folder `flaskapp/` (e.g. `cd flaskapp/`) and call `python3 server.py`
 5. open a second Terminal or Command Prompt window
@@ -21,6 +23,6 @@ Okay, at this point you have managed to (a) run the Python server that handles i
 
 *Note: Please ensure that all RBK files are in the folder `flaskapp/file/`.*
 
-Known issues:
+## Known issues:
 - handling missing files; as of `06/22/21`, the app will do nothing if the file does not exist
-- updates to `casio_rbk` library are not automatically included; to get the latest, will need to go to the [Casio-Registrations github](https://github.com/michgz/casio-registrations)
+- updates to `casio_rbk` library are not automatically included; to get the latest, will need to go to the [Casio-Registrations github page](https://github.com/michgz/casio-registrations)
