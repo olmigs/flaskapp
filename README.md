@@ -17,7 +17,7 @@
 6. navigate to folder `flaskapp/client/` and call `yarn dev`
 7. open a browser window and type `localhost:5000` into the address bar
 
-Okay, at this point you have managed to (a) run the Python server that handles importing and exporting RBK files and (b) run the Javascript development server that updates that app automatically. You should now be ready for testing in a web browser. If you want to compile and run the app in development mode (using Tauri/Rust):
+Okay, at this point you have managed to (a) run the Python server that handles importing and exporting RBK files and (b) run the Javascript development server that updates the application UI automatically. You should now be ready for testing in a web browser. If you want to compile and run the app in development mode (using Tauri/Rust):
 
 8. navigate to folder `flaskapp/client/` and call `yarn tauri dev`
 

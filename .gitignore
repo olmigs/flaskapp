@@ -3,3 +3,4 @@
 *_migs.RBK
 **/__pycache__
 .DS_Store
+server.log
