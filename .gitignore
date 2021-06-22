@@ -1,0 +1,5 @@
+/node_modules/
+/public/build/
+*_migs.RBK
+**/__pycache__
+.DS_Store
