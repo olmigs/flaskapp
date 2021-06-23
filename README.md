@@ -2,6 +2,7 @@
 
 ## Requirements:
 - [Python 3.9](https://www.python.org/downloads/)
+- Pip
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/) (Javascript package manager)
 
 ## Optional nice-to-haves:

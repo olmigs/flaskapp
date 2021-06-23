@@ -121,6 +121,7 @@ def getEmptySlotList():
     return [-1, -1, -1, -1, -1, -1]
 
 def formatSlotList(arr):
+    
     return {'u1': {'vol':arr[0], 'pan':arr[1]},
             'u2': {'vol':arr[2], 'pan':arr[3]},
             'l': {'vol':arr[4], 'pan':arr[5]}
