@@ -1,4 +1,4 @@
-import os, json
+import os, json, datetime
 from casio_rbk.casio_rbk import RegistrationBank, Part
 from casio_rbk.patch_name import patch_name
 from flask import Flask, send_from_directory, request, redirect
@@ -16,7 +16,7 @@ def base():
 def home(path):
     return send_from_directory('client/public', path)
 
-@app.route("/import", methods=['GET'])
+@app.route("/import", methods=['POST', 'GET'])
 def rbk_import():
     if request.method == 'GET':
         log("caught a GET --- in import")
@@ -129,7 +129,8 @@ def formatSlotList(arr):
 
 def log(msg):
     with open('server.log', 'a') as logfile:
-        logfile.write(msg + '\n')
+        ct = datetime.datetime.now()
+        logfile.write(ct + '     ' + msg + '\n')
 
 if __name__ == "__main__":
     app.run()
