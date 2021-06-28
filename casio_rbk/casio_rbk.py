@@ -1,11 +1,15 @@
 import binascii
 import struct
+import os
+import os.path
+import csv
 
 
 class Atom:
   Patch = 0x10
   Volume = 0x11
   Pan = 0x12
+  OctaveTranspose = 0x23
   
 class Part:
   # Value common to all CT-X keyboards (& CDP-S):
@@ -31,7 +35,7 @@ REGISTRATION_FORMATS = {
   'CDP-S350': {'bank_size': 4, 'file_version': 1}
 }
   
-
+  
 class Registration:
   
   class RegistrationData(bytes):
@@ -66,10 +70,13 @@ class Registration:
 
 
   data = bytearray()
+  keyboard="Unknown"
   
-  def __init__(self, data=None):
+  def __init__(self, data=None, keyboard=""):
     if data:
       self.data = bytearray(data)
+    if keyboard:
+      self.keyboard = keyboard
 
   def __bytes__(self):
     return bytes(self.data)
@@ -136,6 +143,41 @@ class Registration:
       i += 2+atom_len
     return count
 
+  # A static function for testing mono compatibility
+  @staticmethod
+  def patch_is_mono_compatible(patch_no, bank_msb, is_cdp=False):
+    
+    patch_data_dir = os.path.join(os.path.dirname(__file__), "patch_data")
+    
+    with open(os.path.join(patch_data_dir, "AiX Forced Stereo Tones.csv"), "r") as f1:
+      csvread = csv.reader(f1)
+      
+      is_first_row = True
+      for row in csvread:
+        if is_first_row:
+          # Skip the first row, it's a header
+          is_first_row = False
+        else:
+          if bank_msb==int(row[2]) and patch_no==int(row[1]):
+            if is_cdp:
+              # Column 5 is for CDP-S
+              return row[4]!=0
+            else:
+              # Column 4 is for CT-X
+              return row[3]!=0
+
+    # If not in the CSV file, it's compatible
+    return True
+
+  def isMonoCompatible(self):
+    is_cdp = (self.keyboard[0:3] == "CDP")
+    if not self.patch_is_mono_compatible(*self.getPatchBank(Part.U1), is_cdp):
+      return False
+    if not self.patch_is_mono_compatible(*self.getPatchBank(Part.U2), is_cdp):
+      return False
+    if not self.patch_is_mono_compatible(*self.getPatchBank(Part.L), is_cdp):
+      return False
+    return True
 
 
   # Now some convenience functions, specifically for CT-X700/800:
@@ -159,7 +201,11 @@ class Registration:
     
     return(struct.unpack_from('<2B', self.__getitem__(Atom.Patch), 2*part))
 
-
+  def setPatchBank(self, part, patch, bankMSB):
+    val = self.__getitem__(Atom.Patch)
+    if len(val) < 2*part:
+      raise Exception("Cannot change patch on part {0}".format(part))
+    return(val[0:2*part] + struct.pack('<2B', patch, bankMSB) + val[2*part+2:])
 
 class RegistrationBank:
   
@@ -194,7 +240,7 @@ class RegistrationBank:
       if binascii.crc32(reg) != crc:
         raise Exception(f"CRC mismatch at offset {i-4}")
         
-      regs.append(Registration(reg))
+      regs.append(Registration(reg, keyboard=keyboard))
       i += length
       
       if bin_str[i:i+4] != b'EODA':
@@ -246,4 +292,3 @@ class RegistrationBank:
     
   def __len__(self):
     return len(self.registrations)
-

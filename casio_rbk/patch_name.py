@@ -10,6 +10,6 @@ def patch_name(patch_no, bank_msb):
     
     for row in csvread:
       if bank_msb==int(row[0]) and patch_no==int(row[1]):
-        return row[2][4:]  # add "[4:]" to remove first 4 characters -- 3-digit number plus a space
+        return row[2][4:]  # Remove first 4 characters -- 3-digit number plus a space
         
   return "Unknown"
