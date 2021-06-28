@@ -21,64 +21,120 @@
 </script>
 
 <table class="regslot" >
-    <tr style="background-color: {cfg.slotcolors[index]}">
+    <tr style="font-weight:bold; background-color: {cfg.slotcolors[index]}">
         <td>{u1_name} (Main)</td>
         <td>{u2_name} (Layer)</td>
         <td>{l_name} (Split)</td>
     </tr>
-    <tr style="font-size: 10pt; background-color: {ColorLuminance(cfg.slotcolors[index], 0.3)}">
+    <tr style="font-size:10pt; font-style:italic; background-color: {ColorLuminance(cfg.slotcolors[index], 0.3)}">
         <td>{file.names[index]['u1']}</td>
         <td>{file.names[index]['u2']}</td>
         <td>{file.names[index]['l']}</td>
     </tr>
     <tr style="background-color: {ColorLuminance(cfg.slotcolors[index], 0.6)}">
         <td>
-            <label for="u1_vol">Volume</label>
-            <input class="input_sm" type="text" id="u1_vol" name="{index}_u1_vol" bind:value={u1_vol} >
+            <div class="flexed">
+                <label for="u1_vol">Volume</label>
+                <input class="input_sm" type="text" id="u1_vol" name="{index}_u1_vol" bind:value={u1_vol} >
+            </div>
             <input type="range" class="slider" bind:value="{u1_vol}" min="0" max="127" >
         </td>
         <td>
-            <label for="u2_vol">Volume</label>
-            <input class="input_sm" type="text" id="u2_vol" name="{index}_u2_vol" bind:value={u2_vol} >
+            <div class="flexed">
+                <label for="u2_vol">Volume</label>
+                <input class="input_sm" type="text" id="u2_vol" name="{index}_u2_vol" bind:value={u2_vol} >
+            </div>
             <input type="range" class="slider" bind:value={u2_vol} min="0" max="127" >
         </td>
         <td>
-            <label for="l_vol">Volume</label>
-            <input class="input_sm" type="text" id="l_vol" name="{index}_l_vol" bind:value={l_vol} >
+            <div class="flexed">
+                <label for="l_vol">Volume</label>
+                <input class="input_sm" type="text" id="l_vol" name="{index}_l_vol" bind:value={l_vol} >
+            </div>
             <input type="range" class="slider" bind:value={l_vol} min="0" max="127" >
         </td>
     </tr>
     <tr style="background-color: {ColorLuminance(cfg.slotcolors[index], 0.9)}">
         <td>
-            <label for="u1_pan">Pan Position</label>
-            <input class="input_sm" type="text" id="u1_pan" name="{index}_u1_pan" bind:value={u1_pan}>
-            <input type="range" class="slider" bind:value={u1_pan} min="0" max="127" >
+            <div class="flexed">
+                <label for="u1_pan">Pan</label>
+                <input class="input_sm" type="text" id="u1_pan" name="{index}_u1_pan" bind:value={u1_pan}>
+            </div>
+            <p>
+                L <input type="range" class="slider" bind:value={u1_pan} min="0" max="127" > R
+            </p>
+            
         </td>
         <td>
-            <label for="u2_pan">Pan Position</label>
-            <input class="input_sm" type="text" id="u2_pan" name="{index}_u2_pan" bind:value={u2_pan} >
-            <input type="range" class="slider" bind:value={u2_pan} min="0" max="127" >
+            <div class="flexed">
+                <label for="u2_pan">Pan</label>
+                <input class="input_sm" type="text" id="u2_pan" name="{index}_u2_pan" bind:value={u2_pan} >
+            </div>
+            <p>
+                L <input type="range" class="slider" bind:value={u2_pan} min="0" max="127" > R
+            </p>
         </td>
         <td>
-            <label for="l_pan">Pan Position</label>
-            <input class="input_sm" type="text" id="l_pan" name="{index}_l_pan" bind:value={l_pan} >
-            <input type="range" class="slider" bind:value={l_pan} min="0" max="127" >
+            <div class="flexed">
+                <label for="l_pan">Pan</label>
+                <input class="input_sm" type="text" id="l_pan" name="{index}_l_pan" bind:value={l_pan} >
+            </div>
+            <p>
+                L <input type="range" class="slider" bind:value={l_pan} min="0" max="127" > R
+            </p>
         </td>
     </tr>
 </table>
 
 <style>
     .regslot {
-        border-collapse: collapse; 
-
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
 	}
     .input_sm {
-        height: 36px;
-        width: 64px;
+        height: 33px;
+        width: 45px;
+    }
+
+    .flexed {
+        padding: 5px;
+        justify-content: center;
+        display: flex;
+        flex: row;
     }
     .slider {
-        width: 150px;
+        -webkit-appearance: none;
+        width: 70%;
+        height: 2px;
+        background: #999696;
+        outline: none;
+        opacity: 0.6;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
     }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 9px;
+        height: 23px;
+        background: #a12a2a;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 9px;
+        height: 23px;
+        background: #a12a2a;
+        cursor: pointer;
+    }
+
     label {
         margin: 10px;
     }

@@ -3,9 +3,19 @@
         var form = document.getElementById("slotsbox");
         form.submit();
     }
+    export function allowDrop(e) {
+        e.preventDefault();
+    }
+    export function drag(e) {
+        e.dataTransfer.setData("text", ev.target.id);
+    }
+    export function drop(e) {
+        e.preventDefault();
+        var data = e.dataTransfer.getData("text");
+        e.target.appendChild(document.getElementById(data));
+    }
 </script>
 <script>
-    // export let filename = "test.rbk";
     import { filename } from "./stores.js";
 </script>
 
@@ -17,6 +27,9 @@
     <div style="padding-top:20px;">
         <input type="text" class="input-filename" name="filename" bind:value={$filename} >
         <br/>
+        <div class="dragdrop" ondrop="{drop}" ondragover="{allowDrop}">
+            Import
+        </div>
         <button>
             <a href="/import?filename={$filename}">Import RBK File</a>
         </button>

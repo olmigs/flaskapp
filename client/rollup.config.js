@@ -58,7 +58,9 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
-		json(),
+		json({
+			compact: true
+		}),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated

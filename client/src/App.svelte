@@ -7,8 +7,8 @@
 </script>
 
 <main>
+	<LibCtrl />
 	<form id="slotsbox" action="{pyserver}/export" method="post">
-		<LibCtrl />
 		{#each cfg.slots as slot, i}
 			<div class="slot">
 				<h3>Registration Slot {i+1}</h3>
@@ -35,13 +35,17 @@
 		padding: 1em;
 		max-width: 420px;
 		margin: 0 auto;
-		background-color: bisque;
+		background: linear-gradient(45deg, #dcb 12%, transparent 0, transparent 88%, #dca 0),
+    				linear-gradient(135deg, transparent 37%, #a85 0, #a85 63%, transparent 0),
+    				linear-gradient(45deg, transparent 37%, #dca 0, #dca 63%, transparent 0) #753;
+    	background-size: 25px 25px;
 	}
 
 	.slot {
-		width: 475px;
-		margin: 5px;
+		width: 450px;
+		padding: 5px;
 		flex-grow: 1;
+		background-color: rgba(221, 204, 187, 0.7);
 	}
 
 	#slotsbox {
