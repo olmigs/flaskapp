@@ -16,7 +16,7 @@ def base():
 def home(path):
     return send_from_directory('client/public', path)
 
-@app.route("/import", methods=['POST', 'GET'])
+@app.route("/import", methods=['GET'])
 def rbk_import():
     if request.method == 'GET':
         log("caught a GET --- in import")
@@ -26,7 +26,6 @@ def rbk_import():
 def getInfoFromRBKFile(filename):
     absFilename = os.path.join(THIS_FOLDER, 'file/' + filename)
     names_json = os.path.join(THIS_FOLDER, 'client/db/names.json')
-    slots_json = os.path.join(THIS_FOLDER, 'client/db/slots.json')
     with open(absFilename, "r+b") as f:
         data_names = {}
         data_names['names'] = []
@@ -51,11 +50,8 @@ def getInfoFromRBKFile(filename):
                 })
         except:
             log("fuck, that file don't exist!")
-            return redirect('/')
-
             
-    with open(slots_json, "w") as outfile_slots:
-        json.dump(data_slots, outfile_slots, indent=4)
+    updateJSONSlots(data_slots)
     with open(names_json, 'w') as outfile_names:
         json.dump(data_names, outfile_names, indent=4)
 
@@ -64,34 +60,37 @@ def rbk_export():
     if request.method == 'POST':
         log("caught a POST --- in export")
         dict = request.form
-        slots_json = os.path.join(THIS_FOLDER, 'client/db/slots.json')
-        curr_list = getEmptySlotList()
-        data = {}
-        data['slots'] = []
-        count = 0
-        for key in dict:
-            if (key == 'filename'):
-                continue
-            parms = key.split('_')
-            parm_index = getIndexFromParms(parms[1], parms[2])
-            if int(dict[key]) >= 127:
-                curr_list[parm_index] = 127
-            elif int(dict[key]) <= 0:
-                curr_list[parm_index] = 0
-            else:
-                curr_list[parm_index] = int(dict[key])
-            # log('parm: ' + parms[0] + ' | index: ' + str(curr_index))
-            count += 1
-            if (count % 6 == 0):
-                data['slots'].append(formatSlotList(curr_list))
-                curr_list = getEmptySlotList()
-        with open(slots_json, 'w') as outfile:
-            json.dump(data, outfile, indent=4)
-            outputToRBKFile(dict['filename'], data['slots'])
+        data = getArrayFromForm(dict)
+        updateJSONSlots(data)
+        outputToRBKFile(dict['filename'], data['slots'])
     return redirect('/')
+
+def getArrayFromForm(dict):
+    curr_list = getEmptySlotList()
+    arr = {}
+    arr['slots'] = []
+    count = 0
+    for key in dict:
+        if (key == 'filename'):
+            continue
+        parms = key.split('_')
+        parm_index = getIndexFromParms(parms[1], parms[2])
+        if int(dict[key]) >= 127:
+            curr_list[parm_index] = 127
+        elif int(dict[key]) <= 0:
+            curr_list[parm_index] = 0
+        else:
+            curr_list[parm_index] = int(dict[key])
+        # log('parm: ' + parms[0] + ' | index: ' + str(curr_index))
+        count += 1
+        if (count % 6 == 0):
+            arr['slots'].append(formatSlotList(curr_list))
+            curr_list = getEmptySlotList()
+    return arr
 
 def outputToRBKFile(filename, slots):
     absFilename = os.path.join(THIS_FOLDER, 'file/' + filename)
+    log("file name: " + absFilename)
     try:
         with open(absFilename, "r+b") as f:
             rb = RegistrationBank.readFile(f)
@@ -104,7 +103,11 @@ def outputToRBKFile(filename, slots):
             rb.writeFile(f)
     except:
         log("fuck, that file don't exist!")
-        return redirect('/')
+
+def updateJSONSlots(slots):
+    slots_json = os.path.join(THIS_FOLDER, 'client/db/slots.json')
+    with open(slots_json, 'w') as outfile:
+        json.dump(slots, outfile, indent=4)
 
 def getIndexFromParms(parm0, parm1):
     switcher = {
@@ -121,7 +124,6 @@ def getEmptySlotList():
     return [-1, -1, -1, -1, -1, -1]
 
 def formatSlotList(arr):
-    
     return {'u1': {'vol':arr[0], 'pan':arr[1]},
             'u2': {'vol':arr[2], 'pan':arr[3]},
             'l': {'vol':arr[4], 'pan':arr[5]}
@@ -129,8 +131,9 @@ def formatSlotList(arr):
 
 def log(msg):
     with open('server.log', 'a') as logfile:
-        ct = datetime.datetime.now()
-        logfile.write(ct + '     ' + msg + '\n')
+        now = datetime.datetime.now() # current date and time
+        now_str = now.strftime("%m/%d/%Y %H:%M:%S")
+        logfile.write(now_str + '     ' + msg + '\n')
 
 if __name__ == "__main__":
     app.run()

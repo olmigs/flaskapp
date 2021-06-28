@@ -21,17 +21,17 @@
 </script>
 
 <table class="regslot" >
-    <tr style="font-weight:bold; background-color: {cfg.slotcolors[index]}">
+    <tr style="font-weight:bold; background-color: {ColorLuminance(cfg.slotcolors_B[index], -.3)}">
         <td>{u1_name} (Main)</td>
         <td>{u2_name} (Layer)</td>
         <td>{l_name} (Split)</td>
     </tr>
-    <tr style="font-size:10pt; font-style:italic; background-color: {ColorLuminance(cfg.slotcolors[index], 0.3)}">
+    <tr style="font-size:10pt; font-style:italic; background-color: {ColorLuminance(cfg.slotcolors_B[index], 0.1)}">
         <td>{file.names[index]['u1']}</td>
         <td>{file.names[index]['u2']}</td>
         <td>{file.names[index]['l']}</td>
     </tr>
-    <tr style="background-color: {ColorLuminance(cfg.slotcolors[index], 0.6)}">
+    <tr style="background-color: {ColorLuminance(cfg.slotcolors_B[index], 0.75)}">
         <td>
             <div class="flexed">
                 <label for="u1_vol">Volume</label>
@@ -54,7 +54,7 @@
             <input type="range" class="slider" bind:value={l_vol} min="0" max="127" >
         </td>
     </tr>
-    <tr style="background-color: {ColorLuminance(cfg.slotcolors[index], 0.9)}">
+    <tr style="background-color: {ColorLuminance(cfg.slotcolors_B[index], 0.99)}">
         <td>
             <div class="flexed">
                 <label for="u1_pan">Pan</label>

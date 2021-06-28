@@ -405,9 +405,9 @@ var app = (function () {
         $inject_state() { }
     }
 
-    var slots=[{u1:{vol:0,pan:64},u2:{vol:127,pan:64},l:{vol:127,pan:64}},{u1:{vol:127,pan:64},u2:{vol:0,pan:64},l:{vol:127,pan:64}},{u1:{vol:127,pan:64},u2:{vol:127,pan:64},l:{vol:0,pan:64}},{u1:{vol:0,pan:64},u2:{vol:0,pan:64},l:{vol:127,pan:64}}];var cfg$1 = {slots:slots};
+    var slots=[{u1:{vol:0,pan:64},u2:{vol:127,pan:64},l:{vol:0,pan:64}},{u1:{vol:100,pan:64},u2:{vol:0,pan:64},l:{vol:0,pan:64}},{u1:{vol:0,pan:64},u2:{vol:0,pan:64},l:{vol:0,pan:64}},{u1:{vol:127,pan:64},u2:{vol:127,pan:64},l:{vol:127,pan:64}}];var cfg$1 = {slots:slots};
 
-    var slotcolors=["#ff4d4d","#00a2ff","#cc6600","#0ba30b"];var cfg = {slotcolors:slotcolors};
+    var slotcolors_A=["#800040","#47b8b3","#804000","#3ec180"];var slotcolors_B=["#ed4846","#cc6627","#3ec180","#47b8b3"];var cfg = {slotcolors_A:slotcolors_A,slotcolors_B:slotcolors_B};
 
     var names=[{u1:"STAGE PIANO",u2:"MELLOW STRINGS 1",l:"ACOUSTIC BASS 1"},{u1:"STAGE PIANO",u2:"MELLOW STRINGS 1",l:"ACOUSTIC BASS 1"},{u1:"STAGE PIANO",u2:"MELLOW STRINGS 1",l:"ACOUSTIC BASS 1"},{u1:"STAGE PIANO",u2:"MELLOW STRINGS 1",l:"ACOUSTIC BASS 1"}];var file$2 = {names:names};
 
@@ -600,137 +600,137 @@ var app = (function () {
     			input11 = element("input");
     			t43 = text(" R");
     			attr_dev(td0, "class", "svelte-1imrzmc");
-    			add_location(td0, file_1, 24, 8, 890);
+    			add_location(td0, file_1, 24, 8, 913);
     			attr_dev(td1, "class", "svelte-1imrzmc");
-    			add_location(td1, file_1, 25, 8, 924);
+    			add_location(td1, file_1, 25, 8, 947);
     			attr_dev(td2, "class", "svelte-1imrzmc");
-    			add_location(td2, file_1, 26, 8, 959);
+    			add_location(td2, file_1, 26, 8, 982);
     			set_style(tr0, "font-weight", "bold");
-    			set_style(tr0, "background-color", cfg.slotcolors[/*index*/ ctx[6]]);
+    			set_style(tr0, "background-color", ColorLuminance(cfg.slotcolors_B[/*index*/ ctx[6]], -0.3));
     			attr_dev(tr0, "class", "svelte-1imrzmc");
     			add_location(tr0, file_1, 23, 4, 809);
     			attr_dev(td3, "class", "svelte-1imrzmc");
-    			add_location(td3, file_1, 29, 8, 1118);
+    			add_location(td3, file_1, 29, 8, 1143);
     			attr_dev(td4, "class", "svelte-1imrzmc");
-    			add_location(td4, file_1, 30, 8, 1161);
+    			add_location(td4, file_1, 30, 8, 1186);
     			attr_dev(td5, "class", "svelte-1imrzmc");
-    			add_location(td5, file_1, 31, 8, 1204);
+    			add_location(td5, file_1, 31, 8, 1229);
     			set_style(tr1, "font-size", "10pt");
     			set_style(tr1, "font-style", "italic");
-    			set_style(tr1, "background-color", ColorLuminance(cfg.slotcolors[/*index*/ ctx[6]], 0.3));
+    			set_style(tr1, "background-color", ColorLuminance(cfg.slotcolors_B[/*index*/ ctx[6]], 0.1));
     			attr_dev(tr1, "class", "svelte-1imrzmc");
-    			add_location(tr1, file_1, 28, 4, 999);
+    			add_location(tr1, file_1, 28, 4, 1022);
     			attr_dev(label0, "for", "u1_vol");
     			attr_dev(label0, "class", "svelte-1imrzmc");
-    			add_location(label0, file_1, 36, 16, 1390);
+    			add_location(label0, file_1, 36, 16, 1418);
     			attr_dev(input0, "class", "input_sm svelte-1imrzmc");
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "u1_vol");
     			attr_dev(input0, "name", input0_name_value = "" + (/*index*/ ctx[6] + "_u1_vol"));
-    			add_location(input0, file_1, 37, 16, 1441);
+    			add_location(input0, file_1, 37, 16, 1469);
     			attr_dev(div0, "class", "flexed svelte-1imrzmc");
-    			add_location(div0, file_1, 35, 12, 1353);
+    			add_location(div0, file_1, 35, 12, 1381);
     			attr_dev(input1, "type", "range");
     			attr_dev(input1, "class", "slider svelte-1imrzmc");
     			attr_dev(input1, "min", "0");
     			attr_dev(input1, "max", "127");
-    			add_location(input1, file_1, 39, 12, 1564);
+    			add_location(input1, file_1, 39, 12, 1592);
     			attr_dev(td6, "class", "svelte-1imrzmc");
-    			add_location(td6, file_1, 34, 8, 1336);
+    			add_location(td6, file_1, 34, 8, 1364);
     			attr_dev(label1, "for", "u2_vol");
     			attr_dev(label1, "class", "svelte-1imrzmc");
-    			add_location(label1, file_1, 43, 16, 1717);
+    			add_location(label1, file_1, 43, 16, 1745);
     			attr_dev(input2, "class", "input_sm svelte-1imrzmc");
     			attr_dev(input2, "type", "text");
     			attr_dev(input2, "id", "u2_vol");
     			attr_dev(input2, "name", input2_name_value = "" + (/*index*/ ctx[6] + "_u2_vol"));
-    			add_location(input2, file_1, 44, 16, 1768);
+    			add_location(input2, file_1, 44, 16, 1796);
     			attr_dev(div1, "class", "flexed svelte-1imrzmc");
-    			add_location(div1, file_1, 42, 12, 1680);
+    			add_location(div1, file_1, 42, 12, 1708);
     			attr_dev(input3, "type", "range");
     			attr_dev(input3, "class", "slider svelte-1imrzmc");
     			attr_dev(input3, "min", "0");
     			attr_dev(input3, "max", "127");
-    			add_location(input3, file_1, 46, 12, 1891);
+    			add_location(input3, file_1, 46, 12, 1919);
     			attr_dev(td7, "class", "svelte-1imrzmc");
-    			add_location(td7, file_1, 41, 8, 1663);
+    			add_location(td7, file_1, 41, 8, 1691);
     			attr_dev(label2, "for", "l_vol");
     			attr_dev(label2, "class", "svelte-1imrzmc");
-    			add_location(label2, file_1, 50, 16, 2042);
+    			add_location(label2, file_1, 50, 16, 2070);
     			attr_dev(input4, "class", "input_sm svelte-1imrzmc");
     			attr_dev(input4, "type", "text");
     			attr_dev(input4, "id", "l_vol");
     			attr_dev(input4, "name", input4_name_value = "" + (/*index*/ ctx[6] + "_l_vol"));
-    			add_location(input4, file_1, 51, 16, 2092);
+    			add_location(input4, file_1, 51, 16, 2120);
     			attr_dev(div2, "class", "flexed svelte-1imrzmc");
-    			add_location(div2, file_1, 49, 12, 2005);
+    			add_location(div2, file_1, 49, 12, 2033);
     			attr_dev(input5, "type", "range");
     			attr_dev(input5, "class", "slider svelte-1imrzmc");
     			attr_dev(input5, "min", "0");
     			attr_dev(input5, "max", "127");
-    			add_location(input5, file_1, 53, 12, 2212);
+    			add_location(input5, file_1, 53, 12, 2240);
     			attr_dev(td8, "class", "svelte-1imrzmc");
-    			add_location(td8, file_1, 48, 8, 1988);
-    			set_style(tr2, "background-color", ColorLuminance(cfg.slotcolors[/*index*/ ctx[6]], 0.6));
+    			add_location(td8, file_1, 48, 8, 2016);
+    			set_style(tr2, "background-color", ColorLuminance(cfg.slotcolors_B[/*index*/ ctx[6]], 0.75));
     			attr_dev(tr2, "class", "svelte-1imrzmc");
-    			add_location(tr2, file_1, 33, 4, 1252);
+    			add_location(tr2, file_1, 33, 4, 1277);
     			attr_dev(label3, "for", "u1_pan");
     			attr_dev(label3, "class", "svelte-1imrzmc");
-    			add_location(label3, file_1, 59, 16, 2452);
+    			add_location(label3, file_1, 59, 16, 2483);
     			attr_dev(input6, "class", "input_sm svelte-1imrzmc");
     			attr_dev(input6, "type", "text");
     			attr_dev(input6, "id", "u1_pan");
     			attr_dev(input6, "name", input6_name_value = "" + (/*index*/ ctx[6] + "_u1_pan"));
-    			add_location(input6, file_1, 60, 16, 2500);
+    			add_location(input6, file_1, 60, 16, 2531);
     			attr_dev(div3, "class", "flexed svelte-1imrzmc");
-    			add_location(div3, file_1, 58, 12, 2415);
+    			add_location(div3, file_1, 58, 12, 2446);
     			attr_dev(input7, "type", "range");
     			attr_dev(input7, "class", "slider svelte-1imrzmc");
     			attr_dev(input7, "min", "0");
     			attr_dev(input7, "max", "127");
-    			add_location(input7, file_1, 63, 18, 2644);
-    			add_location(p0, file_1, 62, 12, 2622);
+    			add_location(input7, file_1, 63, 18, 2675);
+    			add_location(p0, file_1, 62, 12, 2653);
     			attr_dev(td9, "class", "svelte-1imrzmc");
-    			add_location(td9, file_1, 57, 8, 2398);
+    			add_location(td9, file_1, 57, 8, 2429);
     			attr_dev(label4, "for", "u2_pan");
     			attr_dev(label4, "class", "svelte-1imrzmc");
-    			add_location(label4, file_1, 69, 16, 2827);
+    			add_location(label4, file_1, 69, 16, 2858);
     			attr_dev(input8, "class", "input_sm svelte-1imrzmc");
     			attr_dev(input8, "type", "text");
     			attr_dev(input8, "id", "u2_pan");
     			attr_dev(input8, "name", input8_name_value = "" + (/*index*/ ctx[6] + "_u2_pan"));
-    			add_location(input8, file_1, 70, 16, 2875);
+    			add_location(input8, file_1, 70, 16, 2906);
     			attr_dev(div4, "class", "flexed svelte-1imrzmc");
-    			add_location(div4, file_1, 68, 12, 2790);
+    			add_location(div4, file_1, 68, 12, 2821);
     			attr_dev(input9, "type", "range");
     			attr_dev(input9, "class", "slider svelte-1imrzmc");
     			attr_dev(input9, "min", "0");
     			attr_dev(input9, "max", "127");
-    			add_location(input9, file_1, 73, 18, 3020);
-    			add_location(p1, file_1, 72, 12, 2998);
+    			add_location(input9, file_1, 73, 18, 3051);
+    			add_location(p1, file_1, 72, 12, 3029);
     			attr_dev(td10, "class", "svelte-1imrzmc");
-    			add_location(td10, file_1, 67, 8, 2773);
+    			add_location(td10, file_1, 67, 8, 2804);
     			attr_dev(label5, "for", "l_pan");
     			attr_dev(label5, "class", "svelte-1imrzmc");
-    			add_location(label5, file_1, 78, 16, 3190);
+    			add_location(label5, file_1, 78, 16, 3221);
     			attr_dev(input10, "class", "input_sm svelte-1imrzmc");
     			attr_dev(input10, "type", "text");
     			attr_dev(input10, "id", "l_pan");
     			attr_dev(input10, "name", input10_name_value = "" + (/*index*/ ctx[6] + "_l_pan"));
-    			add_location(input10, file_1, 79, 16, 3237);
+    			add_location(input10, file_1, 79, 16, 3268);
     			attr_dev(div5, "class", "flexed svelte-1imrzmc");
-    			add_location(div5, file_1, 77, 12, 3153);
+    			add_location(div5, file_1, 77, 12, 3184);
     			attr_dev(input11, "type", "range");
     			attr_dev(input11, "class", "slider svelte-1imrzmc");
     			attr_dev(input11, "min", "0");
     			attr_dev(input11, "max", "127");
-    			add_location(input11, file_1, 82, 18, 3379);
-    			add_location(p2, file_1, 81, 12, 3357);
+    			add_location(input11, file_1, 82, 18, 3410);
+    			add_location(p2, file_1, 81, 12, 3388);
     			attr_dev(td11, "class", "svelte-1imrzmc");
-    			add_location(td11, file_1, 76, 8, 3136);
-    			set_style(tr3, "background-color", ColorLuminance(cfg.slotcolors[/*index*/ ctx[6]], 0.9));
+    			add_location(td11, file_1, 76, 8, 3167);
+    			set_style(tr3, "background-color", ColorLuminance(cfg.slotcolors_B[/*index*/ ctx[6]], 0.99));
     			attr_dev(tr3, "class", "svelte-1imrzmc");
-    			add_location(tr3, file_1, 56, 4, 2314);
+    			add_location(tr3, file_1, 56, 4, 2342);
     			attr_dev(table, "class", "regslot svelte-1imrzmc");
     			add_location(table, file_1, 22, 0, 780);
     		},
@@ -864,7 +864,7 @@ var app = (function () {
     			if (dirty & /*l_name*/ 512) set_data_dev(t6, /*l_name*/ ctx[9]);
 
     			if (dirty & /*index*/ 64) {
-    				set_style(tr0, "background-color", cfg.slotcolors[/*index*/ ctx[6]]);
+    				set_style(tr0, "background-color", ColorLuminance(cfg.slotcolors_B[/*index*/ ctx[6]], -0.3));
     			}
 
     			if (dirty & /*index*/ 64 && t9_value !== (t9_value = file$2.names[/*index*/ ctx[6]]["u1"] + "")) set_data_dev(t9, t9_value);
@@ -872,7 +872,7 @@ var app = (function () {
     			if (dirty & /*index*/ 64 && t13_value !== (t13_value = file$2.names[/*index*/ ctx[6]]["l"] + "")) set_data_dev(t13, t13_value);
 
     			if (dirty & /*index*/ 64) {
-    				set_style(tr1, "background-color", ColorLuminance(cfg.slotcolors[/*index*/ ctx[6]], 0.3));
+    				set_style(tr1, "background-color", ColorLuminance(cfg.slotcolors_B[/*index*/ ctx[6]], 0.1));
     			}
 
     			if (dirty & /*index*/ 64 && input0_name_value !== (input0_name_value = "" + (/*index*/ ctx[6] + "_u1_vol"))) {
@@ -912,7 +912,7 @@ var app = (function () {
     			}
 
     			if (dirty & /*index*/ 64) {
-    				set_style(tr2, "background-color", ColorLuminance(cfg.slotcolors[/*index*/ ctx[6]], 0.6));
+    				set_style(tr2, "background-color", ColorLuminance(cfg.slotcolors_B[/*index*/ ctx[6]], 0.75));
     			}
 
     			if (dirty & /*index*/ 64 && input6_name_value !== (input6_name_value = "" + (/*index*/ ctx[6] + "_u1_pan"))) {
@@ -952,7 +952,7 @@ var app = (function () {
     			}
 
     			if (dirty & /*index*/ 64) {
-    				set_style(tr3, "background-color", ColorLuminance(cfg.slotcolors[/*index*/ ctx[6]], 0.9));
+    				set_style(tr3, "background-color", ColorLuminance(cfg.slotcolors_B[/*index*/ ctx[6]], 0.99));
     			}
     		},
     		i: noop,
@@ -1362,11 +1362,19 @@ var app = (function () {
         return { set, update, subscribe };
     }
 
+    // import cfg from "../db/slots.json";
+
     const storedFilename = localStorage.getItem('filename');
     const filename = writable(storedFilename);
     filename.subscribe( value => {
         localStorage.setItem('filename', value === null ? '' : value);
     });
+
+    // const storedSlots = localStorage.getItem('slots');
+    // export const slots = writable(cfg.slots);
+    // slots.subscribe( value => {
+    //     localStorage.setItem('slots', cfg.slots);
+    // })
 
     /* src/LibCtrl.svelte generated by Svelte v3.38.2 */
     const file$1 = "src/LibCtrl.svelte";
@@ -1378,20 +1386,15 @@ var app = (function () {
     	let t1;
     	let h4;
     	let t3;
+    	let div1;
+    	let p;
+    	let t5;
     	let div2;
     	let input;
-    	let t4;
-    	let br;
-    	let t5;
-    	let div1;
     	let t6;
+    	let br;
     	let t7;
-    	let button0;
-    	let a;
-    	let t8;
-    	let a_href_value;
-    	let t9;
-    	let button1;
+    	let button;
     	let mounted;
     	let dispose;
 
@@ -1405,42 +1408,37 @@ var app = (function () {
     			h4 = element("h4");
     			h4.textContent = "CT-X700/X800/CDP-S350 RBK File Editor";
     			t3 = space();
+    			div1 = element("div");
+    			p = element("p");
+    			p.textContent = "Drag an RBK file here to import...";
+    			t5 = space();
     			div2 = element("div");
     			input = element("input");
-    			t4 = space();
+    			t6 = space();
     			br = element("br");
-    			t5 = space();
-    			div1 = element("div");
-    			t6 = text("Import");
     			t7 = space();
-    			button0 = element("button");
-    			a = element("a");
-    			t8 = text("Import RBK File");
-    			t9 = space();
-    			button1 = element("button");
-    			button1.textContent = "Export RBK File";
-    			add_location(h2, file$1, 23, 8, 594);
-    			add_location(h4, file$1, 24, 8, 621);
-    			add_location(div0, file$1, 22, 4, 580);
+    			button = element("button");
+    			button.textContent = "Export RBK File";
+    			add_location(h2, file$1, 26, 8, 714);
+    			add_location(h4, file$1, 27, 8, 741);
+    			add_location(div0, file$1, 25, 4, 700);
+    			add_location(p, file$1, 30, 8, 875);
+    			attr_dev(div1, "class", "dragdrop svelte-1bby57r");
+    			attr_dev(div1, "ondrop", drop);
+    			attr_dev(div1, "ondragover", allowDrop);
+    			add_location(div1, file$1, 29, 4, 803);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "input-filename");
     			attr_dev(input, "name", "filename");
-    			add_location(input, file$1, 27, 8, 723);
-    			add_location(br, file$1, 28, 8, 814);
-    			attr_dev(div1, "class", "dragdrop");
-    			attr_dev(div1, "ondrop", drop);
-    			attr_dev(div1, "ondragover", allowDrop);
-    			add_location(div1, file$1, 29, 8, 828);
-    			attr_dev(a, "href", a_href_value = "/import?filename=" + /*$filename*/ ctx[0]);
-    			attr_dev(a, "class", "svelte-16lukbc");
-    			add_location(a, file$1, 33, 12, 955);
-    			add_location(button0, file$1, 32, 8, 934);
-    			add_location(button1, file$1, 35, 8, 1040);
-    			set_style(div2, "padding-top", "20px");
-    			add_location(div2, file$1, 26, 4, 683);
+    			add_location(input, file$1, 33, 8, 989);
+    			add_location(br, file$1, 34, 8, 1080);
+    			add_location(button, file$1, 35, 8, 1094);
+    			set_style(div2, "padding-top", "22px");
+    			set_style(div2, "text-align", "left");
+    			add_location(div2, file$1, 32, 4, 932);
     			attr_dev(div3, "id", "libctrl");
-    			attr_dev(div3, "class", "svelte-16lukbc");
-    			add_location(div3, file$1, 21, 0, 557);
+    			attr_dev(div3, "class", "svelte-1bby57r");
+    			add_location(div3, file$1, 24, 0, 677);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1452,25 +1450,21 @@ var app = (function () {
     			append_dev(div0, t1);
     			append_dev(div0, h4);
     			append_dev(div3, t3);
+    			append_dev(div3, div1);
+    			append_dev(div1, p);
+    			append_dev(div3, t5);
     			append_dev(div3, div2);
     			append_dev(div2, input);
     			set_input_value(input, /*$filename*/ ctx[0]);
-    			append_dev(div2, t4);
+    			append_dev(div2, t6);
     			append_dev(div2, br);
-    			append_dev(div2, t5);
-    			append_dev(div2, div1);
-    			append_dev(div1, t6);
     			append_dev(div2, t7);
-    			append_dev(div2, button0);
-    			append_dev(button0, a);
-    			append_dev(a, t8);
-    			append_dev(div2, t9);
-    			append_dev(div2, button1);
+    			append_dev(div2, button);
 
     			if (!mounted) {
     				dispose = [
     					listen_dev(input, "input", /*input_input_handler*/ ctx[1]),
-    					listen_dev(button1, "click", handleExport, false, false, false)
+    					listen_dev(button, "click", handleExport, false, false, false)
     				];
 
     				mounted = true;
@@ -1479,10 +1473,6 @@ var app = (function () {
     		p: function update(ctx, [dirty]) {
     			if (dirty & /*$filename*/ 1 && input.value !== /*$filename*/ ctx[0]) {
     				set_input_value(input, /*$filename*/ ctx[0]);
-    			}
-
-    			if (dirty & /*$filename*/ 1 && a_href_value !== (a_href_value = "/import?filename=" + /*$filename*/ ctx[0])) {
-    				attr_dev(a, "href", a_href_value);
     			}
     		},
     		i: noop,
@@ -1514,14 +1504,18 @@ var app = (function () {
     	e.preventDefault();
     }
 
-    function drag(e) {
-    	e.dataTransfer.setData("text", ev.target.id);
-    }
-
     function drop(e) {
     	e.preventDefault();
-    	var data = e.dataTransfer.getData("text");
-    	e.target.appendChild(document.getElementById(data));
+    	var dropfilename = e.dataTransfer.dataTransfer.files[0].name;
+    	var xhr = new XMLHttpRequest();
+    	xhr.open("GET", "/import", true);
+
+    	xhr.onload = function () {
+    		
+    	}; // Request finished. Do processing here.
+
+    	xhr.send(dropfilename);
+    	filename.update(dropfilename);
     }
 
     function instance$1($$self, $$props, $$invalidate) {
@@ -1544,7 +1538,6 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		handleExport,
     		allowDrop,
-    		drag,
     		drop,
     		filename,
     		$filename
@@ -1577,7 +1570,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (12:2) {#each cfg.slots as slot, i}
+    // (13:2) {#each cfg.slots as slot, i}
     function create_each_block(ctx) {
     	let div;
     	let h3;
@@ -1614,9 +1607,9 @@ var app = (function () {
     			t2 = space();
     			create_component(regslot.$$.fragment);
     			t3 = space();
-    			add_location(h3, file, 13, 4, 360);
-    			attr_dev(div, "class", "slot svelte-wya71o");
-    			add_location(div, file, 12, 3, 337);
+    			add_location(h3, file, 14, 4, 401);
+    			attr_dev(div, "class", "slot svelte-1n4iuad");
+    			add_location(div, file, 13, 3, 378);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1654,7 +1647,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(12:2) {#each cfg.slots as slot, i}",
+    		source: "(13:2) {#each cfg.slots as slot, i}",
     		ctx
     	});
 
@@ -1663,9 +1656,9 @@ var app = (function () {
 
     function create_fragment(ctx) {
     	let main;
+    	let form;
     	let libctrl;
     	let t;
-    	let form;
     	let current;
     	libctrl = new LibCtrl({ $$inline: true });
     	let each_value = cfg$1.slots;
@@ -1683,9 +1676,9 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			main = element("main");
+    			form = element("form");
     			create_component(libctrl.$$.fragment);
     			t = space();
-    			form = element("form");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
@@ -1694,19 +1687,19 @@ var app = (function () {
     			attr_dev(form, "id", "slotsbox");
     			attr_dev(form, "action", "" + (/*pyserver*/ ctx[3] + "/export"));
     			attr_dev(form, "method", "post");
-    			attr_dev(form, "class", "svelte-wya71o");
-    			add_location(form, file, 10, 1, 241);
-    			attr_dev(main, "class", "svelte-wya71o");
-    			add_location(main, file, 8, 0, 220);
+    			attr_dev(form, "class", "svelte-1n4iuad");
+    			add_location(form, file, 10, 1, 268);
+    			attr_dev(main, "class", "svelte-1n4iuad");
+    			add_location(main, file, 9, 0, 260);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, main, anchor);
-    			mount_component(libctrl, main, null);
-    			append_dev(main, t);
     			append_dev(main, form);
+    			mount_component(libctrl, form, null);
+    			append_dev(form, t);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(form, null);
