@@ -1,4 +1,5 @@
 /client/node_modules/
+casio_rbk/tests/
 /public/build/
 *_migs.RBK
 **/__pycache__
