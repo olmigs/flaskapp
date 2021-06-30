@@ -16,12 +16,33 @@ def base():
 def home(path):
     return send_from_directory('client/public', path)
 
+@app.route("/reload", methods=['GET'])
+def reload():
+    if request.method == 'GET':
+        # updateJSSlots()
+        return redirect('/')
+
 @app.route("/import", methods=['GET'])
 def rbk_import():
     if request.method == 'GET':
         log("caught a GET --- in import")
         getInfoFromRBKFile(request.args.get('filename'))
-    return redirect('/')
+        return redirect('/reload')
+
+@app.route("/export", methods=['POST'])
+def rbk_export():
+    if request.method == 'POST':
+        log("caught a POST --- in export")
+        dict = request.form
+        data = getArrayFromForm(dict)
+        updateJSONSlots(data)
+        outputToRBKFile(dict['filename'], data['slots'])
+        return redirect('/reload')
+
+def updateJSSlots():
+    bundle_js = os.path.join(THIS_FOLDER, 'client/public/build/bundle.js')
+    with open(bundle_js, "r+b") as f:
+        contents = f.readlines()
 
 def getInfoFromRBKFile(filename):
     absFilename = os.path.join(THIS_FOLDER, 'file/' + filename)
@@ -54,16 +75,6 @@ def getInfoFromRBKFile(filename):
     updateJSONSlots(data_slots)
     with open(names_json, 'w') as outfile_names:
         json.dump(data_names, outfile_names, indent=4)
-
-@app.route("/export", methods=['POST'])
-def rbk_export():
-    if request.method == 'POST':
-        log("caught a POST --- in export")
-        dict = request.form
-        data = getArrayFromForm(dict)
-        updateJSONSlots(data)
-        outputToRBKFile(dict['filename'], data['slots'])
-    return redirect('/')
 
 def getArrayFromForm(dict):
     curr_list = getEmptySlotList()

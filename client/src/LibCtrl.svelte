@@ -1,5 +1,7 @@
 <script>
     import { filename } from "./stores.js";
+    // import { openFromFile } from "../scripts/openFile.js";
+    import { openFile } from "../scripts/utils.js";
 </script>
 <script context="module">
     export function handleExport() {
@@ -28,14 +30,18 @@
         <h4>CT-X700/X800/CDP-S350 RBK File Editor</h4>
     </div>
     <div class="dragdrop" ondrop="{drop}" ondragover="{allowDrop}">
-        <p>Drag an RBK file here to import...</p>
+        <p>Drop an RBK file here to import...</p>
     </div>
     <div style="padding-top:22px; text-align:left;">
         <input type="text" class="input-filename" name="filename" bind:value={$filename} >
         <br/>
+        <!-- <button>
+            <a href="/import?filename={$filename}">Import RBK File</a>
+        </button> -->
         <button on:click={handleExport}>
             Export RBK File
         </button>
+        <button on:click={openFile}>Open...</button>
     </div>
 </div>
 
