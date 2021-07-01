@@ -56,7 +56,7 @@
 	}
 
 	.loading {
-		font-size: 30pt;
+		font-size: 24pt;
 		margin-top: 50px;
 		margin-left: auto;
 		margin-right: auto;

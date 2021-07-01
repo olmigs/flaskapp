@@ -49,8 +49,7 @@ def rbk_export():
         outputToRBKFile(dict['filename'], data['slots'])
         return redirect('/')
 
-def getInfoFromRBKFile(filename):
-    absFilename = os.path.join(THIS_FOLDER, 'file/' + filename)
+def getInfoFromRBKFile(absFilename):
     names_json = os.path.join(THIS_FOLDER, 'db/names.json')
     with open(absFilename, "r+b") as f:
         data_names = {}

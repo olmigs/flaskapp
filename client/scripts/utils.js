@@ -1,14 +1,19 @@
-export function openFile(e) {
-    e.preventDefault();
+export function openDialog(dir) {
     const dialog = window.__TAURI__.dialog;
-    const fileRelativeLoc = '../../file';
-    var response = dialog.open({
-        'defaultPath': fileRelativeLoc,
-        'filters': [{
-            name: 'casio_rbk',
-            extensions: ['rbk']
-        }]
-    });
+    dialog
+        .open({
+            'defaultPath': dir,
+            'filters': [{
+                name: 'casio_rbk',
+                extensions: ['rbk']
+            }],
+            'multiple': false,
+            'directory': false
+        })
+        .then(
+            response => {
+                return response;
+            });
 }
 
 export function arraysMatch(arr1, arr2) {

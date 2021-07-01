@@ -27,7 +27,8 @@ async function setStore(endpoint, store) {
             response => {
                 store.set(response.data);
             })
-        .catch(function(err) {
-            console.log('Fetch Error :-S', err);
-        });
+        .catch(
+            err => {
+                console.log('Fetch Error :-S', err);
+            });
 }
