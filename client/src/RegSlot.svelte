@@ -1,8 +1,7 @@
 <script>
     import cfg from "../public/config.json";
-    import file from "../db/names.json";
-    export let index, u1_name, u1_vol, u1_pan, u2_name, u2_vol, u2_pan, l_name, l_vol, l_pan;
-    function ColorLuminance(hex, lum) {
+    export let index, u1_name, u1_vol, u1_pan, u2_name, u2_vol, u2_pan, l_name, l_vol, l_pan, names;
+    function lum(hex, lum) {
         // validate hex string
         hex = String(hex).replace(/[^0-9a-f]/gi, '');
         if (hex.length < 6) {
@@ -21,47 +20,47 @@
 </script>
 
 <table class="regslot" >
-    <tr style="font-weight:bold; background-color: {ColorLuminance(cfg.slotcolors_B[index], -.3)}">
+    <tr style="font-weight:bold; background-color: {lum(cfg.slotcolors_B[index], -.3)}">
         <td>{u1_name} (Main)</td>
         <td>{u2_name} (Layer)</td>
         <td>{l_name} (Split)</td>
     </tr>
-    <tr style="font-size:10pt; font-style:italic; background-color: {ColorLuminance(cfg.slotcolors_B[index], 0.1)}">
-        <td>{file.names[index]['u1']}</td>
-        <td>{file.names[index]['u2']}</td>
-        <td>{file.names[index]['l']}</td>
+    <tr style="font-size:10pt; font-style:italic; background-color: {lum(cfg.slotcolors_B[index], 0.1)}">
+        <td>{names['u1']}</td>
+        <td>{names['u2']}</td>
+        <td>{names['l']}</td>
     </tr>
-    <tr style="background-color: {ColorLuminance(cfg.slotcolors_B[index], 0.75)}">
+    <tr style="background-color: {lum(cfg.slotcolors_B[index], 0.75)}">
         <td>
             <div class="flexed">
                 <label for="u1_vol">Volume</label>
                 <input class="input_sm" type="text" id="u1_vol" name="{index}_u1_vol" bind:value={u1_vol} >
             </div>
-            <input type="range" class="slider" bind:value="{u1_vol}" min="0" max="127" >
+            <input type="range" class="slider" bind:value="{u1_vol}" min="0" max="127" step="1" >
         </td>
         <td>
             <div class="flexed">
                 <label for="u2_vol">Volume</label>
                 <input class="input_sm" type="text" id="u2_vol" name="{index}_u2_vol" bind:value={u2_vol} >
             </div>
-            <input type="range" class="slider" bind:value={u2_vol} min="0" max="127" >
+            <input type="range" class="slider" bind:value={u2_vol} min="0" max="127" step="1" >
         </td>
         <td>
             <div class="flexed">
                 <label for="l_vol">Volume</label>
                 <input class="input_sm" type="text" id="l_vol" name="{index}_l_vol" bind:value={l_vol} >
             </div>
-            <input type="range" class="slider" bind:value={l_vol} min="0" max="127" >
+            <input type="range" class="slider" bind:value={l_vol} min="0" max="127" step="1" >
         </td>
     </tr>
-    <tr style="background-color: {ColorLuminance(cfg.slotcolors_B[index], 0.99)}">
+    <tr style="background-color: {lum(cfg.slotcolors_B[index], 0.99)}">
         <td>
             <div class="flexed">
                 <label for="u1_pan">Pan</label>
                 <input class="input_sm" type="text" id="u1_pan" name="{index}_u1_pan" bind:value={u1_pan}>
             </div>
             <p>
-                L <input type="range" class="slider" bind:value={u1_pan} min="0" max="127" > R
+                L <input type="range" class="slider" bind:value={u1_pan} min="0" max="127" step="1" > R
             </p>
             
         </td>
@@ -71,7 +70,7 @@
                 <input class="input_sm" type="text" id="u2_pan" name="{index}_u2_pan" bind:value={u2_pan} >
             </div>
             <p>
-                L <input type="range" class="slider" bind:value={u2_pan} min="0" max="127" > R
+                L <input type="range" class="slider" bind:value={u2_pan} min="0" max="127" step="1" > R
             </p>
         </td>
         <td>
@@ -80,7 +79,7 @@
                 <input class="input_sm" type="text" id="l_pan" name="{index}_l_pan" bind:value={l_pan} >
             </div>
             <p>
-                L <input type="range" class="slider" bind:value={l_pan} min="0" max="127" > R
+                L <input type="range" class="slider" bind:value={l_pan} min="0" max="127" step="1" > R
             </p>
         </td>
     </tr>

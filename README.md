@@ -1,13 +1,14 @@
 # CT-X700/X800/CDP-S350 RBK File Editor
 
 ## Requirements:
-- [Python 3.9](https://www.python.org/downloads/)
-- Pip
+- [Python 3.9](https://www.python.org/downloads/) (server runtime)
+- [Pip](https://pip.pypa.io/en/stable/cli/pip_install/) (Python package manager)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/) (Javascript package manager)
 
 ## Optional nice-to-haves:
 - Rust (latest stable build)
 - Tauri (latest stable)
+- Node.js
 
 ## To run this app:
 1. open a Terminal or Command Prompt window

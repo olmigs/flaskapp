@@ -1,16 +1,19 @@
 <script>
-	// import { slots } from "./stores.js";
-	import cfg from "../db/slots.json"
+	import { onMount } from 'svelte';
+	import { slots, names, updateSlots, updateNames } from "./stores.js";
 	import RegSlot from "./RegSlot.svelte";
 	import LibCtrl from "./LibCtrl.svelte";
-	export let u1_label, u2_label, l_label;
-	let pyserver = "http://localhost:5000"
+	export let u1_label, u2_label, l_label, server;
+	onMount( async () => {
+		await updateSlots(server);
+		await updateNames(server);
+	})
 </script>
 
 <main>
-	<form id="slotsbox" action="{pyserver}/export" method="post">
-		<LibCtrl />
-		{#each cfg.slots as slot, i}
+	<form id="slotsbox" action="{server}/export" method="post">
+		<LibCtrl server={server}/>
+		{#each $slots as slot, i}
 			<div class="slot">
 				<h3>Registration Slot {i+1}</h3>
 				<RegSlot
@@ -24,8 +27,11 @@
 					l_name={l_label}
 					l_vol={slot.l.vol}
 					l_pan={slot.l.pan}
+					names={$names[i]}
 				/>
 			</div>
+		{:else}
+			<p class="loading">loading...</p>
 		{/each}
 	</form>
 </main>
@@ -46,6 +52,15 @@
 		width: 450px;
 		padding: 5px;
 		flex-grow: 1;
+		background-color: #ddccbbb3;
+	}
+
+	.loading {
+		font-size: 30pt;
+		margin-top: 50px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 50%;
 		background-color: #ddccbbb3;
 	}
 

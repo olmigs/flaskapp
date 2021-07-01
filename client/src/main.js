@@ -5,7 +5,8 @@ const app = new App({
 	props: {
 		u1_label: "Upper 1",
 		u2_label: "Upper 2",
-		l_label: "Lower"
+		l_label: "Lower",
+		server: "http://localhost:5000"
 	}
 });
 

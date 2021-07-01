@@ -1,7 +1,7 @@
 import os, json, datetime
 from casio_rbk.casio_rbk import RegistrationBank, Part
 from casio_rbk.patch_name import patch_name
-from flask import Flask, send_from_directory, request, redirect
+from flask import Flask, send_from_directory, request, redirect, jsonify
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
@@ -16,18 +16,28 @@ def base():
 def home(path):
     return send_from_directory('client/public', path)
 
-@app.route("/reload", methods=['GET'])
-def reload():
+@app.route("/slots", methods=['GET'])
+def slots():
     if request.method == 'GET':
-        # updateJSSlots()
-        return redirect('/')
+        slots_json = os.path.join(THIS_FOLDER, 'db/slots.json')
+        with open(slots_json, 'r') as f:
+            dict = json.load(f)
+            return jsonify(dict['slots'])
+
+@app.route("/names", methods=['GET'])
+def names():
+     if request.method == 'GET':
+        names_json = os.path.join(THIS_FOLDER, 'db/names.json')
+        with open(names_json, 'r') as f:
+            dict = json.load(f)
+            return jsonify(dict['names'])
 
 @app.route("/import", methods=['GET'])
 def rbk_import():
     if request.method == 'GET':
         log("caught a GET --- in import")
         getInfoFromRBKFile(request.args.get('filename'))
-        return redirect('/reload')
+        return redirect('/')
 
 @app.route("/export", methods=['POST'])
 def rbk_export():
@@ -37,16 +47,11 @@ def rbk_export():
         data = getArrayFromForm(dict)
         updateJSONSlots(data)
         outputToRBKFile(dict['filename'], data['slots'])
-        return redirect('/reload')
-
-def updateJSSlots():
-    bundle_js = os.path.join(THIS_FOLDER, 'client/public/build/bundle.js')
-    with open(bundle_js, "r+b") as f:
-        contents = f.readlines()
+        return redirect('/')
 
 def getInfoFromRBKFile(filename):
     absFilename = os.path.join(THIS_FOLDER, 'file/' + filename)
-    names_json = os.path.join(THIS_FOLDER, 'client/db/names.json')
+    names_json = os.path.join(THIS_FOLDER, 'db/names.json')
     with open(absFilename, "r+b") as f:
         data_names = {}
         data_names['names'] = []
@@ -101,7 +106,7 @@ def getArrayFromForm(dict):
 
 def outputToRBKFile(filename, slots):
     absFilename = os.path.join(THIS_FOLDER, 'file/' + filename)
-    log("file name: " + absFilename)
+    # log("file name: " + absFilename)
     try:
         with open(absFilename, "r+b") as f:
             rb = RegistrationBank.readFile(f)
@@ -116,7 +121,7 @@ def outputToRBKFile(filename, slots):
         log("fuck, that file don't exist!")
 
 def updateJSONSlots(slots):
-    slots_json = os.path.join(THIS_FOLDER, 'client/db/slots.json')
+    slots_json = os.path.join(THIS_FOLDER, 'db/slots.json')
     with open(slots_json, 'w') as outfile:
         json.dump(slots, outfile, indent=4)
 

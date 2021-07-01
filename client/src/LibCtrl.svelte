@@ -2,9 +2,15 @@
     import { filename } from "./stores.js";
     // import { openFromFile } from "../scripts/openFile.js";
     import { openFile } from "../scripts/utils.js";
+    export let server;
 </script>
 <script context="module">
-    export function handleExport() {
+    export function handleImport(e, serv, file) {
+        e.preventDefault();
+        href.location = serv + "/import?filename=" + file;
+    }
+    export function handleExport(e) {
+        e.preventDefault();
         var form = document.getElementById("slotsbox");
         form.submit();
     }
@@ -29,19 +35,20 @@
         <h2>RBK Mixer</h2>
         <h4>CT-X700/X800/CDP-S350 RBK File Editor</h4>
     </div>
-    <div class="dragdrop" ondrop="{drop}" ondragover="{allowDrop}">
+    <!-- <div class="dragdrop" ondrop="{drop}" ondragover="{allowDrop}">
         <p>Drop an RBK file here to import...</p>
-    </div>
+    </div> -->
     <div style="padding-top:22px; text-align:left;">
         <input type="text" class="input-filename" name="filename" bind:value={$filename} >
         <br/>
-        <!-- <button>
-            <a href="/import?filename={$filename}">Import RBK File</a>
-        </button> -->
+        <button >
+            <a href="{server}/import?filename={$filename}">Import RBK File</a>
+            <!-- Import RBK File -->
+        </button>
         <button on:click={handleExport}>
             Export RBK File
         </button>
-        <button on:click={openFile}>Open...</button>
+        <!-- <button on:click={openFile}>Open...</button> -->
     </div>
 </div>
 
@@ -52,7 +59,7 @@
         flex-basis: 100%;
         background-image: url('../banner.jpg');
     }
-    .dragdrop {
+    /* .dragdrop {
         margin: 15px 0 10px 100px;
         padding: 5px;
         width: 200px;
@@ -65,9 +72,9 @@
     }
     .dragdrop:hover {
         opacity: 0.7;
-    }
-    /* a {
+    } */
+    a {
         color: inherit;
         text-decoration: none;
-    } */
+    }
 </style>
