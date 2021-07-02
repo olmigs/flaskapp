@@ -16,6 +16,13 @@ def base():
 def home(path):
     return send_from_directory('client/public', path)
 
+@app.route("/log", methods = ['PUT'])
+def logFromPut():
+    if request.method == 'PUT':
+        encoding = 'utf-8'
+        log('::: PUTLOG   ' + str(request.data, encoding))
+        return jsonify('OK')
+
 @app.route("/slots", methods=['GET'])
 def slots():
     if request.method == 'GET':
@@ -49,8 +56,7 @@ def rbk_export():
         outputToRBKFile(dict['filename'], data['slots'])
         return redirect('/')
 
-def getInfoFromRBKFile(filename):
-    absFilename = os.path.join(THIS_FOLDER, 'file/' + filename)
+def getInfoFromRBKFile(absFilename):
     names_json = os.path.join(THIS_FOLDER, 'db/names.json')
     with open(absFilename, "r+b") as f:
         data_names = {}
