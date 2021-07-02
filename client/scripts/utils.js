@@ -1,6 +1,7 @@
-export function openDialog(dir) {
+import { slots, names, updateSlots, updateNames, filename } from '../src/stores.js';
+export function openDialog(dir, serv) {
     const dialog = window.__TAURI__.dialog;
-    dialog
+    return dialog
         .open({
             'defaultPath': dir,
             'filters': [{
@@ -11,9 +12,17 @@ export function openDialog(dir) {
             'directory': false
         })
         .then(
-            response => {
-                return response;
+            path => {
+                const url = serv + '/import?filename=' + path;
+                filename.set(getFileFromPath(path));
+                return fetch(url);
             });
+}
+
+function getFileFromPath(path) {
+    const pathArr = path.split("/");
+    const lastIndex = pathArr.length - 1;
+    return pathArr[lastIndex];
 }
 
 export function arraysMatch(arr1, arr2) {
@@ -31,5 +40,16 @@ export function arraysMatch(arr1, arr2) {
 
 export function fsLog(msg) {
     const fs = window.__TAURI__.fs;
+    const relativeLogLoc = '../../logs';
+    // migsTODO: code
 }
 
+export function pyLog(serv, msg) {
+    const formData = new FormData();
+    formData.append('line', msg);
+    const url = serv + '/log';
+    return fetch(url, {
+        method: 'PUT',
+        body: formData
+    }).then(response => response.json())
+}

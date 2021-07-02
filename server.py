@@ -16,6 +16,13 @@ def base():
 def home(path):
     return send_from_directory('client/public', path)
 
+@app.route("/log", methods = ['PUT'])
+def logFromPut():
+    if request.method == 'PUT':
+        encoding = 'utf-8'
+        log('::: PUTLOG   ' + str(request.data, encoding))
+        return jsonify('OK')
+
 @app.route("/slots", methods=['GET'])
 def slots():
     if request.method == 'GET':

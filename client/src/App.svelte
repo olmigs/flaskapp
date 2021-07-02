@@ -4,10 +4,25 @@
 	import RegSlot from "./RegSlot.svelte";
 	import LibCtrl from "./LibCtrl.svelte";
 	export let u1_label, u2_label, l_label, server;
-	onMount( async () => {
-		await updateSlots(server);
-		await updateNames(server);
-	})
+	// migstodo: return a promise!
+	async function updateContext() {
+		const slot_prom = await updateSlots(server);
+		const name_prom = await updateNames(server);
+		const [slots_new, names_new] = await Promise.all([slot_prom, name_prom])
+			.catch(err => { return err; });
+		$slots = slots_new;
+		$names = names_new;
+		// return new Promise(resolve => {
+		// 	resolve({
+		// 		slots: slots_new,
+		// 		names: names_new
+		// 	});
+		// });
+	}
+	onMount(async () => {
+		updateContext();
+	});
+	// let promise = updateContext();
 </script>
 
 <main>

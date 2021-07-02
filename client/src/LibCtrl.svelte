@@ -1,15 +1,11 @@
 <script>
-    import { filename } from "./stores.js";
-    import { openDialog } from "../scripts/utils.js";
+    import { filename } from './stores.js';
+    import { openDialog } from '../scripts/utils.js';
     export let server;
 </script>
 <script context="module">
     export function handleImportDialog(serv) {
-        openDialog("../../file")
-            .then( data => {
-                const url = serv + "/import?filename=" + data;
-                fetch(url);
-            });
+        openDialog("../../file", serv);
     }
     export function handleExport() {
         const form = document.getElementById("slotsbox");
