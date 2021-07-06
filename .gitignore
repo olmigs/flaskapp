@@ -1,7 +1,7 @@
 client/node_modules/
 client/public/build/
 casio_rbk/tests/
-*_migs.RBK
+*_migs.*
 **/__pycache__
 .DS_Store
 server.log

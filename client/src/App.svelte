@@ -1,26 +1,16 @@
 <script>
-	import { onMount } from 'svelte';
-	import { slots, names, updateSlots, updateNames } from "./stores.js";
+	import { onMount, afterUpdate } from 'svelte';
+	import { slots, names, updateContext } from "./stores.js";
+	// import STORE, {dispatch, requestNewSlotsFromAPI, requestNewNamesFromAPI } from "./store.js";
+	import { pyLog } from '../scripts/utils.js';
 	import RegSlot from "./RegSlot.svelte";
 	import LibCtrl from "./LibCtrl.svelte";
 	export let u1_label, u2_label, l_label, server;
-	// migstodo: return a promise!
-	async function updateContext() {
-		const slot_prom = await updateSlots(server);
-		const name_prom = await updateNames(server);
-		const [slots_new, names_new] = await Promise.all([slot_prom, name_prom])
-			.catch(err => { return err; });
-		$slots = slots_new;
-		$names = names_new;
-		// return new Promise(resolve => {
-		// 	resolve({
-		// 		slots: slots_new,
-		// 		names: names_new
-		// 	});
-		// });
-	}
 	onMount(async () => {
-		updateContext();
+		updateContext(server);
+		// pyLog(server, slots);
+		// dispatch(requestNewSlotsFromAPI(server));
+		// dispatch(requestNewNamesFromAPI(server));
 	});
 	// let promise = updateContext();
 </script>

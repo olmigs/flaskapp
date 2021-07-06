@@ -1,4 +1,4 @@
-import { slots, names, updateSlots, updateNames, filename } from '../src/stores.js';
+import { filename } from '../src/stores.js';
 export function openDialog(dir, serv) {
     const dialog = window.__TAURI__.dialog;
     return dialog

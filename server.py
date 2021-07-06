@@ -19,8 +19,7 @@ def home(path):
 @app.route("/log", methods = ['PUT'])
 def logFromPut():
     if request.method == 'PUT':
-        encoding = 'utf-8'
-        log('::: PUTLOG   ' + str(request.data, encoding))
+        log('::: PUTLOG   ' + request.form['line'])
         return jsonify('OK')
 
 @app.route("/slots", methods=['GET'])

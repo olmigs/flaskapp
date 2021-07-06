@@ -1,11 +1,15 @@
 <script>
-    import { filename } from './stores.js';
-    import { openDialog } from '../scripts/utils.js';
+    import { filename, updateContext } from './stores.js';
+    import { openDialog} from '../scripts/utils.js';
+    // import { dispatch, requestNewNamesFromAPI, requestNewSlotsFromAPI } from "./store.js";
     export let server;
 </script>
 <script context="module">
-    export function handleImportDialog(serv) {
-        openDialog("../../file", serv);
+    export async function handleImportDialog(server) {
+        await openDialog("../../file", server);
+        updateContext(server);
+        // dispatch(requestNewSlotsFromAPI(server));
+		// dispatch(requestNewNamesFromAPI(server));
     }
     export function handleExport() {
         const form = document.getElementById("slotsbox");
@@ -24,9 +28,11 @@
         <!-- <button>
             <a href="{server}/import?filename={$filename}">Import RBK File</a>
         </button> -->
-        <button on:click|preventDefault={ () => handleImportDialog(server)}>Import...</button>
+        <button on:click|preventDefault={ () => {
+            handleImportDialog(server);
+        }}>Import...</button>
         <button on:click|preventDefault={handleExport}>
-            Export RBK File
+            Export...
         </button>
         
     </div>

@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import arrs from '../public/init.json';
 
 const storedFilename = localStorage.getItem('filename');
 export const filename = writable(storedFilename);
@@ -6,18 +7,16 @@ filename.subscribe( value => {
     localStorage.setItem('filename', value === null ? '' : value);
 });
 
-// migsTODO: instead of 'await', why not set the values while waiting?
-
-export const slots = writable([]);
+export const slots = writable(arrs.slots);
 export async function updateSlots(server) {
     const endpoint = server + "/slots";
-    return returnResponseData(endpoint);
+    return await returnResponseData(endpoint);
 }
 
-export const names = writable([]);
+export const names = writable(arrs.names);
 export async function updateNames(server) {
     const endpoint = server + "/names";
-    return returnResponseData(endpoint);
+    return await returnResponseData(endpoint);
 }
 
 async function returnResponseData(endpoint) {
@@ -34,17 +33,11 @@ async function returnResponseData(endpoint) {
             });
 }
 
-// assumes store has a known/strict type
-async function setStoreFromFetch(endpoint, store) {
-    const http = window.__TAURI__.http;
-    http
-        .fetch(endpoint)
-        .then(
-            response => {
-                store.set(response.data);
-            })
-        .catch(
-            err => {
-                console.log('Fetch Error :-S', err);
-            });
+export async function updateContext(server) {
+    const slot_prom = await updateSlots(server);
+    const name_prom = await updateNames(server);
+    const [slots_new, names_new] = await Promise.all([slot_prom, name_prom])
+        .catch(err => { return err; });
+    slots.set(slots_new);
+    names.set(names_new);
 }
