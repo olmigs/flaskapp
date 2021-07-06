@@ -2,6 +2,7 @@ import os, json, datetime
 from casio_rbk.casio_rbk import RegistrationBank, Part
 from casio_rbk.patch_name import patch_name
 from flask import Flask, send_from_directory, request, redirect, jsonify
+from shutil import copyfile
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
@@ -41,7 +42,7 @@ def names():
 @app.route("/import", methods=['GET'])
 def rbk_import():
     if request.method == 'GET':
-        log("caught a GET --- in import")
+        # log("caught a GET --- in import")
         getInfoFromRBKFile(request.args.get('filename'))
         return redirect('/')
 
@@ -52,16 +53,17 @@ def rbk_export():
         dict = request.form
         data = getArrayFromForm(dict)
         updateJSONSlots(data)
-        outputToRBKFile(dict['filename'], data['slots'])
+        outputToRBKFile(dict['filepath'], dict['filename'], data['slots'])
         return redirect('/')
 
 def getInfoFromRBKFile(absFilename):
-    names_json = os.path.join(THIS_FOLDER, 'db/names.json')
     with open(absFilename, "r+b") as f:
         data_names = {}
         data_names['names'] = []
         data_slots = {}
         data_slots['slots'] = []
+        data_patchinfo = {}
+        data_patchinfo['patchinfo'] = []
         rb = RegistrationBank.readFile(f)
         try:
             for r in rb[0:4]:
@@ -79,12 +81,29 @@ def getInfoFromRBKFile(absFilename):
                     'u2': patch_name(patch_u2, bankmsb_u2),
                     'l': patch_name(patch_l, bankmsb_l)
                 })
+                data_patchinfo['patchinfo'].append({
+                    'u1': {
+                        'patch': patch_u1,
+                        'bankMSB': bankmsb_u1
+                    },
+                    'u2': {
+                        'patch': patch_u2,
+                        'bankMSB': bankmsb_u2
+                    },
+                    'l': {
+                        'patch': patch_l,
+                        'bankMSB': bankmsb_l
+                    }
+                })
         except:
             log("fuck, that file don't exist!")
-            
     updateJSONSlots(data_slots)
+    names_json = os.path.join(THIS_FOLDER, 'db/names.json')
+    patchinfo_json = os.path.join(THIS_FOLDER, 'db/patchinfo.json')
     with open(names_json, 'w') as outfile_names:
         json.dump(data_names, outfile_names, indent=4)
+    with open(patchinfo_json, 'w') as outfile_patchinfo:
+        json.dump(data_patchinfo, outfile_patchinfo, indent=4)
 
 def getArrayFromForm(dict):
     curr_list = getEmptySlotList()
@@ -92,7 +111,7 @@ def getArrayFromForm(dict):
     arr['slots'] = []
     count = 0
     for key in dict:
-        if (key == 'filename'):
+        if (key == 'filename' or key == 'filepath'):
             continue
         parms = key.split('_')
         parm_index = getIndexFromParms(parms[1], parms[2])
@@ -109,21 +128,54 @@ def getArrayFromForm(dict):
             curr_list = getEmptySlotList()
     return arr
 
-def outputToRBKFile(filename, slots):
-    absFilename = os.path.join(THIS_FOLDER, 'file/' + filename)
+def outputToRBKFile(path, filename, slots):
+    # absFilename = path + filename
+    absFilename = os.path.join(path, filename)
+    log(absFilename)
     # log("file name: " + absFilename)
     try:
-        with open(absFilename, "r+b") as f:
-            rb = RegistrationBank.readFile(f)
-            i = 0
-            for r in rb[0:4]:
-                # returns { u1, u2, l }
-                r.setVolumes(slots[i]['u1']['vol'], slots[i]['u2']['vol'], slots[i]['l']['vol'])
-                r.setPans(slots[i]['u1']['pan'], slots[i]['u2']['pan'], slots[i]['l']['pan'])
-                i += 1
-            rb.writeFile(f)
+        with open(absFilename, "r+b") as f0:
+            writeToFile(f0, slots)
+    except FileNotFoundError:
+        log("new file, getting dummy first")
+        writeToFileFromDummy(absFilename, slots)
+        try: 
+            # need to update Patch Names
+            with open(absFilename, "r+b") as f1:
+                patchinfo_json = os.path.join(THIS_FOLDER, 'db/patchinfo.json')
+                with open(patchinfo_json, 'r') as data:
+                    dict = json.load(data)
+                    rb = RegistrationBank.readFile(f1)
+                    i = 0
+                    for r in rb[0:4]:
+                        r.setPatchBank(Part.U1, dict['patchinfo'][i]['u1']['patch'], dict['patchinfo'][i]['u1']['bankMSB'])
+                        r.setPatchBank(Part.U2, dict['patchinfo'][i]['u2']['patch'], dict['patchinfo'][i]['u2']['bankMSB'])
+                        r.setPatchBank(Part.L, dict['patchinfo'][i]['l']['patch'], dict['patchinfo'][i]['l']['bankMSB'])
+                        i += 1
+                    rb.writeFile(f1)
+        except:
+            log("updating patch names fails!")
     except:
-        log("fuck, that file don't exist!")
+        log("FUCK! -- in export")
+
+def writeToFileFromDummy(absFilename, slots):
+    dummyFile = os.path.join(THIS_FOLDER, "file/.dummy.rbk") # read only
+    dummyFileCopy = os.path.join(THIS_FOLDER, "file/copy.rbk")
+    copyfile(dummyFile, dummyFileCopy)
+    with open(dummyFileCopy, "r+b") as file:
+        writeToFile(file, slots)
+    copyfile(dummyFileCopy, absFilename)
+    os.remove(dummyFileCopy)
+
+def writeToFile(f, slots):
+    rb = RegistrationBank.readFile(f)
+    i = 0
+    for r in rb[0:4]:
+        # returns { u1, u2, l }
+        r.setVolumes(slots[i]['u1']['vol'], slots[i]['u2']['vol'], slots[i]['l']['vol'])
+        r.setPans(slots[i]['u1']['pan'], slots[i]['u2']['pan'], slots[i]['l']['pan'])
+        i += 1
+    rb.writeFile(f)
 
 def updateJSONSlots(slots):
     slots_json = os.path.join(THIS_FOLDER, 'db/slots.json')

@@ -1,0 +1,60 @@
+{
+    "patchinfo": [
+        {
+            "u1": {
+                "patch": 25,
+                "bankMSB": 120
+            },
+            "u2": {
+                "patch": 30,
+                "bankMSB": 120
+            },
+            "l": {
+                "patch": 33,
+                "bankMSB": 120
+            }
+        },
+        {
+            "u1": {
+                "patch": 25,
+                "bankMSB": 120
+            },
+            "u2": {
+                "patch": 30,
+                "bankMSB": 120
+            },
+            "l": {
+                "patch": 33,
+                "bankMSB": 120
+            }
+        },
+        {
+            "u1": {
+                "patch": 25,
+                "bankMSB": 120
+            },
+            "u2": {
+                "patch": 30,
+                "bankMSB": 120
+            },
+            "l": {
+                "patch": 33,
+                "bankMSB": 120
+            }
+        },
+        {
+            "u1": {
+                "patch": 25,
+                "bankMSB": 120
+            },
+            "u2": {
+                "patch": 30,
+                "bankMSB": 120
+            },
+            "l": {
+                "patch": 33,
+                "bankMSB": 120
+            }
+        }
+    ]
+}

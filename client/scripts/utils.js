@@ -1,4 +1,4 @@
-import { filename } from '../src/stores.js';
+import { filename, filepath } from '../src/stores.js';
 export function openDialog(dir, serv) {
     const dialog = window.__TAURI__.dialog;
     return dialog
@@ -15,8 +15,19 @@ export function openDialog(dir, serv) {
             path => {
                 const url = serv + '/import?filename=' + path;
                 filename.set(getFileFromPath(path));
+                filepath.set(getFileLocFromPath(path));
                 return fetch(url);
-            });
+            })
+        .catch(err => console.log(err));
+}
+
+function getFileLocFromPath(path) {
+    const pathArr = path.split("/");
+    let pathStr = '';
+    for (let i = 0; i < pathArr.length - 1; i++) {
+        pathStr += pathArr[i] + "/";
+    }
+    return pathStr;
 }
 
 function getFileFromPath(path) {
@@ -28,12 +39,10 @@ function getFileFromPath(path) {
 export function arraysMatch(arr1, arr2) {
 	// Check if the arrays are the same length
 	if (arr1.length !== arr2.length) return false;
-
 	// Check if all items exist and are in the same order
 	for (var i = 0; i < arr1.length; i++) {
 		if (arr1[i] !== arr2[i]) return false;
 	}
-
 	// Otherwise, return true
 	return true;
 };

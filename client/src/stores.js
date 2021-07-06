@@ -7,6 +7,12 @@ filename.subscribe( value => {
     localStorage.setItem('filename', value === null ? '' : value);
 });
 
+const storedFilepath = localStorage.getItem('filepath');
+export const filepath = writable(storedFilepath);
+filepath.subscribe( value => {
+    localStorage.setItem('filepath', value === null ? '../../file' : value);
+});
+
 export const slots = writable(arrs.slots);
 export async function updateSlots(server) {
     const endpoint = server + "/slots";
