@@ -1,6 +1,6 @@
 <script>
     import { filename, filepath, updateContext } from './stores.js';
-    import { openDialog} from '../scripts/utils.js';
+    import { openDialog, submitForm } from '../scripts/utils.js';
     // import { dispatch, requestNewNamesFromAPI, requestNewSlotsFromAPI } from "./store.js";
     export let server;
 </script>
@@ -14,7 +14,9 @@
     export async function handleExport(server) {
         const form = document.getElementById("slotsbox");
         await form.submit();
-        updateContext(server);
+        // const form = document.querySelector('form');
+        // await submitForm(form, server);
+        // updateContext(server);
     }
 </script>
 
@@ -31,7 +33,7 @@
         <button on:click|preventDefault={ () => {
             handleImportDialog($filepath, server);
         }}>Import...</button>
-        <button on:click|preventDefault={ () => {
+        <button type="submit" on:click|preventDefault={ () => {
             handleExport(server);
         }}>Export RBK File</button> 
     </div>
@@ -54,7 +56,7 @@
         background-color: lightgray;
         text-overflow: ellipsis;
         white-space: nowrap;
-        overflow: hidden;
+        overflow: scroll;
     }
     /* a {
         color: inherit;

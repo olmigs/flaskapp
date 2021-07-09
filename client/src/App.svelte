@@ -17,6 +17,7 @@
 
 <main>
 	<form id="slotsbox" action="{server}/export" method="post">
+	<!-- <form id="slotsbox"> -->
 		<LibCtrl server={server}/>
 		{#each $slots as slot, i}
 			<div class="slot">

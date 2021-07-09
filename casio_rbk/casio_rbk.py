@@ -205,7 +205,7 @@ class Registration:
     val = self.__getitem__(Atom.Patch)
     if len(val) < 2*part:
       raise Exception("Cannot change patch on part {0}".format(part))
-    return(val[0:2*part] + struct.pack('<2B', patch, bankMSB) + val[2*part+2:])
+    self.__setitem__(Atom.Patch, val[0:2*part] + struct.pack('<2B', patch, bankMSB) + val[2*part+2:])
 
 class RegistrationBank:
   

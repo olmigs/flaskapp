@@ -16,13 +16,24 @@ export function openDialog(dir, serv) {
                 const url = serv + '/import?filename=' + path;
                 filename.set(getFileFromPath(path));
                 filepath.set(getFileLocFromPath(path));
-                return fetch(url);
+                const http = window.__TAURI__.http;
+                return http.fetch(url);
             })
         .catch(err => console.log(err));
 }
 
+export function submitForm(formElement, server) {
+    const formData = new FormData(formElement);
+    const url = server + '/export';
+    const http = window.__TAURI__.http;
+    return http.fetch(url, {
+        method: 'POST',
+        body: formData
+    }).then(response => response.json())
+}
+
 function getFileLocFromPath(path) {
-    const pathArr = path.split("/");
+    const pathArr = path.split('/');
     let pathStr = '';
     for (let i = 0; i < pathArr.length - 1; i++) {
         pathStr += pathArr[i] + "/";
