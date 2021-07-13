@@ -12,11 +12,11 @@
 		// dispatch(requestNewNamesFromAPI(server));
     }
     export async function handleExport(server) {
-        const form = document.getElementById("slotsbox");
-        await form.submit();
-        // const form = document.querySelector('form');
-        // await submitForm(form, server);
-        // updateContext(server);
+        // const form = document.getElementById("slotsbox");
+        // await form.submit();
+        const form = document.querySelector('form');
+        await submitForm(form, server);
+        updateContext(server);
     }
 </script>
 

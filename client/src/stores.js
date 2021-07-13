@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import arrs from '../public/init.json';
+import init from '../public/init.json';
 
 const storedFilename = localStorage.getItem('filename');
 export const filename = writable(storedFilename);
@@ -13,13 +13,13 @@ filepath.subscribe( value => {
     localStorage.setItem('filepath', value === null ? '../../file' : value);
 });
 
-export const slots = writable(arrs.slots);
+export const slots = writable(init.slots);
 export async function updateSlots(server) {
     const endpoint = server + "/slots";
     return await returnResponseData(endpoint);
 }
 
-export const names = writable(arrs.names);
+export const names = writable(init.names);
 export async function updateNames(server) {
     const endpoint = server + "/names";
     return await returnResponseData(endpoint);

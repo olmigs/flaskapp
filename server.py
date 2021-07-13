@@ -51,9 +51,13 @@ def rbk_export():
     if request.method == 'POST':
         log("caught a POST --- in export")
         dict = request.form
+        if (len(dict) == 0):
+            log("in EXPORT -- dict empty!")
+            return redirect('/')
         data = getArrayFromForm(dict)
         updateJSONSlots(data)
-        outputToRBKFile(dict['filepath'], dict['filename'], data['slots'])
+        # replace method used bc Tauri sends string literals including double quotes 
+        outputToRBKFile(dict['filepath'].replace('"', ''), dict['filename'].replace('"', ''), data['slots'])
         return redirect('/')
 
 def getInfoFromRBKFile(absFilename):
@@ -108,24 +112,20 @@ def getInfoFromRBKFile(absFilename):
 def getArrayFromForm(dict):
     curr_list = getEmptySlotList()
     arr = {}
-    arr['slots'] = []
-    count = 0
+    arr['slots'] = [{}, {}, {}, {}]
+    for i in range(4):
+        arr['slots'][i] = formatSlotList(getEmptySlotList())
     for key in dict:
         if (key == 'filename' or key == 'filepath'):
             continue
         parms = key.split('_')
-        parm_index = getIndexFromParms(parms[1], parms[2])
-        if int(dict[key]) >= 127:
-            curr_list[parm_index] = 127
-        elif int(dict[key]) <= 0:
-            curr_list[parm_index] = 0
-        else:
-            curr_list[parm_index] = int(dict[key])
-        # log('parm: ' + parms[0] + ' | index: ' + str(curr_index))
-        count += 1
-        if (count % 6 == 0):
-            arr['slots'].append(formatSlotList(curr_list))
-            curr_list = getEmptySlotList()
+        # parm_index = getIndexFromParms(parms[1], parms[2])
+        val = int(dict[key].replace('"', '')) # nasty cast, plus remove double quotes from string literal
+        if val > 127:
+            val = 127
+        if val < 0:
+            val = 0
+        arr['slots'][int(parms[0])][parms[1]][parms[2]] = val
     return arr
 
 def outputToRBKFile(path, filename, slots):

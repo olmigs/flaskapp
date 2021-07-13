@@ -24,12 +24,16 @@ export function openDialog(dir, serv) {
 
 export function submitForm(formElement, server) {
     const formData = new FormData(formElement);
+    const formDataDict = {};
+    for (var pair of formData.entries()) {
+        formDataDict[pair[0]] = pair[1];
+    }
     const url = server + '/export';
     const http = window.__TAURI__.http;
     return http.fetch(url, {
         method: 'POST',
-        body: formData
-    }).then(response => response.json())
+        body: http.Body.form(formDataDict)
+    }); //.then(response => response.json())
 }
 
 function getFileLocFromPath(path) {
