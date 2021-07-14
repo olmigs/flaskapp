@@ -2,6 +2,17 @@
     import { filename, filepath, updateContext } from './stores.js';
     import { openDialog, submitForm } from '../scripts/utils.js';
     export let server;
+    function removeSpecialChars() {
+        var str = document.getElementById('filename').value;
+        var start = document.getElementById('filename').selectionStart;
+        var checkStr = str.replace(/[\/\\?%*:|"<>]/g, '');
+        if (checkStr !== str) {
+            document.getElementById('filename').value = checkStr;
+            filename.set(checkStr);
+            document.getElementById('filename').selectionStart = start-1;
+            document.getElementById('filename').selectionEnd = start-1;
+        }
+    }
 </script>
 <script context="module">
     export async function handleImportDialog(path, server) {
@@ -25,7 +36,7 @@
     <div style="padding-top:22px; text-align:center;">
         <div class="fileinfo">
             <input type="text" class="greyed" name="filepath" bind:value={$filepath} readonly="readonly">
-            <input type="text" style="margin-left:5px;" name="filename" bind:value={$filename} >
+            <input type="text" style="margin-left:5px;" id="filename" name="filename" bind:value={$filename} on:input={removeSpecialChars}>
         </div>
         <button on:click|preventDefault={ () => {
             handleImportDialog($filepath, server);

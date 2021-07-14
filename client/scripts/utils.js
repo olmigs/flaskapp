@@ -1,4 +1,5 @@
-import { filename, filepath } from '../src/stores.js';
+import { filename, filepath, setDownloadPath } from '../src/stores.js';
+import { get } from 'svelte/store';
 export function openDialog(dir, serv) {
     const dialog = window.__TAURI__.dialog;
     return dialog
@@ -19,7 +20,10 @@ export function openDialog(dir, serv) {
                 const http = window.__TAURI__.http;
                 return http.fetch(url);
             })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            setDownloadPath();
+        });
 }
 
 export function submitForm(formElement, server) {
@@ -30,10 +34,23 @@ export function submitForm(formElement, server) {
     }
     const url = server + '/export';
     const http = window.__TAURI__.http;
-    return http.fetch(url, {
+    return http
+        .fetch(url, {
         method: 'POST',
         body: http.Body.form(formDataDict)
-    }); //.then(response => response.json())
+        }).then(response => alertHandler(response))
+        .catch(err => alertHandler(err));
+}
+
+function alertHandler(response) {
+    let msg = '';
+    if (response.status === 200) {
+        msg += 'Successfully exported\n';
+    } else {
+        msg += 'Oh no! Something went wrong exporting\n';
+    }
+    msg += get(filename) + ' to folder\n' + get(filepath);
+    alert(msg);
 }
 
 function getFileLocFromPath(path) {

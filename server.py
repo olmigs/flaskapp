@@ -1,7 +1,7 @@
 import os, json, datetime
 from casio_rbk.casio_rbk import RegistrationBank, Part
 from casio_rbk.patch_name import patch_name
-from flask import Flask, send_from_directory, request, redirect, jsonify
+from flask import Flask, send_from_directory, request, redirect, jsonify, abort
 from shutil import copyfile
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
@@ -53,12 +53,16 @@ def rbk_export():
         dict = request.form
         if (len(dict) == 0):
             log("in EXPORT -- dict empty!")
-            return redirect('/')
+            return jsonify('NO DATA'), 402
         data = getArrayFromForm(dict)
         updateJSONSlots(data)
-        # replace method used bc Tauri sends string literals including double quotes 
-        outputToRBKFile(dict['filepath'].replace('"', ''), dict['filename'].replace('"', ''), data['slots'])
-        return redirect('/')
+        try:
+            # replace method used bc Tauri sends string literals including double quotes 
+            outputToRBKFile(dict['filepath'].replace('"', ''), dict['filename'].replace('"', ''), data['slots'])
+        except FileNotFoundError:
+            os.remove(os.path.join(THIS_FOLDER, "file/copy.rbk"))
+            return jsonify('FILE NOT FOUND'), 401
+        return jsonify('OK')
 
 def getInfoFromRBKFile(absFilename):
     with open(absFilename, "r+b") as f:
