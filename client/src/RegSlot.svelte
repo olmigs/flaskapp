@@ -1,6 +1,6 @@
 <script>
     import cfg from "../public/config.json";
-    export let index, u1_name, u1_vol, u1_pan, u2_name, u2_vol, u2_pan, l_name, l_vol, l_pan, names;
+    export let index, u1_vol, u1_pan, u2_vol, u2_pan, l_vol, l_pan, names;
     function lum(hex, lum) {
         // validate hex string
         hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -21,9 +21,9 @@
 
 <table class="regslot" >
     <tr style="font-weight:bold; background-color: {lum(cfg.slotcolors_B[index], -.3)}">
-        <td>{u1_name} (Main)</td>
-        <td>{u2_name} (Layer)</td>
-        <td>{l_name} (Split)</td>
+        <td>Upper 1</td>
+        <td>Upper 2</td>
+        <td>Lower</td>
     </tr>
     <tr style="font-size:10pt; font-style:italic; background-color: {lum(cfg.slotcolors_B[index], 0.1)}">
         <td>{names['u1']}</td>

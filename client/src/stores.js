@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import init from '../public/init.json';
+// import { path } from '@tauri-apps/api';
 
 const storedFilename = localStorage.getItem('filename');
 export const filename = writable(storedFilename);
@@ -7,10 +8,11 @@ filename.subscribe( value => {
     localStorage.setItem('filename', value === null ? '' : value);
 });
 
+const defaultFilepath = process.env.IS_PROD ? 'No folder chosen...' : '../../file';
 const storedFilepath = localStorage.getItem('filepath');
 export const filepath = writable(storedFilepath);
 filepath.subscribe( value => {
-    localStorage.setItem('filepath', value === null ? '../../file' : value);
+    localStorage.setItem('filepath', value === null ? defaultFilepath : value);
 });
 
 export const slots = writable(init.slots);
@@ -37,6 +39,17 @@ async function returnResponseData(endpoint) {
             err => {
                 return err;
             });
+}
+
+export function setDownloadPath() {
+    const path = window.__TAURI__.path;
+    return path
+        .downloadDir()
+        .then(
+            response => {
+                filepath.set(response)
+            })
+        .catch(err => console.log(err));
 }
 
 export async function updateContext(server) {

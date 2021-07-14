@@ -1,15 +1,12 @@
 <script>
     import { filename, filepath, updateContext } from './stores.js';
     import { openDialog, submitForm } from '../scripts/utils.js';
-    // import { dispatch, requestNewNamesFromAPI, requestNewSlotsFromAPI } from "./store.js";
     export let server;
 </script>
 <script context="module">
     export async function handleImportDialog(path, server) {
         await openDialog(path, server);
         updateContext(server);
-        // dispatch(requestNewSlotsFromAPI(server));
-		// dispatch(requestNewNamesFromAPI(server));
     }
     export async function handleExport(server) {
         // const form = document.getElementById("slotsbox");

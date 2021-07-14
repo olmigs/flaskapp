@@ -1,36 +1,30 @@
 <script>
 	import { onMount, afterUpdate } from 'svelte';
-	import { slots, names, updateContext } from "./stores.js";
-	// import STORE, {dispatch, requestNewSlotsFromAPI, requestNewNamesFromAPI } from "./store.js";
-	import { pyLog } from '../scripts/utils.js';
+	import { get } from 'svelte/store'; // migsnote: remove/abstract?
+	import { slots, names, updateContext, setDownloadPath, filepath } from "./stores.js";
 	import RegSlot from "./RegSlot.svelte";
 	import LibCtrl from "./LibCtrl.svelte";
-	export let u1_label, u2_label, l_label, server;
+	export let server;
 	onMount(async () => {
 		updateContext(server);
-		// pyLog(server, slots);
-		// dispatch(requestNewSlotsFromAPI(server));
-		// dispatch(requestNewNamesFromAPI(server));
+		if (get(filepath) === 'No folder chosen...') {
+			await setDownloadPath();
+		}
 	});
-	// let promise = updateContext();
 </script>
 
 <main>
-	<form id="slotsbox" action="{server}/export" method="post">
-	<!-- <form id="slotsbox"> -->
+	<form id="slotsbox">
 		<LibCtrl server={server}/>
 		{#each $slots as slot, i}
 			<div class="slot">
 				<h3>Registration Slot {i+1}</h3>
 				<RegSlot
 					index={i}
-					u1_name={u1_label}
 					u1_vol={slot.u1.vol} 
 					u1_pan={slot.u1.pan}
-					u2_name={u2_label}
 					u2_vol={slot.u2.vol}
 					u2_pan={slot.u2.pan}
-					l_name={l_label}
 					l_vol={slot.l.vol}
 					l_pan={slot.l.pan}
 					names={$names[i]}
