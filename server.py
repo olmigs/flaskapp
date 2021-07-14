@@ -186,17 +186,6 @@ def updateJSONSlots(slots):
     with open(slots_json, 'w') as outfile:
         json.dump(slots, outfile, indent=4)
 
-def getIndexFromParms(parm0, parm1):
-    switcher = {
-        'u1': 0,
-        'u2': 2,
-        'l': 4
-    }
-    index = switcher.get(parm0, 'oof')
-    if (parm1 == 'pan'):
-        index += 1
-    return index
-
 def getEmptySlotList():
     return [-1, -1, -1, -1, -1, -1]
 
