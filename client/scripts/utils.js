@@ -22,7 +22,10 @@ export function openDialog(dir, serv) {
             })
         .catch(err => {
             console.log(err);
-            setDownloadPath();
+            if (err.includes('failed to setup dialog') && err.includes('doesn\'t exist')) { // migsnote: test RESOURCE NOT FOUND
+                // alert("Folder not found! Resetting to default...");
+                setDownloadPath();
+            }
         });
 }
 

@@ -18,7 +18,6 @@
 		<LibCtrl server={server}/>
 		{#each $slots as slot, i}
 			<div class="slot">
-				<h3>Registration Slot {i+1}</h3>
 				<RegSlot
 					index={i}
 					u1_vol={slot.u1.vol} 
@@ -42,17 +41,17 @@
 		padding: 1em;
 		max-width: 420px;
 		margin: 0 auto;
-		background: linear-gradient(45deg, #ddccbb 12%, transparent 0, transparent 88%, #ddccaa 0),
+		/* background: linear-gradient(45deg, #ddccbb 12%, transparent 0, transparent 88%, #ddccaa 0),
     				linear-gradient(135deg, transparent 37%, #aa8855 0, #aa8855 63%, transparent 0),
     				linear-gradient(45deg, transparent 37%, #ddccaa 0, #ddccaa 63%, transparent 0) #775533;
-    	background-size: 25px 25px;
+    	background-size: 25px 25px; */
 	}
 
 	.slot {
 		width: 450px;
 		padding: 5px;
 		flex-grow: 1;
-		background-color: #ddccbbb3;
+		background-color: #d9d9d9;
 	}
 
 	.loading {

@@ -56,7 +56,7 @@ export async function updateContext(server) {
     const slot_prom = await updateSlots(server);
     const name_prom = await updateNames(server);
     const [slots_new, names_new] = await Promise.all([slot_prom, name_prom])
-        .catch(err => { return err; });
+        .catch(err => { console.log(err) });
     slots.set(slots_new);
     names.set(names_new);
 }

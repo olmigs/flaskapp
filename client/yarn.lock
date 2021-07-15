@@ -3086,6 +3086,11 @@ supports-color@^7.0.0, supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
+svelte-range-slider-pips@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/svelte-range-slider-pips/-/svelte-range-slider-pips-1.7.2.tgz#8014a5a407c295800e8aa21c433235af066ffa6e"
+  integrity sha512-ZRd/HjU8lq5nPpaIz7d31P/UxQj1Ju9n0n0tI/9wgQTXnXYDwuHBDFfIkpjFVOhTj1VaJ0XdcNcdlj1Hie29dA==
+
 svelte@^3.0.0:
   version "3.38.2"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.38.2.tgz#55e5c681f793ae349b5cc2fe58e5782af4275ef5"

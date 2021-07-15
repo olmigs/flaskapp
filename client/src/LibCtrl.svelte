@@ -53,6 +53,7 @@
         justify-content: space-evenly;
         flex-basis: 100%;
         background-image: url('../banner.jpg');
+        margin-bottom: 10px;
     }
     .fileinfo {
         display: flex;
@@ -62,7 +63,8 @@
     .greyed {
         color:dimgrey;
         background-color: lightgray;
-        text-overflow: ellipsis;
+        /* text-overflow: ellipsis; */
+        overflow: scroll;
         white-space: nowrap;
         overflow: scroll;
     }

@@ -1,7 +1,7 @@
 import os, json, datetime
 from casio_rbk.casio_rbk import RegistrationBank, Part
 from casio_rbk.patch_name import patch_name
-from flask import Flask, send_from_directory, request, redirect, jsonify, abort
+from flask import Flask, send_from_directory, request, redirect, jsonify
 from shutil import copyfile
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
@@ -44,7 +44,7 @@ def rbk_import():
     if request.method == 'GET':
         # log("caught a GET --- in import")
         getInfoFromRBKFile(request.args.get('filename'))
-        return redirect('/')
+        return jsonify('OK')
 
 @app.route("/export", methods=['POST'])
 def rbk_export():
