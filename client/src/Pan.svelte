@@ -1,13 +1,13 @@
 <script>
     import '../scripts/inputKnobs.js';
-    export let name, id, pan;
+    export let name, id, pan, color;
 </script>
 
 <div class="flexed">
     <label for={id}>PAN</label>
     <p>
     L <input type="range" class="input-knob" bind:value={pan} min="0" max="127" step="1" 
-        data-fgcolor="black" data-bgcolor="#d9d9d9" data-diameter="32"> R
+        data-fgcolor={color} data-bgcolor="#d9d9d9" data-diameter="32"> R
     </p>
     <input class="input_box" type="text" id={id} name={name} bind:value={pan}>
 </div>
@@ -16,7 +16,7 @@
     .flexed {
         background-color: #a6a6a6;
         padding: 5px;
-        justify-content: center;
+        justify-content: space-evenly;
         display: flex;
         flex: row;
     }
@@ -24,5 +24,10 @@
     .input_box {
         height: 30px;
         width: 45px;
+    }
+
+    p {
+        margin-top: 25px;
+        margin-bottom: -5px;
     }
 </style>

@@ -39,8 +39,9 @@
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 420px;
+		max-width: 100%;
 		margin: 0 auto;
+		overflow-x: hidden;
 		/* background: linear-gradient(45deg, #ddccbb 12%, transparent 0, transparent 88%, #ddccaa 0),
     				linear-gradient(135deg, transparent 37%, #aa8855 0, #aa8855 63%, transparent 0),
     				linear-gradient(45deg, transparent 37%, #ddccaa 0, #ddccaa 63%, transparent 0) #775533;
