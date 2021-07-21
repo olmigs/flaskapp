@@ -28,8 +28,17 @@
         display: flex;
         flex: row;
     }
+
+    @font-face {
+        font-family: 'LCD';
+        font-style: normal;
+        src: url('/fonts/DS-DIGI.TTF') format('truetype');
+    }
     
     .input_box {
+        font-family: LCD;
+        background-image: linear-gradient(#d7f5fe, #adedff);
+        border-radius: 7px;
         height: 30px;
         width: 45px;
     }

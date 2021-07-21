@@ -4,13 +4,14 @@
 
     function handleWheel(e) {
         let delta = e.deltaY > 0 ? -1 : 1;
-        if (!e.shiftKey) {
-            delta *= 5;
-        }
-        setVolume(delta); 
+        // migsnote: below code not working
+        // if (e.keyCode == 'Shift') {
+        //     delta *= 5;
+        // }
+        updateVolume(delta); 
     }
     // given delta, attempts to set volume, but not below 0 or above 127
-    function setVolume(delta) {
+    function updateVolume(delta) {
         let temp = vol;
         temp += delta;
         if (temp > 127) {
@@ -21,23 +22,15 @@
             vol += delta;
         }
     }
-    function handleKeyEvents(e) {
-        const elem = document.activeElement;
-        console.log(elem);
-        if (elem === this) {
-            let rc = elem.getBoundingClientRect();
-            console.log(rc);
-            if (e.arrowUp) {
-                setVolume(1);
-            }
-        }
-    }
     function validateInput(e) {
         if (vol > 127) {
             vol = 127;
         } else if (vol < 0) {
             vol = 0;
         }
+    }
+    function highlightElem(e) {
+
     }
 </script>
 
@@ -47,11 +40,11 @@
 </div>
 <div class="fader-container" style="{cssVarStyles}">
     <input id="fader" type="range" min="0" max="127" bind:value={vol} 
-        on:wheel|preventDefault|stopPropagation={handleWheel} />
+        on:focus={highlightElem}
+        on:wheel|preventDefault={handleWheel} />
 </div>
 
 <style>
-
     .flexed {
         padding: 5px;
         justify-content: space-between;
@@ -59,8 +52,17 @@
         flex: row;
     }
 
+    @font-face {
+        font-family: 'LCD';
+        font-style: normal;
+        src: url('/fonts/DS-DIGI.TTF') format('truetype');
+    }
+
     .input_box {
         /* position: fixed; */
+        font-family: LCD;
+        background-image: linear-gradient(#d7f5fe, #adedff);
+        border-radius: 7px;
         height: 30px;
         width: 45px;
     }

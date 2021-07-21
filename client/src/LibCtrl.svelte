@@ -55,21 +55,34 @@
         background-image: url('../banner.jpg');
         margin-bottom: 10px;
     }
+
     .fileinfo {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
     }
+
+    #filename {
+        background-image: linear-gradient(#d7f5fe, #adedff);
+        border-radius: 7px;
+    }
+
     .greyed {
         color:dimgrey;
         background-color: lightgray;
-        /* text-overflow: ellipsis; */
+        text-overflow: ellipsis;
         overflow: scroll;
         white-space: nowrap;
         overflow: scroll;
+        border-radius: 7px;
     }
-    /* a {
-        color: inherit;
-        text-decoration: none;
-    } */
+
+    button {
+        background-color: #404040;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 7px;
+        padding: 10px;
+    }
 </style>
