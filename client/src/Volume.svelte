@@ -43,7 +43,7 @@
 
 <div class="flexed">
     <label for={id}>VOL</label>
-    <input class="input_box" type="text" id={id} name={name} bind:value={vol} on:input={validateInput}>
+    <input class="input_box" type="text" id={id} name={name} bind:value={vol} on:change|preventDefault|stopPropagation={validateInput}>
 </div>
 <div class="fader-container" style="{cssVarStyles}">
     <input id="fader" type="range" min="0" max="127" bind:value={vol} 

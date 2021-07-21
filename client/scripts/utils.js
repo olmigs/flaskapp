@@ -14,15 +14,18 @@ export function openDialog(dir, serv) {
         })
         .then(
             path => {
-                const url = serv + '/import?filename=' + path;
-                filename.set(getFileFromPath(path));
-                filepath.set(getFileLocFromPath(path));
-                const http = window.__TAURI__.http;
-                return http.fetch(url);
+                
+                if (path != null) {
+                    const url = serv + '/import?filename=' + path;
+                    filename.set(getFileFromPath(path));
+                    filepath.set(getFileLocFromPath(path));
+                    const http = window.__TAURI__.http;
+                    return http.fetch(url);
+                } 
             })
         .catch(err => {
             console.log(err);
-            if (err.includes('failed to setup dialog') && err.includes('doesn\'t exist')) { // migsnote: test RESOURCE NOT FOUND
+            if (typeof(err) === "string" && err.includes('failed to setup dialog') && err.includes('doesn\'t exist')) { // migsnote: test RESOURCE NOT FOUND
                 // alert("Folder not found! Resetting to default...");
                 setDownloadPath();
             }
@@ -57,8 +60,8 @@ function alertHandler(response) {
 }
 
 function getFileLocFromPath(path) {
-    const pathArr = path.split('/');
     let pathStr = '';
+    const pathArr = path.split('/');
     for (let i = 0; i < pathArr.length - 1; i++) {
         pathStr += pathArr[i] + "/";
     }
