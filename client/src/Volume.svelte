@@ -1,14 +1,53 @@
 <script>
     export let name, id, vol, color;
     $: cssVarStyles = `--slot-color:${color};`;
+
+    function handleWheel(e) {
+        let delta = e.deltaY > 0 ? -1 : 1;
+        if (!e.shiftKey) {
+            delta *= 5;
+        }
+        setVolume(delta); 
+    }
+    // given delta, attempts to set volume, but not below 0 or above 127
+    function setVolume(delta) {
+        let temp = vol;
+        temp += delta;
+        if (temp > 127) {
+            vol = 127;
+        } else if (temp < 0) {
+            vol = 0;
+        } else {
+            vol += delta;
+        }
+    }
+    function handleKeyEvents(e) {
+        const elem = document.activeElement;
+        console.log(elem);
+        if (elem === this) {
+            let rc = elem.getBoundingClientRect();
+            console.log(rc);
+            if (e.arrowUp) {
+                setVolume(1);
+            }
+        }
+    }
+    function validateInput(e) {
+        if (vol > 127) {
+            vol = 127;
+        } else if (vol < 0) {
+            vol = 0;
+        }
+    }
 </script>
 
 <div class="flexed">
     <label for={id}>VOL</label>
-    <input class="input_box" type="text" id={id} name={name} bind:value={vol} >
+    <input class="input_box" type="text" id={id} name={name} bind:value={vol} on:input={validateInput}>
 </div>
 <div class="fader-container" style="{cssVarStyles}">
-    <input id="fader" type="range" min="0" max="127" bind:value={vol} />
+    <input id="fader" type="range" min="0" max="127" bind:value={vol} 
+        on:wheel|preventDefault|stopPropagation={handleWheel} />
 </div>
 
 <style>

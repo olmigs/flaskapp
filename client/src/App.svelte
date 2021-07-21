@@ -53,6 +53,7 @@
 		padding: 5px;
 		flex-grow: 1;
 		background-color: #d9d9d9;
+		border: 1px solid black;
 	}
 
 	.loading {

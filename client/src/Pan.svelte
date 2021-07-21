@@ -1,6 +1,14 @@
 <script>
     import '../scripts/inputKnobs.js';
     export let name, id, pan, color;
+
+    function validateInput(e) {
+        if (vol > 127) {
+            vol = 127;
+        } else if (vol < 0) {
+            vol = 0;
+        }
+    }
 </script>
 
 <div class="flexed">
@@ -9,7 +17,7 @@
     L <input type="range" class="input-knob" bind:value={pan} min="0" max="127" step="1" 
         data-fgcolor={color} data-bgcolor="#d9d9d9" data-diameter="32"> R
     </p>
-    <input class="input_box" type="text" id={id} name={name} bind:value={pan}>
+    <input class="input_box" type="text" id={id} name={name} bind:value={pan} on:input|preventDefault={validateInput}>
 </div>
 
 <style>
