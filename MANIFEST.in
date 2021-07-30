@@ -1,3 +1,3 @@
-include flaskapp/client/public
-graft flaskapp/db
-graft flaskapp/file
+recursive-include flaskapp/client/public*
+recursive-include flaskapp/db*
+recursive-include flaskapp/file*
