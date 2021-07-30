@@ -1,8 +1,9 @@
 import os, json, datetime
 from casio_rbk.casio_rbk import RegistrationBank, Part
 from casio_rbk.patch_name import patch_name
-from flask import Flask, send_from_directory, request, redirect, jsonify
+from flask import Flask, send_from_directory, request, jsonify
 from shutil import copyfile
+from waitress import serve
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
@@ -201,5 +202,9 @@ def log(msg):
         now_str = now.strftime("%m/%d/%Y %H:%M:%S")
         logfile.write(now_str + '     ' + msg + '\n')
 
-if __name__ == "__main__":
-    app.run()
+# dev server
+# if __name__ == "__main__":
+#     app.run()
+
+# prod server
+serve(app, host='0.0.0.0', port=6980)
