@@ -3,7 +3,6 @@
 ## Requirements:
 - [Python 3.9](https://www.python.org/downloads/) (server runtime)
 - [Pip](https://pip.pypa.io/en/stable/cli/pip_install/) (Python package manager)
-- [Yarn](https://classic.yarnpkg.com/en/docs/install/) (Javascript package manager)
 
 ## Optional nice-to-haves:
 - Rust (latest stable build)

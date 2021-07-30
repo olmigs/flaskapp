@@ -1,0 +1,3 @@
+include flaskapp/client/public
+graft flaskapp/db
+graft flaskapp/file
