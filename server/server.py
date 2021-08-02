@@ -108,13 +108,13 @@ def getInfoFromRBKFile(absFilename):
                 })
         except:
             log("fuck, that file don't exist!")
-        updateJSONSlots(data_slots)
-        names_json = os.path.join(THIS_FOLDER, 'db/names.json')
-        patchinfo_json = os.path.join(THIS_FOLDER, 'db/patchinfo.json')
-        with open(names_json, 'w') as outfile_names:
-            json.dump(data_names, outfile_names, indent=4)
-        with open(patchinfo_json, 'w') as outfile_patchinfo:
-            json.dump(data_patchinfo, outfile_patchinfo, indent=4)
+    updateJSONSlots(data_slots)
+    names_json = os.path.join(THIS_FOLDER, 'db/names.json')
+    patchinfo_json = os.path.join(THIS_FOLDER, 'db/patchinfo.json')
+    with open(names_json, 'w') as outfile_names:
+        json.dump(data_names, outfile_names, indent=4)
+    with open(patchinfo_json, 'w') as outfile_patchinfo:
+        json.dump(data_patchinfo, outfile_patchinfo, indent=4)
 
 def getArrayFromForm(dict):
     curr_list = getEmptySlotList()
