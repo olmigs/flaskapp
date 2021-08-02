@@ -1,11 +1,20 @@
 <script>
-	import { onMount, afterUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 	import { get } from 'svelte/store'; // migsnote: remove/abstract?
 	import { slots, names, updateContext, setDownloadPath, filepath } from "./stores.js";
 	import RegSlot from "./RegSlot.svelte";
 	import LibCtrl from "./LibCtrl.svelte";
 	export let server;
 	onMount(async () => {
+		// let _path = get(installPath);
+		// console.log(_path);
+    	// if (_path === 'UNSET') {
+        // 	var path = prompt('You must point me to the server!', 'absolute/path/to/server');
+        // 	if (path != 'undefined') {
+		// 		console.log(path)
+        //     	installPath.set(path);
+        // 	}
+    	// }
 		updateContext(server);
 		if (get(filepath) === 'No folder chosen...') {
 			await setDownloadPath();

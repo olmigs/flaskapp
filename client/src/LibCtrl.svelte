@@ -1,4 +1,5 @@
 <script>
+    import '../scripts/inputKnobs.js';
     import { filename, filepath, updateContext } from './stores.js';
     import { openDialog, submitForm } from '../scripts/utils.js';
     export let server;
@@ -45,6 +46,11 @@
             handleExport(server);
         }}>Export RBK File</button> 
     </div>
+    <!-- <div class="toggleView">
+        <p>Classic</p>
+        <input type="checkbox" class="input-switch" data-src="assets/switch_offon.png" data-diameter="50" bind:checked={$isCool}/>
+        <p>Cool</p>
+    </div> -->
 </div>
 
 <style>
@@ -55,6 +61,14 @@
         background-image: url('../banner.jpg');
         margin-bottom: 10px;
     }
+
+    /* .toggleView {
+        padding-top: 15px;
+    }
+
+    .toggleView p {
+        margin: 0;
+    } */
 
     .fileinfo {
         display: flex;

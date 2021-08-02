@@ -1,6 +1,10 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import init from '../public/init.json';
 // import { path } from '@tauri-apps/api';
+
+// migswerk
+// export const isCool = writable(false);
+// export const installPath = writable('UNSET');
 
 const storedFilename = localStorage.getItem('filename');
 export const filename = writable(storedFilename);
