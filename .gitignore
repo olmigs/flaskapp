@@ -1,10 +1,11 @@
+bin/
 build/
 client/node_modules/
 client/public/build/
 casio_rbk/tests/
 dist/
 *.egg-info
-*_migs.*
+*_migs*
 *.spec
 **/__pycache__
 .DS_Store
