@@ -60,17 +60,26 @@ function alertHandler(response) {
 }
 
 function getFileLocFromPath(path) {
+    let slash = '/';
+    if (process.env.IS_Win32) {
+        slash = '\\';
+    }
     let pathStr = '';
-    const pathArr = path.split('/');
+    const pathArr = path.split(slash);
     for (let i = 0; i < pathArr.length - 1; i++) {
-        pathStr += pathArr[i] + "/";
+        pathStr += pathArr[i] + slash;
     }
     return pathStr;
 }
 
 function getFileFromPath(path) {
-    const pathArr = path.split("/");
+    let slash = '/';
+    if (process.env.IS_Win32) {
+        slash = '\\';
+    }
+    const pathArr = path.split(slash);
     const lastIndex = pathArr.length - 1;
+    console.log(slash);
     return pathArr[lastIndex];
 }
 

@@ -4,19 +4,19 @@ from casio_rbk.patch_name import patch_name
 from flask import Flask, send_from_directory, request, jsonify
 from shutil import copyfile
 from waitress import serve
-THIS_FOLDER = os.path.dirname(os.path.abspath(__file__)).replace('/server', '')
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__)).replace('\\server', '')
 
 app = Flask(__name__)
 
 # Path for our main Svelte page
 @app.route("/", methods=['GET'])
 def base():
-    return send_from_directory(THIS_FOLDER + '/client/public', 'index.html')
+    return send_from_directory(THIS_FOLDER + '\\client\\public', 'index.html')
 
 # Path for all the static files (compiled JS/CSS, etc.)
 @app.route("/<path:path>")
 def home(path):
-    return send_from_directory(THIS_FOLDER + '/client/public', path)
+    return send_from_directory(THIS_FOLDER + '\\client\\public', path)
 
 @app.route("/log", methods = ['PUT'])
 def logFromPut():
@@ -27,7 +27,7 @@ def logFromPut():
 @app.route("/slots", methods=['GET'])
 def slots():
     if request.method == 'GET':
-        slots_json = os.path.join(THIS_FOLDER, 'db/slots.json')
+        slots_json = os.path.join(THIS_FOLDER, 'db\\slots.json')
         with open(slots_json, 'r') as f:
             dict = json.load(f)
             return jsonify(dict['slots'])
@@ -35,7 +35,7 @@ def slots():
 @app.route("/names", methods=['GET'])
 def names():
      if request.method == 'GET':
-        names_json = os.path.join(THIS_FOLDER, 'db/names.json')
+        names_json = os.path.join(THIS_FOLDER, 'db\\names.json')
         with open(names_json, 'r') as f:
             dict = json.load(f)
             return jsonify(dict['names'])
@@ -62,7 +62,7 @@ def rbk_export():
             # replace method used bc Tauri sends string literals including double quotes 
             outputToRBKFile(dict['filepath'].replace('"', ''), dict['filename'].replace('"', ''), data['slots'])
         except FileNotFoundError:
-            os.remove(os.path.join(THIS_FOLDER, "file/copy.rbk"))
+            os.remove(os.path.join(THIS_FOLDER, "file\\copy.rbk"))
             return jsonify('FILE NOT FOUND'), 401
         return jsonify('OK')
 
@@ -109,8 +109,8 @@ def getInfoFromRBKFile(absFilename):
         except:
             log("fuck, that file don't exist!")
     updateJSONSlots(data_slots)
-    names_json = os.path.join(THIS_FOLDER, 'db/names.json')
-    patchinfo_json = os.path.join(THIS_FOLDER, 'db/patchinfo.json')
+    names_json = os.path.join(THIS_FOLDER, 'db\\names.json')
+    patchinfo_json = os.path.join(THIS_FOLDER, 'db\\patchinfo.json')
     with open(names_json, 'w') as outfile_names:
         json.dump(data_names, outfile_names, indent=4)
     with open(patchinfo_json, 'w') as outfile_patchinfo:
@@ -149,7 +149,7 @@ def outputToRBKFile(path, filename, slots):
         try: 
             # need to update Patch Names
             with open(absFilename, "r+b") as f1:
-                patchinfo_json = os.path.join(THIS_FOLDER, 'db/patchinfo.json')
+                patchinfo_json = os.path.join(THIS_FOLDER, 'db\\patchinfo.json')
                 with open(patchinfo_json, 'r') as data:
                     dict = json.load(data)
                     rb = RegistrationBank.readFile(f1)
@@ -166,8 +166,8 @@ def outputToRBKFile(path, filename, slots):
         log("FUCK! -- in export")
 
 def writeToFileFromDummy(absFilename, slots):
-    dummyFile = os.path.join(THIS_FOLDER, "file/.dummy.rbk") # read only
-    dummyFileCopy = os.path.join(THIS_FOLDER, "file/copy.rbk")
+    dummyFile = os.path.join(THIS_FOLDER, "file\\.dummy.rbk") # read only
+    dummyFileCopy = os.path.join(THIS_FOLDER, "file\\copy.rbk")
     copyfile(dummyFile, dummyFileCopy)
     with open(dummyFileCopy, "r+b") as file:
         writeToFile(file, slots)
@@ -185,7 +185,7 @@ def writeToFile(f, slots):
     rb.writeFile(f)
 
 def updateJSONSlots(slots):
-    slots_json = os.path.join(THIS_FOLDER, 'db/slots.json')
+    slots_json = os.path.join(THIS_FOLDER, 'db\\slots.json')
     with open(slots_json, 'w') as outfile:
         json.dump(slots, outfile, indent=4)
 
