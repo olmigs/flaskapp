@@ -1,6 +1,6 @@
 {
   "package": {
-    "productName": "client",
+    "productName": "RBK Mixer",
     "version": "0.1.0"
   },
   "build": {
@@ -21,7 +21,7 @@
         "icons/icon.ico"
       ],
       "resources": [],
-      "externalBin": ["bin/server"],
+      "externalBin": [],
       "copyright": "",
       "category": "DeveloperTool",
       "shortDescription": "",
@@ -48,12 +48,20 @@
       "active": false
     },
     "allowlist": {
-      "all": true
+      "dialog": {
+        "all": true
+      },
+      "http": {
+        "all": true
+      }, 
+      "path": {
+        "all": true
+      }
     },
     "windows": [
       {
         "title": "RBK Mixer",
-        "width": 800,
+        "width": 1000,
         "height": 600,
         "resizable": true,
         "fullscreen": false

@@ -5,12 +5,12 @@ from flask import Flask, send_from_directory, request, jsonify
 from pathlib import Path
 from shutil import copyfile
 from waitress import serve
-THIS_FOLDER = Path.cwd()
-APP_PATHSTR = ''
+THIS_FOLDER = Path.cwd() # dev_migs: Path(__file__)
 # for part in THIS_FOLDER.parents:
 #     APP_PATHSTR += str(part)
 # APP_PATHSTR.replace('/server', '')
-APP_FOLDER = Path(THIS_FOLDER.parents[0])
+BUNDLE_DIR = Path(__file__).parents[1]
+APP_FOLDER = Path.cwd() / BUNDLE_DIR # dev_migs: Path(THIS_FOLDER.parents[1])
 PUBLIC_FOLDER = APP_FOLDER / 'client' / 'public'
 DB_FOLDER = APP_FOLDER / 'db'
 FILE_FOLDER = APP_FOLDER / 'file'
@@ -117,7 +117,7 @@ def getInfoFromRBKFile(absFilename):
                     }
                 })
         except:
-            log("fuck, that file don't exist!")
+            log("fuck, this file don't exist: " + absFilename)
     updateJSONSlots(data_slots)
     names_json = os.path.join(DB_FOLDER, 'names.json')
     patchinfo_json = os.path.join(DB_FOLDER, 'patchinfo.json')
@@ -215,8 +215,8 @@ def log(msg):
         logfile.write(now_str + '     ' + msg + '\n')
 
 # dev server
-if __name__ == "__main__":
-    app.run(host="localhost", port=6980, debug=True)
+# if __name__ == "__main__":
+#     app.run(host="localhost", port=6980, debug=True)
 
 # prod server
-# serve(app, host='0.0.0.0', port=6980)
+serve(app, host='0.0.0.0', port=6980)
