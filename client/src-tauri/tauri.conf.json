@@ -1,74 +1,70 @@
 {
-  "package": {
-    "productName": "RBK Mixer",
-    "version": "0.1.0"
-  },
-  "build": {
-    "distDir": "../public",
-    "devPath": "http://localhost:6980",
-    "beforeDevCommand": "yarn build",
-    "beforeBuildCommand": "yarn build",
-    "withGlobalTauri": true
-  },
-  "tauri": {
-    "bundle": {
-      "active": true,
-      "targets": "all",
-      "identifier": "com.tauri.dev",
-      "icon": [
-        "icons/112x112.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "resources": [],
-      "externalBin": [],
-      "copyright": "",
-      "category": "DeveloperTool",
-      "shortDescription": "",
-      "longDescription": "",
-      "deb": {
-        "depends": [],
-        "useBootstrapper": false
-      },
-      "macOS": {
-        "frameworks": [],
-        "minimumSystemVersion": "",
-        "useBootstrapper": false,
-        "exceptionDomain": "",
-        "signingIdentity": null,
-        "entitlements": null
-      },
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
-      }
+    "package": {
+        "productName": "RBK Mixer",
+        "version": "0.1.0"
     },
-    "updater": {
-      "active": false
+    "build": {
+        "distDir": "../public",
+        "devPath": "http://localhost:6980",
+        "beforeDevCommand": "yarn build",
+        "beforeBuildCommand": "yarn build",
+        "withGlobalTauri": true
     },
-    "allowlist": {
-      "dialog": {
-        "all": true
-      },
-      "http": {
-        "all": true
-      }, 
-      "path": {
-        "all": true
-      }
-    },
-    "windows": [
-      {
-        "title": "RBK Mixer",
-        "width": 1000,
-        "height": 600,
-        "resizable": true,
-        "fullscreen": false
-      }
-    ],
-    "security": {
-      "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+    "tauri": {
+        "bundle": {
+            "active": true,
+            "targets": "all",
+            "identifier": "com.tauri.dev",
+            "icon": ["icons/112x112.png", "icons/icon.icns", "icons/icon.ico"],
+            "resources": ["cfg"],
+            "externalBin": [],
+            "copyright": "",
+            "category": "DeveloperTool",
+            "shortDescription": "",
+            "longDescription": "",
+            "deb": {
+                "depends": [],
+                "useBootstrapper": false
+            },
+            "macOS": {
+                "frameworks": [],
+                "minimumSystemVersion": "",
+                "useBootstrapper": false,
+                "exceptionDomain": "",
+                "signingIdentity": null,
+                "entitlements": null
+            },
+            "windows": {
+                "certificateThumbprint": null,
+                "digestAlgorithm": "sha256",
+                "timestampUrl": ""
+            }
+        },
+        "updater": {
+            "active": false
+        },
+        "allowlist": {
+            "dialog": {
+                "all": true
+            },
+            "http": {
+                "all": true
+            },
+            "path": {
+                "all": true
+            }
+        },
+        "windows": [
+            {
+                "title": "RBK Mixer",
+                "width": 1000,
+                "height": 600,
+                "resizable": true,
+                "fullscreen": false
+            }
+        ],
+        "security": {
+            "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+        }
     }
-  }
 }
