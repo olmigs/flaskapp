@@ -3,26 +3,23 @@
     windows_subsystem = "windows"
   )]
 
-  // use std::{env, fs};
-//   use confy;
-//   use relative_path::RelativePath;
   use std::{
       fs, thread,
       time::Duration,
     };
-  use serde::{Serialize, Deserialize};
+  // use serde::{Serialize, Deserialize};
   use tauri::{Manager, api::path, WindowEvent};
-  use std::process::{Command, Stdio};
+  use std::process::{Command};
 
-  #[derive(Debug, Serialize, Deserialize)]
-  struct MixerConfig {
-      server: String,
-  }
+  // #[derive(Debug, Serialize, Deserialize)]
+  // struct MixerConfig {
+  //     server: String,
+  // }
 
   // `MixerConfig` implements `Default`
-  impl ::std::default::Default for MixerConfig {
-    fn default() -> Self { Self { server: "".into() } }
-  }
+  // impl ::std::default::Default for MixerConfig {
+  //   fn default() -> Self { Self { server: "".into() } }
+  // }
 
 //   #[tauri::command]
 //   fn kill_server(mut serv: Child) {
@@ -44,7 +41,6 @@
     // println!("{}", server.id());
     tauri::Builder::default()
         .setup(|app| {
-            // let handle = app.handle();
             let package_info = app.package_info();
             let path = path::resource_dir(package_info)
                 .expect("resources not found");
@@ -55,15 +51,15 @@
             // println!("{}", cfg.server);
             let server = Command::new("./server")
                 .current_dir(server_path)
-                .stdout(Stdio::piped())
+                // .stdout(Stdio::piped())
                 .spawn()
                 .expect("process failed to execute");
+            
             // migsnote: hack!
             thread::sleep(Duration::from_millis(5000));
             
             let server_id = server.id();
             let window = app.get_window("main").unwrap();
-            // let event = WindowEvent::CloseRequested;
             window.on_window_event(move |event| {
                 match event {
                     WindowEvent::CloseRequested => {
@@ -76,43 +72,14 @@
                     },
                     _ => {},
                 }
-                // let status = server.kill();
-                // println!("{:?}", status);
             });
-            // tauri::async_runtime::spawn(async move {
-            //     // let foo = app.handle();
-            //     // let label = "main";
-            //     let window = app.get_window("main").unwrap();
-            //     // let sender = window.emit(event, payload)
-            //     // let api_cls = CloseRequestApi(Sender);
-            //     // let event = ExitRequested {
-            //     //     window_label: label.to_string(),
-            //     //     api: api_cls
-            //     // };
-            //     // let foo = app.handle();
-            //     let event = WindowEvent::CloseRequested;
-            //     // let cra = CloseRequestApi::prevent_close(CloseRequestApi {
-
-            //     // });
-            //     // let handler = Event::CloseRequested {
-            //     //     label:"main",
-            //     //     api: CloseRequestApi
-            //     // };
-            //     // let bar = app.listen_global(event, handler);
-            //     window.on_window_event(|event| {
-            //         let status = server.kill();
-            //         println!("{:?}", status);
-            //     });
-            //     // let listener = window.listen_global(event, foo);
-            //     // let event = window.listen_global(Event::ExitRequested, handler);
-            //     // let status = server.wait()
-            //     //     .expect("server closing for reasons...");
-            //     // println!("{}", status.success());
-            // });
+            // tauri::async_runtime::spawn(async move{
+            //     let status = server.wait();
+            //     println!("{:?}", status);   
+            // });       
             Ok(())
         })
         // .invoke_handler(tauri::generate_handler![kill_server])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
-    // server.kill().expect("server wasn't running anyway");
 }

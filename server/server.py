@@ -1,6 +1,8 @@
-import os, json, datetime
-from casio_rbk.casio_rbk import RegistrationBank, Part
-from casio_rbk.patch_name import patch_name
+import traceback, os, json, datetime
+import casio_rbk as cas
+import patch_name as ptch
+# from casio_rbk.casio_rbk import RegistrationBank, Part
+# from casio_rbk.patch_name import patch_name
 from flask import Flask, send_from_directory, request, jsonify
 from pathlib import Path
 from shutil import copyfile
@@ -54,7 +56,7 @@ def names():
 def rbk_import():
     if request.method == 'GET':
         log("caught a GET --- in import")
-        log(str(THIS_FOLDER))
+        log(str(APP_FOLDER))
         getInfoFromRBKFile(request.args.get('filename'))
         return jsonify('OK')
 
@@ -77,19 +79,33 @@ def rbk_export():
         return jsonify('OK')
 
 def getInfoFromRBKFile(absFilename):
-    with open(absFilename, "r+b") as f:
+    p = Path(absFilename)
+    log("is it real? " + str(p.exists()))
+    with open(absFilename, "rb") as rbk:
+        log("file opened!")
+        try:
+            foo = cas.RegistrationBank.readFile(rbk)
+            log("read worked?")
+            for r in foo[0:4]:
+                (patch, bank) = r.getPatchBank(cas.Part.U1)
+                log(str(patch) + " | " + str(bank))
+        except:
+            log("Unexpected error: " + traceback.format_exc())
+            log("fuck: what's wrong COUGH " + str(p))
+
+    with open(absFilename, "rb") as f:
         data_names = {}
         data_names['names'] = []
         data_slots = {}
         data_slots['slots'] = []
         data_patchinfo = {}
         data_patchinfo['patchinfo'] = []
-        rb = RegistrationBank.readFile(f)
+        rb = cas.RegistrationBank.readFile(f)
         try:
             for r in rb[0:4]:
-                (patch_u1, bankmsb_u1) = r.getPatchBank(Part.U1)
-                (patch_u2, bankmsb_u2) = r.getPatchBank(Part.U2)
-                (patch_l, bankmsb_l) = r.getPatchBank(Part.L)
+                (patch_u1, bankmsb_u1) = r.getPatchBank(cas.Part.U1)
+                (patch_u2, bankmsb_u2) = r.getPatchBank(cas.Part.U2)
+                (patch_l, bankmsb_l) = r.getPatchBank(cas.Part.L)
 
                 # returns { u1, u2, l }
                 vols = r.getVolumes()
@@ -98,9 +114,9 @@ def getInfoFromRBKFile(absFilename):
                 slotlist = [ vols[0], pans[0], vols[1], pans[1], vols[2], pans[2] ]
                 data_slots['slots'].append(formatSlotList(slotlist))
                 data_names['names'].append({
-                    'u1': patch_name(patch_u1, bankmsb_u1),
-                    'u2': patch_name(patch_u2, bankmsb_u2),
-                    'l': patch_name(patch_l, bankmsb_l)
+                    'u1': ptch.patch_name(patch_u1, bankmsb_u1),
+                    'u2': ptch.patch_name(patch_u2, bankmsb_u2),
+                    'l': ptch.patch_name(patch_l, bankmsb_l)
                 })
                 data_patchinfo['patchinfo'].append({
                     'u1': {
@@ -117,6 +133,7 @@ def getInfoFromRBKFile(absFilename):
                     }
                 })
         except:
+            log("Unexpected error: " + traceback.format_exc())
             log("fuck, this file don't exist: " + absFilename)
     updateJSONSlots(data_slots)
     names_json = os.path.join(DB_FOLDER, 'names.json')
@@ -162,12 +179,12 @@ def outputToRBKFile(path, filename, slots):
                 patchinfo_json = os.path.join(DB_FOLDER, 'patchinfo.json')
                 with open(patchinfo_json, 'r') as data:
                     dict = json.load(data)
-                    rb = RegistrationBank.readFile(f1)
+                    rb = cas.RegistrationBank.readFile(f1)
                     i = 0
                     for r in rb[0:4]:
-                        r.setPatchBank(Part.U1, dict['patchinfo'][i]['u1']['patch'], dict['patchinfo'][i]['u1']['bankMSB'])
-                        r.setPatchBank(Part.U2, dict['patchinfo'][i]['u2']['patch'], dict['patchinfo'][i]['u2']['bankMSB'])
-                        r.setPatchBank(Part.L, dict['patchinfo'][i]['l']['patch'], dict['patchinfo'][i]['l']['bankMSB'])
+                        r.setPatchBank(cas.Part.U1, dict['patchinfo'][i]['u1']['patch'], dict['patchinfo'][i]['u1']['bankMSB'])
+                        r.setPatchBank(cas.Part.U2, dict['patchinfo'][i]['u2']['patch'], dict['patchinfo'][i]['u2']['bankMSB'])
+                        r.setPatchBank(cas.Part.L, dict['patchinfo'][i]['l']['patch'], dict['patchinfo'][i]['l']['bankMSB'])
                         i += 1
                     rb.writeFile(f1)
         except:
@@ -185,7 +202,7 @@ def writeToFileFromDummy(absFilename, slots):
     os.remove(dummyFileCopy)
 
 def writeToFile(f, slots):
-    rb = RegistrationBank.readFile(f)
+    rb = cas.RegistrationBank.readFile(f)
     i = 0
     for r in rb[0:4]:
         # returns { u1, u2, l }
