@@ -11,7 +11,7 @@ THIS_FOLDER = Path.cwd() # dev_migs: Path(__file__)
 # APP_PATHSTR.replace('/server', '')
 BUNDLE_DIR = Path(__file__).parents[1]
 APP_FOLDER = Path.cwd() / BUNDLE_DIR # dev_migs: Path(THIS_FOLDER.parents[1])
-PUBLIC_FOLDER = APP_FOLDER / 'client' / 'public'
+PUBLIC_FOLDER = APP_FOLDER / 'ui' / 'public'
 DB_FOLDER = APP_FOLDER / 'db'
 FILE_FOLDER = APP_FOLDER / 'file'
 # os.path.dirname(os.path.abspath(__file__)).replace(str(THIS_FOLDER), '')
@@ -53,8 +53,8 @@ def names():
 @app.route("/import", methods=['GET'])
 def rbk_import():
     if request.method == 'GET':
-        # log("caught a GET --- in import")
-        # log(THIS_FOLDER)
+        log("caught a GET --- in import")
+        log(str(THIS_FOLDER))
         getInfoFromRBKFile(request.args.get('filename'))
         return jsonify('OK')
 

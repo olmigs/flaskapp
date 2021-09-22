@@ -11,13 +11,7 @@
       time::Duration,
     };
   use serde::{Serialize, Deserialize};
-  use tauri::{
-      api::path,
-      CloseRequestApi,
-      Event::{ExitRequested},
-      Manager,
-    };
-  // use std::path::Path;
+  use tauri::{Manager, api::path, WindowEvent};
   use std::process::{Command, Stdio};
 
   #[derive(Debug, Serialize, Deserialize)]
@@ -54,26 +48,67 @@
             let package_info = app.package_info();
             let path = path::resource_dir(package_info)
                 .expect("resources not found");
-            let cfg_path = path.join("cfg/client.toml");
-            println!("{:?}", fs::canonicalize(&cfg_path));
-            let cfg: MixerConfig = confy::load_path(cfg_path)
-                .expect("config fucked");
-            println!("{}", cfg.server);
-            let mut server = Command::new("./server")
-                .current_dir(cfg.server)
+            let server_path = path.join("server");
+            println!("{:?}", fs::canonicalize(&server_path));
+            // let cfg: MixerConfig = confy::load_path(cfg_path)
+            //     .expect("config fucked");
+            // println!("{}", cfg.server);
+            let server = Command::new("./server")
+                .current_dir(server_path)
                 .stdout(Stdio::piped())
                 .spawn()
                 .expect("process failed to execute");
             // migsnote: hack!
             thread::sleep(Duration::from_millis(5000));
-            tauri::async_runtime::spawn(async move {
-                // let foo = app.handle();
-                // let window = app.get_window("main").unwrap();
-                // let event = window.listen_global(Event::ExitRequested, handler);
-                let status = server.wait()
-                    .expect("server closing for reasons...");
-                println!("{}", status.success());
+            
+            let server_id = server.id();
+            let window = app.get_window("main").unwrap();
+            // let event = WindowEvent::CloseRequested;
+            window.on_window_event(move |event| {
+                match event {
+                    WindowEvent::CloseRequested => {
+                        // let status = server.kill();
+                        Command::new("kill")
+                            .arg(server_id.to_string())
+                            .spawn()
+                            .expect("process failed to be killed");
+                        println!("you did it fucker");
+                    },
+                    _ => {},
+                }
+                // let status = server.kill();
+                // println!("{:?}", status);
             });
+            // tauri::async_runtime::spawn(async move {
+            //     // let foo = app.handle();
+            //     // let label = "main";
+            //     let window = app.get_window("main").unwrap();
+            //     // let sender = window.emit(event, payload)
+            //     // let api_cls = CloseRequestApi(Sender);
+            //     // let event = ExitRequested {
+            //     //     window_label: label.to_string(),
+            //     //     api: api_cls
+            //     // };
+            //     // let foo = app.handle();
+            //     let event = WindowEvent::CloseRequested;
+            //     // let cra = CloseRequestApi::prevent_close(CloseRequestApi {
+
+            //     // });
+            //     // let handler = Event::CloseRequested {
+            //     //     label:"main",
+            //     //     api: CloseRequestApi
+            //     // };
+            //     // let bar = app.listen_global(event, handler);
+            //     window.on_window_event(|event| {
+            //         let status = server.kill();
+            //         println!("{:?}", status);
+            //     });
+            //     // let listener = window.listen_global(event, foo);
+            //     // let event = window.listen_global(Event::ExitRequested, handler);
+            //     // let status = server.wait()
+            //     //     .expect("server closing for reasons...");
+            //     // println!("{}", status.success());
+            // });
             Ok(())
         })
         // .invoke_handler(tauri::generate_handler![kill_server])

@@ -16,7 +16,7 @@
             "targets": "all",
             "identifier": "com.tauri.dev",
             "icon": ["icons/112x112.png", "icons/icon.icns", "icons/icon.ico"],
-            "resources": ["cfg"],
+            "resources": ["server", "file", "db", "ui"],
             "externalBin": [],
             "copyright": "",
             "category": "DeveloperTool",
@@ -52,6 +52,10 @@
             },
             "path": {
                 "all": true
+            },
+            "shell": {
+                "all": false,
+                "execute": true
             }
         },
         "windows": [
