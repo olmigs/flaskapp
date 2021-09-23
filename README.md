@@ -2,7 +2,7 @@
 ## CT-X700/X800/CDP-S350 RBK File Editor
 
 ### Development Requirements
-- [Python 3.9](https://www.python.org/downloads/) (dev server runtime)
+- [Python (3.9)](https://www.python.org/downloads/) (dev server runtime)
 - Rust (1.51)
 - Tauri
     - api (1.0.0-beta.8)
@@ -18,10 +18,10 @@
 
 A Webview2-rendered window magically opens. Also, a Python waitress server will be running at `localhost:6980`.
 
-_Warning_: The server may still be running, even after the Tauri windows closes.
+_Warning: The server may still be running, even after the Tauri window closes._
 
 ### Python backend
-Check `client/src-tauri/server` for available server executables. If you don't find one, why not build one and add it to the repo?
+Check `client/src-tauri/server` for available server executables. If you don't find one for your architecture, why not build one and add it to the repo?
 
 ```shell
 cd server
