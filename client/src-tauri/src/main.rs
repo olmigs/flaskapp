@@ -3,13 +3,10 @@
     windows_subsystem = "windows"
   )]
 
-  use std::{
-      fs, thread,
-      time::Duration,
-    };
+  use std::{thread, time::Duration};
   // use serde::{Serialize, Deserialize};
-  use tauri::{Manager, api::path, WindowEvent};
-  use std::process::{Command};
+  use tauri::{api::{path, process}};
+  // use std::process::{Command};
 
   // #[derive(Debug, Serialize, Deserialize)]
   // struct MixerConfig {
@@ -45,34 +42,35 @@
             let path = path::resource_dir(package_info)
                 .expect("resources not found");
             let server_path = path.join("server");
-            println!("{:?}", fs::canonicalize(&server_path));
+            println!("{:#?}", server_path);
             // let cfg: MixerConfig = confy::load_path(cfg_path)
             //     .expect("config fucked");
             // println!("{}", cfg.server);
-            let server = Command::new("./server")
+            let (_rcv, server) = process::Command::new("./server")
                 .current_dir(server_path)
                 // .stdout(Stdio::piped())
                 .spawn()
                 .expect("process failed to execute");
-            
+            println!("{}", server.pid());
             // migsnote: hack!
             thread::sleep(Duration::from_millis(5000));
             
-            let server_id = server.id();
-            let window = app.get_window("main").unwrap();
-            window.on_window_event(move |event| {
-                match event {
-                    WindowEvent::CloseRequested => {
-                        // let status = server.kill();
-                        Command::new("kill")
-                            .arg(server_id.to_string())
-                            .spawn()
-                            .expect("process failed to be killed");
-                        println!("you did it fucker");
-                    },
-                    _ => {},
-                }
-            });
+            // let server_id = server.pid();
+            // let window = app.get_window("main").unwrap();
+            // window.on_window_event(move |event| {
+            //     match event {
+            //         WindowEvent::CloseRequested => {
+            //             process::kill_children();
+            //             // let status = server.kill();
+            //             // process::Command::new("kill")
+            //             //     .args(server_id)
+            //             //     .spawn()
+            //             //     .expect("process failed to be killed");
+            //             println!("you did it fucker");
+            //         },
+            //         _ => {},
+            //     }
+            // });
             // tauri::async_runtime::spawn(async move{
             //     let status = server.wait();
             //     println!("{:?}", status);   
