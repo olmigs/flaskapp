@@ -1,4 +1,5 @@
-# CT-X700/X800/CDP-S350 RBK File Editor
+# ![logo](/client/src-tauri/icons/112X112.png) RBK Mixer
+## CT-X700/X800/CDP-S350 RBK File Editor
 
 ## Requirements:
 - [Python 3.9](https://www.python.org/downloads/) (server runtime)
@@ -25,5 +26,4 @@ Okay, at this point you have managed to (a) run the Python server that handles i
 *Note: Please ensure that all RBK files are in the folder `flaskapp/file/`.*
 
 ## Known issues:
-- handling missing files; as of `06/22/21`, the app will do nothing if the file does not exist
 - updates to `casio_rbk` library are not automatically included; to get the latest, will need to go to the [Casio-Registrations github page](https://github.com/michgz/casio-registrations)
