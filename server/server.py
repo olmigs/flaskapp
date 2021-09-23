@@ -11,8 +11,8 @@ THIS_FOLDER = Path.cwd() # dev_migs: Path(__file__)
 # for part in THIS_FOLDER.parents:
 #     APP_PATHSTR += str(part)
 # APP_PATHSTR.replace('/server', '')
-BUNDLE_DIR = Path(__file__).parents[1]
-APP_FOLDER = Path.cwd() / BUNDLE_DIR # dev_migs: Path(THIS_FOLDER.parents[1])
+# BUNDLE_DIR = Path(__file__).parents[1]
+APP_FOLDER = Path.cwd() # dev_migs: Path(THIS_FOLDER.parents[1])
 PUBLIC_FOLDER = APP_FOLDER / 'ui' / 'public'
 DB_FOLDER = APP_FOLDER / 'db'
 FILE_FOLDER = APP_FOLDER / 'file'

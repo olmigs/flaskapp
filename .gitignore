@@ -4,6 +4,7 @@ client/node_modules/
 client/public/build/
 casio_rbk/tests/
 dist/
+scripts/node_modules/
 *.egg-info*
 *_migs*
 *.spec

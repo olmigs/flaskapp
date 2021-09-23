@@ -41,17 +41,19 @@
             let package_info = app.package_info();
             let path = path::resource_dir(package_info)
                 .expect("resources not found");
-            let server_path = path.join("server");
-            println!("{:#?}", server_path);
+            // let server_path = path.join("server");
+            println!("{:#?}", path);
             // let cfg: MixerConfig = confy::load_path(cfg_path)
             //     .expect("config fucked");
             // println!("{}", cfg.server);
-            let (_rcv, server) = process::Command::new("./server")
-                .current_dir(server_path)
+            let (_rcv, server) = process::Command::new_sidecar("server")
+                // .current_dir(server_path)
                 // .stdout(Stdio::piped())
+                .expect("failed to run command")
+                .current_dir(path)
                 .spawn()
-                .expect("process failed to execute");
-            println!("{}", server.pid());
+                .expect("server failed to execute");
+            println!("{:#?}", server.pid());
             // migsnote: hack!
             thread::sleep(Duration::from_millis(5000));
             
