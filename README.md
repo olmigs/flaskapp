@@ -1,29 +1,34 @@
-# ![logo](/client/src-tauri/icons/112X112.png) RBK Mixer
+# ![logo](/client/src-tauri/icons/112X112.png) RBK Mixer ![logo](/client/src-tauri/icons/112X112.png)
 ## CT-X700/X800/CDP-S350 RBK File Editor
 
-## Requirements:
-- [Python 3.9](https://www.python.org/downloads/) (server runtime)
-- [Pip](https://pip.pypa.io/en/stable/cli/pip_install/) (Python package manager)
+### Development Requirements:
+- [Python 3.9](https://www.python.org/downloads/) (dev server runtime)
+- Rust (1.51)
+- Tauri
+    - api (1.0.0-beta.8)
+    - cli (1.0.0-beta.10)
+- Node.js (16.4.0)
+- Webview2
 
-## Optional nice-to-haves:
-- Rust (latest stable build)
-- Tauri (latest stable)
-- Node.js
+### Run this app:
+1. open your console (navigate i.e. `cd` somewhere you like)
+3. `git clone` this repository
+4. navigate to folder `flaskapp`, run `yarn install`
+5. run `yarn tauri dev`
 
-## To run this app:
-1. open a Terminal or Command Prompt window
-2. navigate to any folder (this will be where the project lives on your device)
-3. call `git clone https://github.com/olmigs/flaskapp.git`
-4. navigate to folder `flaskapp/` (e.g. `cd flaskapp/`) and call `python3 server.py`
-5. open a second Terminal or Command Prompt window
-6. navigate to folder `flaskapp/client/` and call `yarn dev`
-7. open a browser window and type `localhost:5000` into the address bar
+A Webview2-rendered window magically opens. Also, a Python waitress server will be running at `localhost:6980`.
 
-Okay, at this point you have managed to (a) run the Python server that handles importing and exporting RBK files and (b) run the Javascript development server that updates the application UI automatically. You should now be ready for testing in a web browser. If you want to compile and run the app in development mode (using Tauri/Rust):
+_Warning_: The server may still be running, even after the Tauri windows closes.
 
-8. navigate to folder `flaskapp/client/` and call `yarn tauri dev`
+### Python backend
+Check `client/src-tauri/server` for available server executables. If you don't find one, why not build one and add it to the repo?
 
-*Note: Please ensure that all RBK files are in the folder `flaskapp/file/`.*
+```shell
+cd server
+pyinstaller -F server.py
+```
+
+Now, navigate to the newly created `dist/server` to find your fresh executable. _Results may vary._
 
 ## Known issues:
 - updates to `casio_rbk` library are not automatically included; to get the latest, will need to go to the [Casio-Registrations github page](https://github.com/michgz/casio-registrations)
