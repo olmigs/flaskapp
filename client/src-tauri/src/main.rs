@@ -5,7 +5,7 @@
 
   use std::{thread, time::Duration};
   // use serde::{Serialize, Deserialize};
-  use tauri::{api::{path, process}};
+  use tauri::{api::{path, process}, Manager, WindowEvent};
   // use std::process::{Command};
 
   // #[derive(Debug, Serialize, Deserialize)]
@@ -57,22 +57,22 @@
             // migsnote: hack!
             thread::sleep(Duration::from_millis(5000));
             
-            // let server_id = server.pid();
-            // let window = app.get_window("main").unwrap();
-            // window.on_window_event(move |event| {
-            //     match event {
-            //         WindowEvent::CloseRequested => {
-            //             process::kill_children();
-            //             // let status = server.kill();
-            //             // process::Command::new("kill")
-            //             //     .args(server_id)
-            //             //     .spawn()
-            //             //     .expect("process failed to be killed");
-            //             println!("you did it fucker");
-            //         },
-            //         _ => {},
-            //     }
-            // });
+            let server_id = server.pid();
+            let window = app.get_window("main").unwrap();
+            window.on_window_event(move |event| {
+                match event {
+                    WindowEvent::CloseRequested => {
+                        // process::kill_children();
+                        // let status = server.kill();
+                        process::Command::new("kill")
+                            .args(&[server_id.to_string()])
+                            .output()
+                            .expect("process failed to be killed");
+                        println!("you did it fucker");
+                    },
+                    _ => {},
+                }
+            });
             // tauri::async_runtime::spawn(async move{
             //     let status = server.wait();
             //     println!("{:?}", status);   

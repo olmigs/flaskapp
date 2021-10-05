@@ -13,8 +13,8 @@
 ### Run this app
 1. open your console (navigate i.e. `cd` somewhere you like)
 3. `git clone` this repository
-4. navigate to folder `flaskapp`, run `yarn install`
-5. run `yarn tauri dev`
+4. navigate to folder `flaskapp`, call `yarn install`
+5. call `yarn tauri dev`
 
 A Webview2-rendered window magically opens. Also, a Python waitress server will be running at `localhost:6980`.
 

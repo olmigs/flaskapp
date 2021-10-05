@@ -1,8 +1,6 @@
 import traceback, os, json, datetime
 import casio_rbk as cas
 import patch_name as ptch
-# from casio_rbk.casio_rbk import RegistrationBank, Part
-# from casio_rbk.patch_name import patch_name
 from flask import Flask, send_from_directory, request, jsonify
 from pathlib import Path
 from shutil import copyfile
@@ -55,15 +53,15 @@ def names():
 @app.route("/import", methods=['GET'])
 def rbk_import():
     if request.method == 'GET':
-        log("caught a GET --- in import")
-        log(str(APP_FOLDER))
+        # log("caught a GET --- in import")
+        # log(str(APP_FOLDER))
         getInfoFromRBKFile(request.args.get('filename'))
         return jsonify('OK')
 
 @app.route("/export", methods=['POST'])
 def rbk_export():
     if request.method == 'POST':
-        log("caught a POST --- in export")
+        # log("caught a POST --- in export")
         dict = request.form
         if (len(dict) == 0):
             log("in EXPORT -- dict empty!")
@@ -79,19 +77,19 @@ def rbk_export():
         return jsonify('OK')
 
 def getInfoFromRBKFile(absFilename):
-    p = Path(absFilename)
-    log("is it real? " + str(p.exists()))
-    with open(absFilename, "rb") as rbk:
-        log("file opened!")
-        try:
-            foo = cas.RegistrationBank.readFile(rbk)
-            log("read worked?")
-            for r in foo[0:4]:
-                (patch, bank) = r.getPatchBank(cas.Part.U1)
-                log(str(patch) + " | " + str(bank))
-        except:
-            log("Unexpected error: " + traceback.format_exc())
-            log("fuck: what's wrong COUGH " + str(p))
+    # p = Path(absFilename)
+    # log("is it real? " + str(p.exists()))
+    # with open(absFilename, "rb") as rbk:
+    #     log("file opened!")
+    #     try:
+    #         foo = cas.RegistrationBank.readFile(rbk)
+    #         log("read worked?")
+    #         for r in foo[0:4]:
+    #             (patch, bank) = r.getPatchBank(cas.Part.U1)
+    #             log(str(patch) + " | " + str(bank))
+    #     except:
+    #         log("Unexpected error: " + traceback.format_exc())
+    #         log("fuck: what's wrong COUGH " + str(p))
 
     with open(absFilename, "rb") as f:
         data_names = {}
@@ -144,7 +142,7 @@ def getInfoFromRBKFile(absFilename):
         json.dump(data_patchinfo, outfile_patchinfo, indent=4)
 
 def getArrayFromForm(dict):
-    curr_list = getEmptySlotList()
+    # curr_list = getEmptySlotList()
     arr = {}
     arr['slots'] = [{}, {}, {}, {}]
     for i in range(4):
