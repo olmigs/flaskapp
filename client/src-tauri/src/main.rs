@@ -38,37 +38,43 @@
     // println!("{}", server.id());
     tauri::Builder::default()
         .setup(|app| {
-            let package_info = app.package_info();
-            let path = path::resource_dir(package_info)
-                .expect("resources not found");
+            // let package_info = app.package_info();
+            // let path = path::resource_dir(package_info)
+            //    .expect("resources not found");
             // let server_path = path.join("server");
-            println!("{:#?}", path);
+            // println!("{:#?}", path);
             // let cfg: MixerConfig = confy::load_path(cfg_path)
             //     .expect("config fucked");
             // println!("{}", cfg.server);
             let (_rcv, server) = process::Command::new_sidecar("server")
                 // .current_dir(server_path)
                 // .stdout(Stdio::piped())
-                .expect("failed to run command")
-                .current_dir(path)
+                .expect("failed to create command")
+                // .current_dir(path)
                 .spawn()
                 .expect("server failed to execute");
             println!("{:#?}", server.pid());
             // migsnote: hack!
             thread::sleep(Duration::from_millis(5000));
-            
+
             let server_id = server.pid();
             let window = app.get_window("main").unwrap();
             window.on_window_event(move |event| {
                 match event {
                     WindowEvent::CloseRequested => {
-                        // process::kill_children();
-                        // let status = server.kill();
-                        process::Command::new("kill")
-                            .args(&[server_id.to_string()])
+                        // macOS
+                        // let status = process::Command::new("kill")
+                        //     .args([&server_id.to_string()])
+                        //     .output()
+                        //     .expect("process failed to be killed");
+
+                        // winNT
+                        let status = process::Command::new("taskkill")
+                            .args(["/F", "/PID", &server_id.to_string(), "/T"])
                             .output()
                             .expect("process failed to be killed");
-                        println!("you did it fucker");
+                        
+                        println!("{:#?}", &status.stdout);
                     },
                     _ => {},
                 }
