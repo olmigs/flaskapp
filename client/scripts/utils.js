@@ -1,7 +1,10 @@
-import { filename, filepath, setDownloadPath } from '../src/stores.js';
 import { get } from 'svelte/store';
+import { dialog, http, path } from '@tauri-apps/api';
+import { filename, filepath, setDownloadPath, updateContext } from '../src/stores';
+import { callEndpoint } from '../scripts/client_http';
+
 export function openDialog(dir, serv) {
-    const dialog = window.__TAURI__.dialog;
+    // const dialog = window.__TAURI__.dialog;
     return dialog
         .open({
             'defaultPath': dir,
@@ -13,14 +16,18 @@ export function openDialog(dir, serv) {
             'directory': false
         })
         .then(
-            path => {
-                
-                if (path != null) {
-                    const url = serv + '/import?filename=' + path;
-                    filename.set(getFileFromPath(path));
-                    filepath.set(getFileLocFromPath(path));
-                    const http = window.__TAURI__.http;
-                    return http.fetch(url);
+            input => {
+                if (input != null) {
+                    // const url = serv + '/import?filename=' + input;
+                    filename.set(getFileFromPath(input));
+                    filepath.set(getFolderFromPath(input));
+                    // const http = window.__TAURI__.http;
+                    callEndpoint(serv, 'import', 'json', 'POST', {filename: input})
+                        .then(_resp => {
+                            updateContext(serv);
+                            location.reload();
+                        })
+                        .catch(err => console.log(err));
                 } 
             })
         .catch(err => {
@@ -39,12 +46,16 @@ export function submitForm(formElement, server) {
         formDataDict[pair[0]] = pair[1];
     }
     const url = server + '/export';
-    const http = window.__TAURI__.http;
+
     return http
         .fetch(url, {
-        method: 'POST',
-        body: http.Body.form(formDataDict)
-        }).then(response => alertHandler(response))
+            method: 'POST',
+            body: http.Body.form(formDataDict)
+        })
+        .then(response => {
+            updateContext(server);
+            alertHandler(response);
+        })
         .catch(err => alertHandler(err));
 }
 
@@ -59,53 +70,31 @@ function alertHandler(response) {
     alert(msg);
 }
 
-function getFileLocFromPath(path) {
-    let slash = '/';
-    if (process.env.IS_Win32) {
-        slash = '\\';
-    }
+function getFolderFromPath(value) {
     let pathStr = '';
-    const pathArr = path.split(slash);
+    const pathArr = value.split(path.sep);
     for (let i = 0; i < pathArr.length - 1; i++) {
-        pathStr += pathArr[i] + slash;
+        pathStr += pathArr[i] + path.sep;
     }
     return pathStr;
 }
 
-function getFileFromPath(path) {
-    let slash = '/';
-    if (process.env.IS_Win32) {
-        slash = '\\';
-    }
-    const pathArr = path.split(slash);
+function getFileFromPath(value) {
+    const pathArr = value.split(path.sep);
     const lastIndex = pathArr.length - 1;
-    console.log(slash);
     return pathArr[lastIndex];
-}
-
-export function arraysMatch(arr1, arr2) {
-	// Check if the arrays are the same length
-	if (arr1.length !== arr2.length) return false;
-	// Check if all items exist and are in the same order
-	for (var i = 0; i < arr1.length; i++) {
-		if (arr1[i] !== arr2[i]) return false;
-	}
-	// Otherwise, return true
-	return true;
-};
-
-export function fsLog(msg) {
-    const fs = window.__TAURI__.fs;
-    const relativeLogLoc = '../../logs';
-    // migsTODO: code
 }
 
 export function pyLog(serv, msg) {
     const formData = new FormData();
     formData.append('line', msg);
     const url = serv + '/log';
-    return fetch(url, {
-        method: 'PUT',
-        body: formData
-    }).then(response => response.json())
+    return http.
+        fetch(
+            url, 
+            {
+                method: 'PUT',
+                body: formData
+            })
+            .then(response => response.json())
 }

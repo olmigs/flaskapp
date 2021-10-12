@@ -17,6 +17,10 @@ tauri-build = { version = "1.0.0-beta.4" }
 [dependencies]
 tauri = { version = "1.0.0-beta.8", features = ["dialog-all", "http-all", "path-all", "shell-execute"] }
 
+# [dependencies.pyo3]
+# version = "0.14.5"
+# features = ["auto-initialize"]
+
 [features]
 default = [ "custom-protocol" ]
 custom-protocol = [ "tauri/custom-protocol" ]
