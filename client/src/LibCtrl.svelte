@@ -1,6 +1,6 @@
 <script>
     import '../scripts/inputKnobs.js';
-    import { filename, filepath, updateContext } from './stores.js';
+    import { filename, filepath } from './stores.js';
     import { openDialog, submitForm } from '../scripts/utils.js';
     export let server;
     function removeSpecialChars() {
@@ -14,18 +14,12 @@
             document.getElementById('filename').selectionEnd = start-1;
         }
     }
-</script>
-<script context="module">
     export async function handleImportDialog(path, server) {
         await openDialog(path, server);
-        updateContext(server);
     }
-    export async function handleExport(server) {
-        // const form = document.getElementById("slotsbox");
-        // await form.submit();
+    async function handleExport(server) {
         const form = document.querySelector('form');
         await submitForm(form, server);
-        updateContext(server);
     }
 </script>
 

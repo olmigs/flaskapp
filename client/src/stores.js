@@ -1,10 +1,10 @@
 import { get, writable } from 'svelte/store';
 import init from '../public/init.json';
-// import { path } from '@tauri-apps/api';
+import { http, path } from '@tauri-apps/api';
+import { callEndpoint } from '../scripts/client_http';
 
 // migswerk
 // export const isCool = writable(false);
-// export const installPath = writable('UNSET');
 
 const storedFilename = localStorage.getItem('filename');
 export const filename = writable(storedFilename);
@@ -20,33 +20,14 @@ filepath.subscribe( value => {
 });
 
 export const slots = writable(init.slots);
-export async function updateSlots(server) {
-    const endpoint = server + "/slots";
-    return await returnResponseData(endpoint);
-}
-
 export const names = writable(init.names);
-export async function updateNames(server) {
-    const endpoint = server + "/names";
-    return await returnResponseData(endpoint);
-}
 
-async function returnResponseData(endpoint) {
-    const http = window.__TAURI__.http;
-    return http
-        .fetch(endpoint)
-        .then(
-            response => {
-                return response.data;
-            })
-        .catch(
-            err => {
-                return err;
-            });
+export function fUpdate(new_slots, new_names) {
+    slots.set(new_slots);
+    names.set(new_names);
 }
 
 export function setDownloadPath() {
-    const path = window.__TAURI__.path;
     return path
         .downloadDir()
         .then(
@@ -56,11 +37,15 @@ export function setDownloadPath() {
         .catch(err => console.log(err));
 }
 
-export async function updateContext(server) {
-    const slot_prom = await updateSlots(server);
-    const name_prom = await updateNames(server);
-    const [slots_new, names_new] = await Promise.all([slot_prom, name_prom])
-        .catch(err => { console.log(err) });
-    slots.set(slots_new);
-    names.set(names_new);
+export function updateContext(server) {
+    callEndpoint(server, 'slots')
+        .then(resp => {
+            slots.set(resp);
+        })
+        .catch(err => console.log(err));
+    callEndpoint(server, 'names')
+        .then(resp => {
+            names.set(resp);
+        })
+        .catch(err => console.log(err));
 }

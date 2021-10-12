@@ -5,16 +5,11 @@ from flask import Flask, send_from_directory, request, jsonify
 from pathlib import Path
 from shutil import copyfile
 from waitress import serve
-THIS_FOLDER = Path.cwd() # dev_migs: Path(__file__)
-# for part in THIS_FOLDER.parents:
-#     APP_PATHSTR += str(part)
-# APP_PATHSTR.replace('/server', '')
-# BUNDLE_DIR = Path(__file__).parents[1]
-APP_FOLDER = Path.cwd() # dev_migs: Path(THIS_FOLDER.parents[1])
+
+APP_FOLDER = Path.cwd() # dev_migs: Path.cwd().parents[0] / 'client' / 'src-tauri'
 PUBLIC_FOLDER = APP_FOLDER / 'ui' / 'public'
 DB_FOLDER = APP_FOLDER / 'db'
 FILE_FOLDER = APP_FOLDER / 'file'
-# os.path.dirname(os.path.abspath(__file__)).replace(str(THIS_FOLDER), '')
 
 app = Flask(__name__)
 
@@ -50,18 +45,16 @@ def names():
             dict = json.load(f)
             return jsonify(dict['names'])
 
-@app.route("/import", methods=['GET'])
+@app.route("/import", methods=['POST'])
 def rbk_import():
-    if request.method == 'GET':
-        # log("caught a GET --- in import")
-        # log(str(APP_FOLDER))
-        getInfoFromRBKFile(request.args.get('filename'))
+    if request.method == 'POST':
+        # log(request.get_json()['filename'])
+        getInfoFromRBKFile(request.get_json()['filename'])
         return jsonify('OK')
 
 @app.route("/export", methods=['POST'])
 def rbk_export():
     if request.method == 'POST':
-        # log("caught a POST --- in export")
         dict = request.form
         if (len(dict) == 0):
             log("in EXPORT -- dict empty!")
@@ -140,6 +133,7 @@ def getInfoFromRBKFile(absFilename):
         json.dump(data_names, outfile_names, indent=4)
     with open(patchinfo_json, 'w') as outfile_patchinfo:
         json.dump(data_patchinfo, outfile_patchinfo, indent=4)
+   # return (data_slots, data_names)
 
 def getArrayFromForm(dict):
     # curr_list = getEmptySlotList()

@@ -5,10 +5,10 @@
     },
     "build": {
         "distDir": "../public",
-        "devPath": "http://localhost:6980",
+        "devPath": "http://localhost:5000",
         "beforeDevCommand": "yarn build",
         "beforeBuildCommand": "yarn build",
-        "withGlobalTauri": true
+        "withGlobalTauri": false
     },
     "tauri": {
         "bundle": {

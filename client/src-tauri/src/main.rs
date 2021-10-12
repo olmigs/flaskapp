@@ -3,6 +3,7 @@
     windows_subsystem = "windows"
   )]
 
+  // use pyo3::prelude::*;
   use std::{thread, time::Duration};
   // use serde::{Serialize, Deserialize};
   use tauri::{api::{path, process}, Manager, WindowEvent};
@@ -19,11 +20,16 @@
   // }
 
 //   #[tauri::command]
-//   fn kill_server(mut serv: Child) {
-//       serv.kill().expect("server wasn't running");
+//   fn import_rbk() {
+    
 //   }
 
   fn main() {
+    // Python::with_gil(|py| {
+    //     let casio_rbk = PyModule::import(py, "casio_rbk")
+    //         .expect("where the hell is casio-rbk");
+    //     // let foo = casio_rbk.RegistrationBank.
+    // });
     // let path = Path(fs::canonicalize(env::current_exe()?);
     // println!("The current directory is {}", path.display());
     // let rel_path = RelativePath::new("client.toml").to_logical_path(".");
