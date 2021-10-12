@@ -46,7 +46,6 @@ export default {
         replace({
             preventAssignment: true,
             'process.env.IS_PROD': production,
-            'process.env.IS_Win32': true,
         }),
         svelte({
             compilerOptions: {
