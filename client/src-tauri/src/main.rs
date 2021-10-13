@@ -4,14 +4,74 @@
   )]
 
   // use pyo3::prelude::*;
-  use std::{thread, time::Duration};
-  // use serde::{Serialize, Deserialize};
-  use tauri::{api::{path, process}, Manager, WindowEvent};
+  use std::{fs, io::{Result, BufReader}, path::{PathBuf}, thread, time::Duration};
+  use serde::Deserialize;
+  use tauri::{api::{ path, process}, Manager, WindowEvent};
+
+  #[derive(Deserialize, Debug)]
+  struct FolderDesc {
+      name: String,
+      files: Vec<String>
+  }
+
+  fn get_copy_files(mut app_dir: PathBuf) -> Result<Vec<FolderDesc>> {
+    app_dir.push("db");
+    app_dir.push("files.json");
+    let file = fs::File::open(app_dir)?;
+    let reader = BufReader::new(file);
+    let u = serde_json::from_reader(reader)?;
+    Ok(u)
+  }
+
+  fn check_then_create_or_write(src: PathBuf, dest: PathBuf, is_dir: bool) {
+    if !dest.as_path().exists() {
+        if is_dir {
+            println!("about to make {:#?}", &dest);
+            // thread::sleep(Duration::from_millis(5000));
+            fs::create_dir(&dest)
+                .expect("dir not created");
+            println!("wrote to dir: {:#?}", dest);
+        } else {
+            println!("about to make {:#?}", &dest);
+            let data = fs::read(src)
+                .expect("couldn't read src data");
+            fs::write(&dest, data)
+                .expect("couldn't write to dest");
+            println!("wrote to file: {:#?}", dest);
+        }
+    }
+  }
 
 //   #[tauri::command]
-//   fn import_rbk() {
-    
-//   }
+  fn copy_files(mut src:PathBuf, mut dest: PathBuf) -> Result<()> {
+    // run if dest folder already exists
+    if !dest.as_path().exists() {
+        fs::create_dir(&dest)
+            .expect("dir not created");
+        let files = get_copy_files(src.clone()).unwrap();
+        // println!("{:#?}", files);
+        for folder in files {
+            // create folder, if doesn't exist
+            src.push(&folder.name);
+            dest.push(folder.name);
+            check_then_create_or_write(src.clone(), dest.clone(), true);
+
+            // iterate and create files, if don't exist
+            for file in folder.files {
+                src.push(&file);
+                dest.push(file);
+                check_then_create_or_write(src.clone(), dest.clone(), false);
+                
+                src.pop();
+                dest.pop();
+            }
+
+            src.pop();
+            dest.pop();
+        }
+    }
+    Ok(())
+  }
 
   fn main() {
     // Python::with_gil(|py| {
@@ -22,12 +82,36 @@
     tauri::Builder::default()
         .setup(|app| {
             let package_info = app.package_info();
-            let path = path::resource_dir(package_info)
-               .expect("resources not found");
+            let resource_dir= path::resource_dir(package_info)
+                .expect("resources not found");
+            let mut data_dir = path::data_dir()
+               .expect("data not found");
+            let resource_str = String::from(resource_dir.clone().to_str()
+                .expect("couldn't to_str"));
+            println!("{}", &resource_str);
+            
+            let mut be_safe = false;
+            if resource_str.contains("Program Files") {
+                println!("lets copypasta in 5 secs");
+                data_dir.push("RBK Mixer");
+                match copy_files(resource_dir.clone(), data_dir.clone()) {
+                    Ok(()) => println!("files copied"),
+                    Err(e) => panic!("{}", e),
+                }
+                be_safe = true;
+            }
 
+            let mut curr_dir = PathBuf::new();
+            if be_safe {
+                curr_dir = data_dir;
+            } else {
+                curr_dir = resource_dir;
+            }
+
+            // migsTODO: make new PathBuf "curr_dir" to pass to sidecar based on platform
             let (_rcv, server) = process::Command::new_sidecar("server")
                 .expect("failed to create command")
-                .current_dir(path) // migsnote: required on macOS
+                .current_dir(curr_dir)
                 .spawn()
                 .expect("server failed to execute");
             println!("{:#?}", server.pid());
@@ -40,16 +124,16 @@
                 match event {
                     WindowEvent::CloseRequested => {
                         // macOS
-                        let status = process::Command::new("kill")
-                            .args(&[server_id.to_string()])
-                            .output()
-                            .expect("process failed to be killed");
-
-                        // winNT
-                        // let status = process::Command::new("taskkill")
-                        //     .args(["/F", "/PID", &server_id.to_string(), "/T"])
+                        // let status = process::Command::new("kill")
+                        //     .args(&[server_id.to_string()])
                         //     .output()
                         //     .expect("process failed to be killed");
+
+                        // winNT
+                        let status = process::Command::new("taskkill")
+                            .args(["/F", "/PID", &server_id.to_string(), "/T"])
+                            .output()
+                            .expect("process failed to be killed");
                         
                         println!("{:#?}", &status.stdout);
                     },

@@ -1,0 +1,24 @@
+[
+    {
+        "name": "db",
+        "files": [
+            "slots.json",
+            "names.json",
+            "patchinfo.json"
+        ]
+    },
+    {
+        "name": "patch_data",
+        "files": [
+            "CT-X5000 tone.csv",
+            "AiX Forced Stereo Tones.csv"
+        ]
+    },
+    {
+        "name": "rbk_output",
+        "files": [
+            ".dummy.RBK",
+            "Drum Panning Test 1.RBK"
+        ]
+    }
+]

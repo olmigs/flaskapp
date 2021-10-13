@@ -9,7 +9,7 @@ from waitress import serve
 APP_FOLDER = Path.cwd() # dev_migs: Path.cwd().parents[0] / 'client' / 'src-tauri'
 PUBLIC_FOLDER = APP_FOLDER / 'ui' / 'public'
 DB_FOLDER = APP_FOLDER / 'db'
-FILE_FOLDER = APP_FOLDER / 'file'
+FILE_FOLDER = APP_FOLDER / 'rbk_output'
 
 app = Flask(__name__)
 

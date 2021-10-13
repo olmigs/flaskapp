@@ -16,7 +16,7 @@
             "targets": "all",
             "identifier": "com.tauri.dev",
             "icon": ["icons/112x112.png", "icons/icon.icns", "icons/icon.ico"],
-            "resources": ["patch_data", "file", "db", "ui"],
+            "resources": ["patch_data", "rbk_output", "db", "ui"],
             "externalBin": ["server/server"],
             "copyright": "",
             "category": "DeveloperTool",
