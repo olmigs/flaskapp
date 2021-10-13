@@ -18,7 +18,7 @@ __Note on Webview2:__ Webview2 runtime is included with Windows machines that ha
 ### Develop this app
 1. open your console (navigate i.e. `cd` somewhere you like)
 3. `git clone` this repository
-4. navigate to folder `flaskapp`, call `yarn install`
+4. navigate to folder `rbk-mixer`, call `yarn install`
 5. call `yarn tauri dev`
 
 A window magically opens. Also, a Python server will be running at `localhost:6980`.
