@@ -1,6 +1,6 @@
-import { get, writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 import init from '../public/init.json';
-import { http, path } from '@tauri-apps/api';
+import { path } from '@tauri-apps/api';
 import { callEndpoint } from '../scripts/client_http';
 
 // migswerk
@@ -21,11 +21,6 @@ filepath.subscribe( value => {
 
 export const slots = writable(init.slots);
 export const names = writable(init.names);
-
-export function fUpdate(new_slots, new_names) {
-    slots.set(new_slots);
-    names.set(new_names);
-}
 
 export function setDownloadPath() {
     return path

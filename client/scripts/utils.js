@@ -1,10 +1,9 @@
 import { get } from 'svelte/store';
-import { dialog, http, path } from '@tauri-apps/api';
+import { dialog, path } from '@tauri-apps/api';
 import { filename, filepath, setDownloadPath, updateContext } from '../src/stores';
 import { callEndpoint } from '../scripts/client_http';
 
 export function openDialog(dir, serv) {
-    // const dialog = window.__TAURI__.dialog;
     return dialog
         .open({
             'defaultPath': dir,
@@ -18,10 +17,8 @@ export function openDialog(dir, serv) {
         .then(
             input => {
                 if (input != null) {
-                    // const url = serv + '/import?filename=' + input;
                     filename.set(getFileFromPath(input));
                     filepath.set(getFolderFromPath(input));
-                    // const http = window.__TAURI__.http;
                     callEndpoint(serv, 'import', 'json', 'POST', {filename: input})
                         .then(_resp => {
                             updateContext(serv);
@@ -45,26 +42,20 @@ export function submitForm(formElement, server) {
     for (var pair of formData.entries()) {
         formDataDict[pair[0]] = pair[1];
     }
-    const url = server + '/export';
-
-    return http
-        .fetch(url, {
-            method: 'POST',
-            body: http.Body.form(formDataDict)
-        })
-        .then(response => {
+    callEndpoint(server, 'export', 'json', 'POST', formDataDict)
+        .then(resp => {
             updateContext(server);
-            alertHandler(response);
+            alertHandler(resp);
         })
-        .catch(err => alertHandler(err));
+        .catch(err => console.log(err));
 }
 
 function alertHandler(response) {
     let msg = '';
     if (response.status === 200) {
-        msg += 'Successfully exported\n';
+        msg += 'Status: ' + response.status + '\nSuccessfully exported\n';
     } else {
-        msg += 'Oh no! Something went wrong exporting\n';
+        msg += 'Status: ' + response.status + '\nOh no! Something went wrong exporting\n';
     }
     msg += get(filename) + ' to folder\n' + get(filepath);
     alert(msg);
@@ -88,13 +79,7 @@ function getFileFromPath(value) {
 export function pyLog(serv, msg) {
     const formData = new FormData();
     formData.append('line', msg);
-    const url = serv + '/log';
-    return http.
-        fetch(
-            url, 
-            {
-                method: 'PUT',
-                body: formData
-            })
-            .then(response => response.json())
+    callEndpoint(server, 'log', 'json', 'PUT', formData)
+        .then(resp => console.log(resp))
+        .catch(err => console.log(err));
 }

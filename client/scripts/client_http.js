@@ -24,8 +24,18 @@ export function callEndpoint(
                 method: 'GET',
                 responseType: type,
             })
-            .then((resp) => {
+            .then(resp => {
                 return resp.data;
+            });
+    } else if (endpoint === 'export') {
+        return http
+            .fetch(url, {
+                method: method,
+                body: http.Body.form(data),
+                responseType: type,
+            })
+            .then(resp => {
+                return resp;
             });
     } else {
         return http
@@ -34,7 +44,7 @@ export function callEndpoint(
                 body: http.Body.json(data),
                 responseType: type,
             })
-            .then((resp) => {
+            .then(resp => {
                 return resp.data;
             });
     }
