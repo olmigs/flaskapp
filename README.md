@@ -21,7 +21,7 @@ __Note on Webview2:__ Webview2 runtime is included with Windows machines that ha
 4. navigate to folder `flaskapp`, call `yarn install`
 5. call `yarn tauri dev`
 
-A Webview2-rendered window magically opens. Also, a Python server will be running at `localhost:6980`.
+A window magically opens. Also, a Python server will be running at `localhost:6980`.
 
 _Warning: The server may still be running, even after the Tauri window closes._
 
