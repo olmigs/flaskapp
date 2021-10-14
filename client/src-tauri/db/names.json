@@ -1,24 +1,42 @@
-{
-    "names": [
-        {
-            "u1": "STAGE PIANO",
-            "u2": "MELLOW STRINGS 1",
-            "l": "ACOUSTIC BASS 1"
+[
+    {
+        "isMono": {
+            "u1": true,
+            "u2": true,
+            "l": true
         },
-        {
-            "u1": "STAGE PIANO",
-            "u2": "MELLOW STRINGS 1",
-            "l": "ACOUSTIC BASS 1"
+        "u1": "STAGE PIANO",
+        "u2": "MELLOW STRINGS 1",
+        "l": "ACOUSTIC BASS 1"
+    },
+    {
+        "isMono": {
+            "u1": true,
+            "u2": true,
+            "l": true
         },
-        {
-            "u1": "STAGE PIANO",
-            "u2": "MELLOW STRINGS 1",
-            "l": "ACOUSTIC BASS 1"
+        "u1": "STAGE PIANO",
+        "u2": "MELLOW STRINGS 1",
+        "l": "ACOUSTIC BASS 1"
+    },
+    {
+        "isMono": {
+            "u1": true,
+            "u2": true,
+            "l": true
         },
-        {
-            "u1": "STAGE PIANO",
-            "u2": "MELLOW STRINGS 1",
-            "l": "ACOUSTIC BASS 1"
-        }
-    ]
-}
+        "u1": "STAGE PIANO",
+        "u2": "MELLOW STRINGS 1",
+        "l": "ACOUSTIC BASS 1"
+    },
+    {
+        "isMono": {
+            "u1": true,
+            "u2": true,
+            "l": true
+        },
+        "u1": "STAGE PIANO",
+        "u2": "MELLOW STRINGS 1",
+        "l": "ACOUSTIC BASS 1"
+    }
+]

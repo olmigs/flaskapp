@@ -172,13 +172,14 @@ class Registration:
 
   def isMonoCompatible(self):
     is_cdp = (self.keyboard[0:3] == "CDP")
+    dict = {"u1": True, "u2": True, "l": True}
     if not self.patch_is_mono_compatible(*self.getPatchBank(Part.U1), is_cdp):
-      return False
+      dict["u1"] = False
     if not self.patch_is_mono_compatible(*self.getPatchBank(Part.U2), is_cdp):
-      return False
+      dict["u2"] = False
     if not self.patch_is_mono_compatible(*self.getPatchBank(Part.L), is_cdp):
-      return False
-    return True
+      dict["l"] = False
+    return dict
 
 
   # Now some convenience functions, specifically for CT-X700/800:

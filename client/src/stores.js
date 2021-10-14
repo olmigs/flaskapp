@@ -33,14 +33,10 @@ export function setDownloadPath() {
 }
 
 export function updateContext(server) {
-    callEndpoint(server, 'slots')
+    callEndpoint(server, 'update')
         .then(resp => {
-            slots.set(resp);
-        })
-        .catch(err => console.log(err));
-    callEndpoint(server, 'names')
-        .then(resp => {
-            names.set(resp);
+            slots.set(resp.slots);
+            names.set(resp.names);
         })
         .catch(err => console.log(err));
 }

@@ -1,5 +1,6 @@
 <script>
-    import '../scripts/inputKnobs.js';
+    import '../scripts/inputKnobs';
+    import { afterUpdate } from 'svelte';
     export let name, id, pan, color;
 
     function validateInput(e) {
@@ -9,12 +10,19 @@
             pan = 0;
         }
     }
+    afterUpdate(async () => {
+        if (color === "#000") {
+            let el = document.getElementById(name);
+            el.setAttribute("data-fgcolor", color);
+            el.refresh();
+        }
+    });
 </script>
 
 <div class="flexed">
     <label for={id}>PAN</label>
     <p>
-    L <input type="range" class="input-knob" bind:value={pan} min="0" max="127" step="1" 
+    L <input type="range" id={name} class="input-knob" bind:value={pan} min="0" max="127" step="1" 
         data-fgcolor={color} data-bgcolor="#d9d9d9" data-diameter="32"> R
     </p>
     <input class="input_box" type="text" id={id} name={name} bind:value={pan} on:change|preventDefault|stopPropagation={validateInput}>

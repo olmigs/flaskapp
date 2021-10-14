@@ -79,7 +79,7 @@ function getFileFromPath(value) {
 export function pyLog(serv, msg) {
     const formData = new FormData();
     formData.append('line', msg);
-    callEndpoint(server, 'log', 'json', 'PUT', formData)
+    callEndpoint(serv, 'log', 'json', 'PUT', formData)
         .then(resp => console.log(resp))
         .catch(err => console.log(err));
 }

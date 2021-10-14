@@ -54,6 +54,7 @@
         flex-basis: 100%;
         background-image: url('../banner.jpg');
         margin-bottom: 10px;
+        border: 1px solid black;
     }
 
     /* .toggleView {

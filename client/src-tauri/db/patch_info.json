@@ -1,0 +1,58 @@
+[
+    {
+        "u1": {
+            "patch": 0,
+            "bankMSB": 1
+        },
+        "u2": {
+            "patch": 49,
+            "bankMSB": 1
+        },
+        "l": {
+            "patch": 32,
+            "bankMSB": 1
+        }
+    },
+    {
+        "u1": {
+            "patch": 0,
+            "bankMSB": 1
+        },
+        "u2": {
+            "patch": 49,
+            "bankMSB": 1
+        },
+        "l": {
+            "patch": 32,
+            "bankMSB": 1
+        }
+    },
+    {
+        "u1": {
+            "patch": 0,
+            "bankMSB": 1
+        },
+        "u2": {
+            "patch": 49,
+            "bankMSB": 1
+        },
+        "l": {
+            "patch": 32,
+            "bankMSB": 1
+        }
+    },
+    {
+        "u1": {
+            "patch": 0,
+            "bankMSB": 1
+        },
+        "u2": {
+            "patch": 49,
+            "bankMSB": 1
+        },
+        "l": {
+            "patch": 32,
+            "bankMSB": 1
+        }
+    }
+]

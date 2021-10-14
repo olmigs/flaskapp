@@ -101,11 +101,9 @@
                 be_safe = true;
             }
 
-            let mut curr_dir = PathBuf::new();
+            let mut curr_dir = resource_dir;
             if be_safe {
                 curr_dir = data_dir;
-            } else {
-                curr_dir = resource_dir;
             }
 
             // migsTODO: make new PathBuf "curr_dir" to pass to sidecar based on platform

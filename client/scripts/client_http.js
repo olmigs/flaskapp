@@ -27,7 +27,7 @@ export function callEndpoint(
             .then(resp => {
                 return resp.data;
             });
-    } else if (endpoint === 'export') {
+    } else if (['export', 'log'].includes(endpoint)) {
         return http
             .fetch(url, {
                 method: method,
