@@ -1,8 +1,9 @@
 <script>
     import '../scripts/inputKnobs.js';
-    import { filename, filepath } from './stores.js';
+    import { filename, filepath, selected, isCool, toggleCool } from './stores.js';
     import { openDialog, submitForm } from '../scripts/utils.js';
     export let server;
+    // let isCool = $selected == 1;
     function removeSpecialChars() {
         var str = document.getElementById('filename').value;
         var start = document.getElementById('filename').selectionStart;
@@ -40,11 +41,11 @@
             handleExport(server);
         }}>Export RBK File</button> 
     </div>
-    <!-- <div class="toggleView">
-        <p>Classic</p>
-        <input type="checkbox" class="input-switch" data-src="assets/switch_offon.png" data-diameter="50" bind:checked={$isCool}/>
+    <div class="toggleView">
         <p>Cool</p>
-    </div> -->
+        <input type="checkbox" class="input-switch" data-src="assets/switch_offon.png" data-diameter="50" bind:checked={$isCool} on:change={() => toggleCool($selected)}/>
+        <p>Classic</p>
+    </div>
 </div>
 
 <style>
@@ -57,13 +58,18 @@
         border: 1px solid black;
     }
 
-    /* .toggleView {
-        padding-top: 15px;
+    .toggleView {
+        padding-top: 20px;
     }
 
     .toggleView p {
+        color: #fff;
         margin: 0;
-    } */
+    }
+
+    .toggleView input {
+        margin-bottom: -8px;
+    }
 
     .fileinfo {
         display: flex;

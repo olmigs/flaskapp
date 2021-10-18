@@ -1,6 +1,7 @@
 <script>
-    import cfg from "../public/config.json";
-    export let index, u1_vol, u1_pan, u2_vol, u2_pan, l_vol, l_pan, names;
+    import cfg from '../public/config.json';
+    export let index, u1_vol, u1_pan, u2_vol, u2_pan, l_vol, l_pan, info;
+    let colors = cfg.slotcolors.B;
     function lum(hex, lum) {
         // validate hex string
         hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -21,17 +22,17 @@
 
 <h3>Registration Slot { index+1 }</h3>
 <table class="regslot" >
-    <tr style="font-weight:bold; background-color: {lum(cfg.slotcolors_B[index], -.3)}">
+    <tr style="font-weight:bold; background-color: {lum(colors[index], -.3)}">
         <td>Upper 1</td>
         <td>Upper 2</td>
         <td>Lower</td>
     </tr>
-    <tr style="font-size:10pt; font-style:italic; background-color: {lum(cfg.slotcolors_B[index], 0.1)}">
-        <td>{names['u1']}</td>
-        <td>{names['u2']}</td>
-        <td>{names['l']}</td>
+    <tr style="font-size:10pt; font-style:italic; background-color: {lum(colors[index], 0.1)}">
+        <td>{info['u1']}</td>
+        <td>{info['u2']}</td>
+        <td>{info['l']}</td>
     </tr>
-    <tr style="background-color: {lum(cfg.slotcolors_B[index], 0.75)}">
+    <tr style="background-color: {lum(colors[index], 0.75)}">
         <td>
             <div class="flexed">
                 <label for="u1_vol">Volume</label>
@@ -54,7 +55,7 @@
             <input type="range" class="slider" bind:value={l_vol} min="0" max="127" step="1" >
         </td>
     </tr>
-    <tr style="background-color: {lum(cfg.slotcolors_B[index], 0.99)}">
+    <tr style="background-color: {lum(colors[index], 0.99)}">
         <td>
             <div class="flexed">
                 <label for="u1_pan">Pan</label>

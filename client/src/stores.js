@@ -1,10 +1,21 @@
-import { writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 import init from '../public/init.json';
 import { path } from '@tauri-apps/api';
 import { callEndpoint } from '../scripts/client_http';
 
-// migswerk
-// export const isCool = writable(false);
+export const selected = writable(0);
+export const isCool = derived(selected, $sel => {
+    if ($sel === 0) return true;
+    return false;
+});
+
+export function toggleCool(val) {
+    if (val === 0) {
+        selected.set(1);
+    } else {
+        selected.set(0);
+    }
+}
 
 const storedFilename = localStorage.getItem('filename');
 export const filename = writable(storedFilename);

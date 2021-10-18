@@ -1,9 +1,14 @@
 <script>
 	import { onMount } from 'svelte';
-	import { slots, names, updateContext, setDownloadPath, filepath } from "./stores";
-	import RegSlot from "./RegSlot.svelte";
-	import LibCtrl from "./LibCtrl.svelte";
+	import { slots, names, updateContext, setDownloadPath, filepath, selected } from "./stores";
+	import RegSlot from './RegSlot.svelte';
+	import LibCtrl from './LibCtrl.svelte';
+	import Classic from './Classic.svelte';
 	export let server;
+	const options = [
+        { page: 'cool', component: RegSlot},
+		{ page: 'classic', component: Classic }
+	];
 	onMount(async () => {
 		updateContext(server);
 		if ($filepath === 'No folder chosen...') {
@@ -17,7 +22,7 @@
 		<LibCtrl server={server}/>
 		{#each $slots as slot, i}
 			<div class="slot">
-				<RegSlot
+				<svelte:component this={options[$selected].component}
 					index={i}
 					u1_vol={slot.u1.vol} 
 					u1_pan={slot.u1.pan}
