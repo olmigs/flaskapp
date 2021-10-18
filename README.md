@@ -1,4 +1,5 @@
-# ![logo](/client/src-tauri/icons/112X112.png) RBK Mixer CT-X700/X800/CDP-S350 RBK File Editor ![logo](/client/src-tauri/icons/112X112.png)
+# ![logo](/client/src-tauri/icons/112X112.png) RBK Mixer ![logo](/client/src-tauri/icons/112X112.png)
+## CT-X700/X800/CDP-S350 RBK File Editor
 
 ### Development Requirements
 - [Python (3.9)](https://www.python.org/downloads/)
