@@ -6,7 +6,7 @@ from pathlib import Path
 from shutil import copyfile
 from waitress import serve
 
-APP_FOLDER = Path.cwd() # dev_migs: .parents[0] / 'client' / 'src-tauri'
+APP_FOLDER = Path.cwd() #dev_migs: .parents[0] / 'client' / 'src-tauri'
 PUBLIC_FOLDER = APP_FOLDER / 'ui' / 'public'
 DB_FOLDER = APP_FOLDER / 'db'
 FILE_FOLDER = APP_FOLDER / 'rbk_output'

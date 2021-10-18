@@ -3,31 +3,40 @@ import init from '../public/init.json';
 import { path } from '@tauri-apps/api';
 import { callEndpoint } from '../scripts/client_http';
 
-export const selected = writable(0);
-export const isCool = derived(selected, $sel => {
-    if ($sel === 0) return true;
-    return false;
+const storedSelection = localStorage.getItem('rbkm_selected');
+export const selected = writable(storedSelection);
+selected.subscribe( value => {
+    localStorage.setItem('rbkm_selected', value === null ? 0 : value);
 });
+export const isCool = derived(selected, ($sel) => deriveCool($sel));
+
+function deriveCool(sel) {
+    if (sel == 0) {
+        return true;
+    } else return false;
+}
 
 export function toggleCool(val) {
-    if (val === 0) {
+    if (val == 0) {
         selected.set(1);
-    } else {
+    } else if (val == 1 ){
         selected.set(0);
+    } else {
+        console.log("error toggling cool, " + val);
     }
 }
 
-const storedFilename = localStorage.getItem('filename');
+const storedFilename = localStorage.getItem('rbkm_filename');
 export const filename = writable(storedFilename);
 filename.subscribe( value => {
-    localStorage.setItem('filename', value === null ? '' : value);
+    localStorage.setItem('rbkm_filename', value === null ? '' : value);
 });
 
 const defaultFilepath = process.env.IS_PROD ? 'No folder chosen...' : '../../file';
-const storedFilepath = localStorage.getItem('filepath');
+const storedFilepath = localStorage.getItem('rbkm_filepath');
 export const filepath = writable(storedFilepath);
 filepath.subscribe( value => {
-    localStorage.setItem('filepath', value === null ? defaultFilepath : value);
+    localStorage.setItem('rbkm_filepath', value === null ? defaultFilepath : value);
 });
 
 export const slots = writable(init.slots);

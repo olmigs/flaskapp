@@ -6,7 +6,7 @@
   // use pyo3::prelude::*;
   use std::{fs, io::{Result, BufReader}, path::{PathBuf}, thread, time::Duration};
   use serde::Deserialize;
-  use tauri::{api::{ path, process}, Manager, WindowEvent};
+  use tauri::{Manager, WindowEvent, api::{path, process::{Command, Output}}};
 
   #[derive(Deserialize, Debug)]
   struct FolderDesc {
@@ -42,7 +42,6 @@
     }
   }
 
-//   #[tauri::command]
   fn copy_files(mut src:PathBuf, mut dest: PathBuf) -> Result<()> {
     // run if dest folder already exists
     if !dest.as_path().exists() {
@@ -55,17 +54,14 @@
             src.push(&folder.name);
             dest.push(folder.name);
             check_then_create_or_write(src.clone(), dest.clone(), true);
-
             // iterate and create files, if don't exist
             for file in folder.files {
                 src.push(&file);
                 dest.push(file);
                 check_then_create_or_write(src.clone(), dest.clone(), false);
-                
                 src.pop();
                 dest.pop();
             }
-
             src.pop();
             dest.pop();
         }
@@ -73,12 +69,31 @@
     Ok(())
   }
 
+  fn manual_kill(platform: &str, id: u32) -> Output {
+    let cmd: Command = match platform {
+        "darwin" | "linux" => {
+            Command::new("kill")
+                .args(&[id.to_string()])
+        },
+        "win32" => {
+            Command::new("taskkill")
+                .args(&["/F", "/PID", &id.to_string(), "/T"])
+        },
+        _ => Command::new("fuck"),
+    };
+    cmd.output()
+        .expect("process failed to be killed")
+  }
+
+//   #[tauri::command]
+//   fn import(filename: String) {
+//     Python::with_gil(|py| {
+//         let casio_rbk = PyModule::import(py, "casio_rbk")
+//             .expect("where the hell is casio-rbk");
+//         // let foo = casio_rbk.RegistrationBank.
+//     });
+//   }
   fn main() {
-    // Python::with_gil(|py| {
-    //     let casio_rbk = PyModule::import(py, "casio_rbk")
-    //         .expect("where the hell is casio-rbk");
-    //     // let foo = casio_rbk.RegistrationBank.
-    // });
     tauri::Builder::default()
         .setup(|app| {
             let package_info = app.package_info();
@@ -106,8 +121,8 @@
                 curr_dir = data_dir;
             }
 
-            // migsTODO: make new PathBuf "curr_dir" to pass to sidecar based on platform
-            let (_rcv, server) = process::Command::new_sidecar("server")
+            // start the server
+            let (_rcv, server) = Command::new_sidecar("server")
                 .expect("failed to create command")
                 .current_dir(curr_dir)
                 .spawn()
@@ -121,18 +136,7 @@
             window.on_window_event(move |event| {
                 match event {
                     WindowEvent::CloseRequested => {
-                        // macOS
-                        // let status = process::Command::new("kill")
-                        //     .args(&[server_id.to_string()])
-                        //     .output()
-                        //     .expect("process failed to be killed");
-
-                        // winNT
-                        let status = process::Command::new("taskkill")
-                            .args(["/F", "/PID", &server_id.to_string(), "/T"])
-                            .output()
-                            .expect("process failed to be killed");
-                        
+                        let status = manual_kill("darwin", server_id);
                         println!("{:#?}", &status.stdout);
                     },
                     _ => {},

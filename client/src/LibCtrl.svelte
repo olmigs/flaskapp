@@ -1,9 +1,8 @@
 <script>
-    import '../scripts/inputKnobs.js';
-    import { filename, filepath, selected, isCool, toggleCool } from './stores.js';
-    import { openDialog, submitForm } from '../scripts/utils.js';
+    import '../scripts/inputKnobs';
+    import { filename, filepath, selected, isCool, toggleCool } from './stores';
+    import { openDialog, submitForm } from '../scripts/utils';
     export let server;
-    // let isCool = $selected == 1;
     function removeSpecialChars() {
         var str = document.getElementById('filename').value;
         var start = document.getElementById('filename').selectionStart;
@@ -21,6 +20,11 @@
     async function handleExport(server) {
         const form = document.querySelector('form');
         await submitForm(form, server);
+    }
+    function updateKnob(value) {
+        toggleCool(value);
+        let elem = document.getElementById("style-knob");
+        elem.refresh();
     }
 </script>
 
@@ -43,7 +47,14 @@
     </div>
     <div class="toggleView">
         <p>Cool</p>
-        <input type="checkbox" class="input-switch" data-src="assets/switch_offon.png" data-diameter="50" bind:checked={$isCool} on:change={() => toggleCool($selected)}/>
+        <input 
+            id="style-knob"
+            type="checkbox" 
+            class="input-switch" 
+            data-src="assets/switch_offon.png" 
+            data-diameter="50" 
+            checked={$isCool} 
+            on:change={() => updateKnob($selected)}/>
         <p>Classic</p>
     </div>
 </div>
