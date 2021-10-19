@@ -12,7 +12,7 @@
 ### Windows-specific Requirements
 - [Webview2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/)
 
-__Note on Webview2:__ Webview2 runtime is included with Windows machines that have Microsoft Edge installed. Moreover, even if you do not have Edge, Webview2 may be installed for other Microsoft365 apps. For more information, check out [this post](https://docs.microsoft.com/en-us/deployoffice/webview2-install).
+__Note:__ Webview2 runtime is included with Windows machines that have Microsoft Edge installed. Moreover, even if you do not have Edge, Webview2 may be installed for other Microsoft365 apps. For more information, check out [this post](https://docs.microsoft.com/en-us/deployoffice/webview2-install).
 
 
 ### Develop this app
@@ -23,7 +23,7 @@ __Note on Webview2:__ Webview2 runtime is included with Windows machines that ha
 
 A window magically opens. Also, a Python server will be running at `localhost:6980`.
 
-_Warning: The server may still be running, even after the Tauri window closes. See Notice below for more information._
+_Warning: The server may still be running, even after the Tauri window closes. See Notice below._
 
 #### Python backend
 Check `client/src-tauri/server` for available server executables. If you don't find one for your architecture, why not build one and add it to the repo?
@@ -42,12 +42,12 @@ yarn install
 yarn move
 ```
 
-Now you can move this executable to `client/src-tauri/server` to be included in the app bundle.
+Move this executable to `client/src-tauri/server` to be included in the app bundle.
 
 ### Notice
 Using a Tauri sidecar to run a server is an anti-pattern. To get this to work, the server executable is called in the Tauri setup hook. When spawned, a Tauri sidecar returns a `tauri::api::process::CommandChild` that must be killed when the Tauri application closes/exits. If the child is not killed, it will outlive the application, becoming a "zombie."
 
-Currently, to kill this process, I spawn another command - `kill` on MacOS/Linux and `taskkill` on Windows - with the server process ID. Hence, to build on any platform, you must manually edit the call to `manual_kill` before building from this repo for your target platform.
+Currently, to kill this process, I spawn another command - `taskkill` on Windows, `kill` otherwise - with the server process ID when the user requests the application window closed.
 
 ### Acknowledgements
 - Project Lead: [Chandler Holloway](https://chandykeys.unicornplatform.page/)
