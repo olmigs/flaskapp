@@ -4,7 +4,7 @@
         "files": [
             "slots.json",
             "names.json",
-            "patchinfo.json"
+            "patch_info.json"
         ]
     },
     {

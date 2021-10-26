@@ -150,7 +150,7 @@ class Registration:
     # patch_data_dir = os.path.join(os.path.dirname(__file__), "patch_data")
     DATA_FOLDER = Path.cwd() / "patch_data"
     
-    with open(os.path.join(DATA_FOLDER, "AiX Forced Stereo Tones.csv"), "r") as f1:
+    with open(os.path.join(DATA_FOLDER, "AiX Forced Stereo Tones.csv"), "r", encoding="utf-8") as f1:
       csvread = csv.reader(f1)
       
       is_first_row = True
@@ -162,10 +162,10 @@ class Registration:
           if bank_msb==int(row[2]) and patch_no==int(row[1]):
             if is_cdp:
               # Column 5 is for CDP-S
-              return row[4]!=0
+              return int(row[4]) != 0
             else:
               # Column 4 is for CT-X
-              return row[3]!=0
+              return int(row[3]) != 0
 
     # If not in the CSV file, it's compatible
     return True

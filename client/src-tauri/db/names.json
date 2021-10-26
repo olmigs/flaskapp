@@ -2,7 +2,7 @@
     {
         "isMono": {
             "u1": true,
-            "u2": true,
+            "u2": false,
             "l": true
         },
         "u1": "STAGE PIANO",
@@ -12,7 +12,7 @@
     {
         "isMono": {
             "u1": true,
-            "u2": true,
+            "u2": false,
             "l": true
         },
         "u1": "STAGE PIANO",
@@ -22,7 +22,7 @@
     {
         "isMono": {
             "u1": true,
-            "u2": true,
+            "u2": false,
             "l": true
         },
         "u1": "STAGE PIANO",
@@ -32,7 +32,7 @@
     {
         "isMono": {
             "u1": true,
-            "u2": true,
+            "u2": false,
             "l": true
         },
         "u1": "STAGE PIANO",

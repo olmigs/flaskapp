@@ -28,9 +28,24 @@
         <td>Lower</td>
     </tr>
     <tr style="font-size:10pt; font-style:italic; background-color: {lum(colors[index], 0.1)}">
-        <td>{info['u1']}</td>
-        <td>{info['u2']}</td>
-        <td>{info['l']}</td>
+        <td>
+            {info['u1']}
+            {#if !info['isMono']['u1']}
+                <p class="info">FORCED STEREO</p>
+            {/if}
+        </td>
+        <td>
+            {info['u2']}
+            {#if !info['isMono']['u2']}
+                <p class="info">FORCED STEREO</p>
+            {/if}
+        </td>
+        <td>
+            {info['l']}
+            {#if !info['isMono']['l']}
+                <p class="info">FORCED STEREO</p>
+            {/if}
+        </td>
     </tr>
     <tr style="background-color: {lum(colors[index], 0.75)}">
         <td>
@@ -94,6 +109,17 @@
         margin-right: auto;
         margin-bottom: 10px;
 	}
+
+    .info {
+        position: absolute;
+        margin: 0 auto;
+        margin-top: -1px;
+        margin-left: 40px;
+        font-size: 7pt;
+        font-style: italic;
+        font-weight: bold;
+    }
+
     .input_sm {
         height: 33px;
         width: 45px;

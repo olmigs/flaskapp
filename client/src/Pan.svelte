@@ -1,6 +1,7 @@
 <script>
     import '../scripts/inputKnobs';
     import { afterUpdate } from 'svelte';
+    import { isCool } from './stores';
     export let name, id, pan, color;
 
     function validateInput(e) {
@@ -11,10 +12,16 @@
         }
     }
     afterUpdate(async () => {
-        if (color === "#000") {
+        if ($isCool && color === "#000") {
             let el = document.getElementById(name);
             el.setAttribute("data-fgcolor", color);
-            el.refresh();
+            try {
+                el.refresh(); 
+            } catch (err) {
+                if (!err.message.includes('not a function')) {
+                    console.log(err);
+                }
+            }
         }
     });
 </script>

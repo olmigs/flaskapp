@@ -6,7 +6,7 @@ from pathlib import Path
 from shutil import copyfile
 from waitress import serve
 
-APP_FOLDER = Path.cwd() #dev_migs: .parents[0] / 'client' / 'src-tauri'
+APP_FOLDER = Path.cwd() # dev_migs: .parents[0] / 'client' / 'src-tauri'
 PUBLIC_FOLDER = APP_FOLDER / 'ui' / 'public'
 DB_FOLDER = APP_FOLDER / 'db'
 FILE_FOLDER = APP_FOLDER / 'rbk_output'
@@ -55,7 +55,7 @@ def rbkExport():
         except FileNotFoundError:
             os.remove(os.path.join(FILE_FOLDER, 'copy.rbk'))
             return jsonify('FILE NOT FOUND'), 401
-        return jsonify('OK')
+        return jsonify(data)
 
 def getInfoFromRBKFile(absFilename):
     with open(absFilename, "rb") as f:

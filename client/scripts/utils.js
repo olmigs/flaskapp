@@ -1,6 +1,7 @@
 import { get } from 'svelte/store';
+import { tick } from 'svelte';
 import { dialog, path } from '@tauri-apps/api';
-import { filename, filepath, setDownloadPath, updateContext } from '../src/stores';
+import { filename, filepath, setDownloadPath, slots, updateContext } from '../src/stores';
 import { callEndpoint } from '../scripts/client_http';
 
 export function openDialog(dir, serv) {
@@ -20,9 +21,9 @@ export function openDialog(dir, serv) {
                     filename.set(getFileFromPath(input));
                     filepath.set(getFolderFromPath(input));
                     callEndpoint(serv, 'import', 'json', 'POST', {filename: input})
-                        .then(_resp => {
+                        .then(async (_resp) => {
                             updateContext(serv);
-                            location.reload();
+                            await tick();
                         })
                         .catch(err => console.log(err));
                 } 
@@ -44,18 +45,18 @@ export function submitForm(formElement, server) {
     }
     callEndpoint(server, 'export', 'json', 'POST', formDataDict)
         .then(resp => {
-            updateContext(server);
-            alertHandler(resp);
+            alertHandler(resp.status);
+            slots.set(resp.data.slots);
         })
         .catch(err => console.log(err));
 }
 
-function alertHandler(response) {
+function alertHandler(status) {
     let msg = '';
-    if (response.status === 200) {
-        msg += 'Status: ' + response.status + '\nSuccessfully exported\n';
+    if (status === 200) {
+        msg += '\nSuccessfully exported\n';
     } else {
-        msg += 'Status: ' + response.status + '\nOh no! Something went wrong exporting\n';
+        msg += '\nOh no! Something went wrong exporting\n';
     }
     msg += get(filename) + ' to folder\n' + get(filepath);
     alert(msg);

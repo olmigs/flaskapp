@@ -12,7 +12,7 @@
 	onMount(async () => {
 		updateContext(server);
 		if ($filepath === 'No folder chosen...') {
-			await setDownloadPath();
+			setDownloadPath();
 		}
 	});
 </script>

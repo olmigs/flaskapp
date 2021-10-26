@@ -14,17 +14,20 @@
             document.getElementById('filename').selectionEnd = start-1;
         }
     }
-    export async function handleImportDialog(path, server) {
-        await openDialog(path, server);
+    function handleImportDialog(path, server) {
+        openDialog(path, server);
     }
-    async function handleExport(server) {
+    function handleExport(server) {
         const form = document.querySelector('form');
-        await submitForm(form, server);
+        submitForm(form, server);
     }
     function updateKnob(value) {
         toggleCool(value);
-        let elem = document.getElementById("style-knob");
-        elem.refresh();
+        if ($isCool) {
+            let elem = document.getElementById("style-knob");
+            elem.refresh();
+        }
+        
     }
 </script>
 
