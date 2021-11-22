@@ -5,4 +5,5 @@ INSTALL_FILE = os.path.join(THIS_FOLDER, 'server.py')
 PyInstaller.__main__.run([
     INSTALL_FILE,
     '--onefile'
+    # '-p .'
 ])

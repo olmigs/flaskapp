@@ -37,8 +37,8 @@ def rbkUpdate():
 @app.route("/import", methods=['POST'])
 def rbkImport():
     if request.method == 'POST':
-        getInfoFromRBKFile(request.get_json()['filename'])
-        return jsonify('OK')
+        success = getInfoFromRBKFile(request.get_json()['filename'])
+        return jsonify(success)
 
 @app.route("/export", methods=['POST'])
 def rbkExport():
@@ -51,9 +51,9 @@ def rbkExport():
         updateSlots(data)
         try:
             # replace method used bc Tauri sends string literals including double quotes 
-            outputToRBKFile(dict['filepath'].replace('"', ''), dict['filename'].replace('"', ''), data['slots'])
+            outputToRBKFile(dict['filepath'].replace('"', ''), dict['filename'].replace('"', ''), dict['last'].replace('"', ''), data['slots'])
         except FileNotFoundError:
-            os.remove(os.path.join(FILE_FOLDER, 'copy.rbk'))
+            # os.remove(os.path.join(FILE_FOLDER, 'copy.rbk'))
             return jsonify('FILE NOT FOUND'), 401
         return jsonify(data)
 
@@ -97,7 +97,7 @@ def getInfoFromRBKFile(absFilename):
             log("Unexpected error: " + traceback.format_exc())
             log("fuck, this file don't exist: " + absFilename)
     updateState(dict)
-    return dict
+    return absFilename # return dict
 
 def updateState(state):
     try:
@@ -133,7 +133,7 @@ def getArrayFromForm(dict):
     for i in range(4):
         arr['slots'][i] = formatSlotList(getEmptySlotList())
     for key in dict:
-        if (key == 'filename' or key == 'filepath'):
+        if (key == 'filename' or key == 'filepath' or key == 'last'):
             continue
         parms = key.split('_')
         val = int(dict[key].replace('"', '')) # nasty cast, plus remove double quotes from string literal
@@ -144,30 +144,30 @@ def getArrayFromForm(dict):
         arr['slots'][int(parms[0])][parms[1]][parms[2]] = val
     return arr
 
-def outputToRBKFile(path, filename, slots):
+def outputToRBKFile(path, filename, last, slots):
     absFilename = os.path.join(path, filename)
     try:
         with open(absFilename, "r+b") as f0:
             writeToFile(f0, slots)
     except FileNotFoundError:
-        log("new file, getting dummy first")
-        writeToFileFromDummy(absFilename, slots)
-        try: 
-            # need to update Patch Names
-            with open(absFilename, "r+b") as f1:
-                patchInfo_json = os.path.join(DB_FOLDER, 'patch_info.json')
-                with open(patchInfo_json, 'r') as data:
-                    dict = json.load(data)
-                    rb = cas.RegistrationBank.readFile(f1)
-                    i = 0
-                    for r in rb[0:4]:
-                        r.setPatchBank(cas.Part.U1, dict[i]['u1']['patch'], dict[i]['u1']['bankMSB'])
-                        r.setPatchBank(cas.Part.U2, dict[i]['u2']['patch'], dict[i]['u2']['bankMSB'])
-                        r.setPatchBank(cas.Part.L, dict[i]['l']['patch'], dict[i]['l']['bankMSB'])
-                        i += 1
-                    rb.writeFile(f1)
-        except:
-            log("updating patch names fails!")
+        log("new file, getting from last import, if available")
+        writeToFileFromLastImport(absFilename, last, slots)
+        # try: 
+        #     # need to update Patch Names?
+        #     with open(absFilename, "r+b") as f1:
+        #         patchInfo_json = os.path.join(DB_FOLDER, 'patch_info.json')
+        #         with open(patchInfo_json, 'r') as data:
+        #             dict = json.load(data)
+        #             rb = cas.RegistrationBank.readFile(f1)
+        #             i = 0
+        #             for r in rb[0:4]:
+        #                 r.setPatchBank(cas.Part.U1, dict[i]['u1']['patch'], dict[i]['u1']['bankMSB'])
+        #                 r.setPatchBank(cas.Part.U2, dict[i]['u2']['patch'], dict[i]['u2']['bankMSB'])
+        #                 r.setPatchBank(cas.Part.L, dict[i]['l']['patch'], dict[i]['l']['bankMSB'])
+        #                 i += 1
+        #             rb.writeFile(f1)
+        # except:
+        #     log("updating patch names fails!")
     except:
         log("FUCK! -- in export")
 
@@ -179,6 +179,14 @@ def writeToFileFromDummy(absFilename, slots):
         writeToFile(file, slots)
     copyfile(dummyFileCopy, absFilename)
     os.remove(dummyFileCopy)
+
+def writeToFileFromLastImport(absFilename, last, slots):
+    dummyFile = os.path.join(FILE_FOLDER, '.dummy.rbk')
+    copyfile(last, dummyFile)
+    with open(dummyFile, "r+b") as file:
+        writeToFile(file, slots)
+    copyfile(dummyFile, absFilename)
+    # os.remove(dummyFile)
 
 def writeToFile(f, slots):
     rb = cas.RegistrationBank.readFile(f)

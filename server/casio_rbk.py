@@ -147,7 +147,7 @@ class Registration:
   @staticmethod
   def patch_is_mono_compatible(patch_no, bank_msb, is_cdp=False):
     
-    # patch_data_dir = os.path.join(os.path.dirname(__file__), "patch_data")
+    # DATA_FOLDER = os.path.join(os.path.dirname(__file__), "patch_data")
     DATA_FOLDER = Path.cwd() / "patch_data"
     
     with open(os.path.join(DATA_FOLDER, "AiX Forced Stereo Tones.csv"), "r", encoding="utf-8") as f1:

@@ -10,8 +10,8 @@
         if (checkStr !== str) {
             document.getElementById('filename').value = checkStr;
             filename.set(checkStr);
-            document.getElementById('filename').selectionStart = start-1;
-            document.getElementById('filename').selectionEnd = start-1;
+            document.getElementById('filename').selectionStart = start - 1;
+            document.getElementById('filename').selectionEnd = start - 1;
         }
     }
     function handleImportDialog(path, server) {
@@ -24,10 +24,9 @@
     function updateKnob(value) {
         toggleCool(value);
         if ($isCool) {
-            let elem = document.getElementById("style-knob");
+            let elem = document.getElementById('style-knob');
             elem.refresh();
         }
-        
     }
 </script>
 
@@ -38,26 +37,45 @@
     </div>
     <div style="padding-top:22px; text-align:center;">
         <div class="fileinfo">
-            <input type="text" class="greyed" name="filepath" bind:value={$filepath} readonly="readonly">
-            <input type="text" style="margin-left:5px;" id="filename" name="filename" bind:value={$filename} on:input={removeSpecialChars}>
+            <input
+                type="text"
+                class="greyed"
+                name="filepath"
+                bind:value={$filepath}
+                readonly="readonly"
+            />
+            <input
+                type="text"
+                style="margin-left:5px;"
+                id="filename"
+                name="filename"
+                bind:value={$filename}
+                on:input={removeSpecialChars}
+            />
         </div>
-        <button on:click|preventDefault={ () => {
-            handleImportDialog($filepath, server);
-        }}>Import...</button>
-        <button type="submit" on:click|preventDefault={ () => {
-            handleExport(server);
-        }}>Export RBK File</button> 
+        <button
+            on:click|preventDefault={() => {
+                handleImportDialog($filepath, server);
+            }}>Import...</button
+        >
+        <button
+            type="submit"
+            on:click|preventDefault={() => {
+                handleExport(server);
+            }}>Export RBK File</button
+        >
     </div>
     <div class="toggleView">
         <p>Cool</p>
-        <input 
+        <input
             id="style-knob"
-            type="checkbox" 
-            class="input-switch" 
-            data-src="assets/switch_offon.png" 
-            data-diameter="50" 
-            checked={$isCool} 
-            on:change={() => updateKnob($selected)}/>
+            type="checkbox"
+            class="input-switch"
+            data-src="assets/switch_offon.png"
+            data-diameter="50"
+            checked={$isCool}
+            on:change={() => updateKnob($selected)}
+        />
         <p>Classic</p>
     </div>
 </div>
@@ -97,7 +115,7 @@
     }
 
     .greyed {
-        color:dimgrey;
+        color: dimgrey;
         background-color: lightgray;
         text-overflow: ellipsis;
         overflow: scroll;
