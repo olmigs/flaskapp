@@ -44,12 +44,7 @@ filepath.subscribe((value) => {
     );
 });
 
-const storedLast = localStorage.getItem('rbkm_last');
-export const last = writable(storedLast);
-filepath.subscribe((value) => {
-    localStorage.setItem('rbkm_last', value === null ? '' : value);
-});
-
+export const last = writable('');
 export const slots = writable(init.slots);
 export const names = writable(init.names);
 
@@ -62,7 +57,10 @@ export function setDownloadPath() {
         .catch((err) => console.log(err));
 }
 
-export function updateContext(server) {
+export function updateContext(server, lastImported = null) {
+    if (lastImported) {
+        last.set(lastImported);
+    }
     callEndpoint(server, 'update')
         .then((resp) => {
             slots.set(resp.slots);

@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, afterUpdate } from 'svelte';
 	import { slots, names, updateContext, setDownloadPath, filepath, selected } from "./stores";
 	import RegSlot from './RegSlot.svelte';
 	import LibCtrl from './LibCtrl.svelte';

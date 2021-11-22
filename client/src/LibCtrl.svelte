@@ -1,6 +1,6 @@
 <script>
     import '../scripts/inputKnobs';
-    import { filename, filepath, selected, isCool, toggleCool } from './stores';
+    import { filename, filepath, last, selected, isCool, toggleCool } from './stores';
     import { openDialog, submitForm } from '../scripts/utils';
     export let server;
     function removeSpecialChars() {
@@ -14,12 +14,12 @@
             document.getElementById('filename').selectionEnd = start - 1;
         }
     }
-    function handleImportDialog(path, server) {
-        openDialog(path, server);
+    function handleImportDialog(path, server, last) {
+        openDialog(path, server, last);
     }
-    function handleExport(server) {
+    function handleExport(server, last) {
         const form = document.querySelector('form');
-        submitForm(form, server);
+        submitForm(form, server, last);
     }
     function updateKnob(value) {
         toggleCool(value);
@@ -55,13 +55,13 @@
         </div>
         <button
             on:click|preventDefault={() => {
-                handleImportDialog($filepath, server);
+                handleImportDialog($filepath, server, $last);
             }}>Import...</button
         >
         <button
             type="submit"
             on:click|preventDefault={() => {
-                handleExport(server);
+                handleExport(server, $last);
             }}>Export RBK File</button
         >
     </div>

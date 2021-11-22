@@ -4,14 +4,13 @@ import { dialog, path } from '@tauri-apps/api';
 import {
     filename,
     filepath,
-    last,
     setDownloadPath,
     slots,
     updateContext,
 } from '../src/stores';
 import { callEndpoint } from '../scripts/client_http';
 
-export function openDialog(dir, serv) {
+export function openDialog(dir, serv, last) {
     return dialog
         .open({
             defaultPath: dir,
@@ -32,9 +31,8 @@ export function openDialog(dir, serv) {
                     filename: input,
                 })
                     .then(async (resp) => {
-                        last.set(resp);
-                        updateContext(serv);
-                        await tick();
+                        updateContext(serv, resp);
+                        hackDOM(input, last);
                     })
                     .catch((err) => console.log(err));
             }
@@ -53,14 +51,23 @@ export function openDialog(dir, serv) {
         });
 }
 
-export function submitForm(formElement, server) {
+async function hackDOM(check, last) {
+    if (check == last) {
+        let shamelessCopy = get(slots);
+        slots.set([]);
+        await tick();
+        slots.set(shamelessCopy);
+    }
+}
+
+export function submitForm(formElement, server, last) {
     const formData = new FormData(formElement);
     const formDataDict = {};
     for (var pair of formData.entries()) {
         formDataDict[pair[0]] = pair[1];
     }
     // add last imported file, just in case
-    formDataDict['last'] = get(last);
+    formDataDict['last'] = last;
     callEndpoint(server, 'export', 'json', 'POST', formDataDict)
         .then((resp) => {
             alertHandler(resp.status);
