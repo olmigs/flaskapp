@@ -1,12 +1,13 @@
-import traceback, os, json, datetime
+import traceback, os, json, time, datetime
 import casio_rbk as cas
 import patch_name as ptch
 from flask import Flask, send_from_directory, request, jsonify
 from pathlib import Path
 from shutil import copyfile
+from functools import lru_cache
 from waitress import serve
 
-APP_FOLDER = Path.cwd().parents[0] / 'client' / 'src-tauri'
+APP_FOLDER = Path.cwd() # dev_migs: .parents[0] / 'client' / 'src-tauri'
 PUBLIC_FOLDER = APP_FOLDER / 'ui' / 'public'
 DB_FOLDER = APP_FOLDER / 'db'
 FILE_FOLDER = APP_FOLDER / 'rbk_output'
@@ -37,7 +38,18 @@ def rbkUpdate():
 @app.route("/import", methods=['POST'])
 def rbkImport():
     if request.method == 'POST':
+        # begin = time.time()
+        # no_cache = getInfoNoCache(request.get_json()['filename'])
+        # end = time.time()
+        # print("Time taken to execute the\
+        #     function without lru_cache is", end-begin)
+
+        # begin = time.time()
         success = getInfoFromRBKFile(request.get_json()['filename'])
+        # end = time.time()
+        # print("Time taken to execute the \
+        #     function with lru_cache is", end-begin)
+        
         return jsonify(success)
 
 @app.route("/export", methods=['POST'])
@@ -57,6 +69,49 @@ def rbkExport():
             return jsonify('FILE NOT FOUND'), 401
         return jsonify(data)
 
+def getInfoNoCache(absFilename):
+    with open(absFilename, "rb") as f:
+        dict = {'slots': [], 'names': [], 'patch_info': []}
+        rb = cas.RegistrationBank.readFile(f)
+        try:
+            for r in rb[0:4]:
+                (patch_u1, bankmsb_u1) = r.getPatchBank(cas.Part.U1)
+                (patch_u2, bankmsb_u2) = r.getPatchBank(cas.Part.U2)
+                (patch_l, bankmsb_l) = r.getPatchBank(cas.Part.L)
+
+                # returns { u1, u2, l }
+                vols = r.getVolumes()
+                pans = r.getPans()
+
+                slotlist = [ vols[0], pans[0], vols[1], pans[1], vols[2], pans[2] ]
+                dict['slots'].append(formatSlotList(slotlist))
+                dict['names'].append({
+                    'isMono': r.isMonoCompatible(),
+                    'u1': ptch.patch_name(patch_u1, bankmsb_u1),
+                    'u2': ptch.patch_name(patch_u2, bankmsb_u2),
+                    'l': ptch.patch_name(patch_l, bankmsb_l)
+                })
+                dict['patch_info'].append({
+                    'u1': {
+                        'patch': patch_u1,
+                        'bankMSB': bankmsb_u1
+                    },
+                    'u2': {
+                        'patch': patch_u2,
+                        'bankMSB': bankmsb_u2
+                    },
+                    'l': {
+                        'patch': patch_l,
+                        'bankMSB': bankmsb_l
+                    }
+                })
+        except:
+            log("Unexpected error: " + traceback.format_exc())
+            log("fuck, this file don't exist: " + absFilename)
+    updateState(dict)
+    return absFilename # return
+
+@lru_cache
 def getInfoFromRBKFile(absFilename):
     with open(absFilename, "rb") as f:
         dict = {'slots': [], 'names': [], 'patch_info': []}
@@ -219,8 +274,8 @@ def log(msg):
         logfile.write(now_str + '     ' + msg + '\n')
 
 # dev server
-if __name__ == "__main__":
-    app.run(host="localhost", port=6980, debug=True)
+# if __name__ == "__main__":
+#     app.run(host="localhost", port=6980, debug=True)
 
 # prod server
-# serve(app, host='0.0.0.0', port=6980)
+serve(app, host='0.0.0.0', port=6980)
