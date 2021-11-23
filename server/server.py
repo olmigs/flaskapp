@@ -111,7 +111,7 @@ def getInfoNoCache(absFilename):
     updateState(dict)
     return absFilename # return
 
-@lru_cache
+@lru_cache(1)
 def getInfoFromRBKFile(absFilename):
     with open(absFilename, "rb") as f:
         dict = {'slots': [], 'names': [], 'patch_info': []}

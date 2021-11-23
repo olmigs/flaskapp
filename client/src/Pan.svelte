@@ -1,6 +1,6 @@
 <script>
     import '../scripts/inputKnobs';
-    import { afterUpdate } from 'svelte';
+    import { tick, afterUpdate } from 'svelte';
     import { isCool } from './stores';
     export let name, id, pan, color;
 
@@ -12,8 +12,12 @@
         }
     }
     afterUpdate(async () => {
-        if ($isCool && color === "#000") {
-            let el = document.getElementById(name);
+        if ($isCool) {
+            setKnob(color);
+        }
+    });
+    function setKnob(color) {
+        let el = document.getElementById(name);
             el.setAttribute("data-fgcolor", color);
             try {
                 el.refresh(); 
@@ -22,8 +26,7 @@
                     console.log(err);
                 }
             }
-        }
-    });
+    }
 </script>
 
 <div class="flexed">
