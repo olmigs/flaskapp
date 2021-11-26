@@ -92,48 +92,48 @@ fn manual_kill(id: u32) -> Output {
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
-            // let package_info = app.package_info();
-            // let resource_dir = path::resource_dir(package_info).expect("resources not found");
-            // let mut data_dir = path::data_dir().expect("data not found");
-            // let resource_str =
-            //     String::from(resource_dir.clone().to_str().expect("couldn't to_str"));
-            // println!("{}", &resource_str);
+            let package_info = app.package_info();
+            let resource_dir = path::resource_dir(package_info).expect("resources not found");
+            let mut data_dir = path::data_dir().expect("data not found");
+            let resource_str =
+                String::from(resource_dir.clone().to_str().expect("couldn't to_str"));
+            println!("{}", &resource_str);
 
-            // let mut be_safe = false;
-            // if resource_str.contains("Program Files") {
-            //     println!("lets copypasta in 5 secs");
-            //     data_dir.push("RBK Mixer");
-            //     match copy_files(resource_dir.clone(), data_dir.clone()) {
-            //         Ok(()) => println!("files copied"),
-            //         Err(e) => panic!("{}", e),
-            //     }
-            //     be_safe = true;
-            // }
+            let mut be_safe = false;
+            if resource_str.contains("Program Files") {
+                println!("lets copypasta in 5 secs");
+                data_dir.push("RBK Mixer");
+                match copy_files(resource_dir.clone(), data_dir.clone()) {
+                    Ok(()) => println!("files copied"),
+                    Err(e) => panic!("{}", e),
+                }
+                be_safe = true;
+            }
 
-            // let mut curr_dir = resource_dir;
-            // if be_safe {
-            //     curr_dir = data_dir;
-            // }
+            let mut curr_dir = resource_dir;
+            if be_safe {
+                curr_dir = data_dir;
+            }
 
-            // // start the server
-            // let (_rcv, server) = Command::new_sidecar("server")
-            //     .expect("failed to create command")
-            //     .current_dir(curr_dir)
-            //     .spawn()
-            //     .expect("server failed to execute");
-            // println!("{:#?}", server.pid());
-            // // migsnote: hack!
-            // thread::sleep(Duration::from_millis(5000));
+            // start the server
+            let (_rcv, server) = Command::new_sidecar("server")
+                .expect("failed to create command")
+                .current_dir(curr_dir)
+                .spawn()
+                .expect("server failed to execute");
+            println!("{:#?}", server.pid());
+            // migsnote: hack!
+            thread::sleep(Duration::from_millis(5000));
 
-            // let server_id = server.pid();
-            // let window = app.get_window("main").unwrap();
-            // window.on_window_event(move |event| match event {
-            //     WindowEvent::CloseRequested => {
-            //         let status = manual_kill(server_id);
-            //         println!("{:#?}", &status.stdout);
-            //     },
-            //     _ => {},
-            // });
+            let server_id = server.pid();
+            let window = app.get_window("main").unwrap();
+            window.on_window_event(move |event| match event {
+                WindowEvent::CloseRequested => {
+                    let status = manual_kill(server_id);
+                    println!("{:#?}", &status.stdout);
+                },
+                _ => {},
+            });
             Ok(())
         })
         .run(tauri::generate_context!())
