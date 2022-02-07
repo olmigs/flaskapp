@@ -6,7 +6,7 @@
 
 Currently, RBK Mixer only supports MacOS and Windows. You can find the `.dmg` (MacOS) or `.msi` (Windows) files on the [Releases page](https://github.com/olmigs/rbk-mixer/releases).
 
-Brave Linux users can follow the development steps below, and submit a PR with the server executable in `client/src-tauri/server` and any `.deb`, `.rpm`, or `.tar` installation files.
+Brave Linux users can follow the development steps below, and submit a PR with the server executable in `client/src-tauri/server`.
 
 ### Development Requirements
 
