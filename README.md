@@ -8,6 +8,12 @@ Currently, RBK Mixer only supports MacOS and Windows. You can find the `.dmg` (M
 
 Brave Linux users can follow the development steps below, and submit a PR with the server executable in `client/src-tauri/server`.
 
+### Windows-specific Requirements
+
+-   [Webview2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/)
+
+**Note:** Webview2 runtime is included with Windows machines that have Microsoft Edge installed. Moreover, even if you do not have Edge, Webview2 may be installed for other Microsoft365 apps. For more information, check out [this post](https://docs.microsoft.com/en-us/deployoffice/webview2-install).
+
 ### Development Requirements
 
 -   [Python (3.9)](https://www.python.org/downloads/)
@@ -16,12 +22,6 @@ Brave Linux users can follow the development steps below, and submit a PR with t
     -   api (1.0.0-beta.8)
     -   cli (1.0.0-beta.10)
 -   [Node.js (16.4.0)](https://nodejs.dev/learn/how-to-install-nodejs)
-
-### Windows-specific Requirements
-
--   [Webview2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/)
-
-**Note:** Webview2 runtime is included with Windows machines that have Microsoft Edge installed. Moreover, even if you do not have Edge, Webview2 may be installed for other Microsoft365 apps. For more information, check out [this post](https://docs.microsoft.com/en-us/deployoffice/webview2-install).
 
 ### Develop this app
 
