@@ -2,6 +2,12 @@
 
 ## CT-X700/X800/CDP-S350 RBK File Editor
 
+### Install
+
+Currently, RBK Mixer only supports MacOS and Windows. You can find the `.dmg` (MacOS) or `.msi` (Windows) files on the [Releases page](https://github.com/olmigs/rbk-mixer/releases).
+
+Brave Linux users can follow the development steps below, and submit a PR with the server executable in `client/src-tauri/server` and any `.deb`, `.rpm`, or `.tar` installation files.
+
 ### Development Requirements
 
 -   [Python (3.9)](https://www.python.org/downloads/)
