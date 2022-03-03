@@ -48,7 +48,9 @@
                 "all": true
             },
             "http": {
-                "all": true
+                "all": true,
+                "request": true,
+                "scope": ["http://localhost:6980/*"]
             },
             "path": {
                 "all": true

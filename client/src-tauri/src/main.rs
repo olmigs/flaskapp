@@ -93,7 +93,8 @@ fn main() {
     tauri::Builder::default()
         .setup(|app| {
             let package_info = app.package_info();
-            let resource_dir = path::resource_dir(package_info).expect("resources not found");
+            let resource_dir =
+                path::resource_dir(package_info, &app.env()).expect("resources not found");
             let mut data_dir = path::data_dir().expect("data not found");
             let resource_str =
                 String::from(resource_dir.clone().to_str().expect("couldn't to_str"));
@@ -128,11 +129,11 @@ fn main() {
             let server_id = server.pid();
             let window = app.get_window("main").unwrap();
             window.on_window_event(move |event| match event {
-                WindowEvent::CloseRequested => {
+                WindowEvent::CloseRequested { .. } => {
                     let status = manual_kill(server_id);
                     println!("{:#?}", &status.stdout);
-                },
-                _ => {},
+                }
+                _ => {}
             });
             Ok(())
         })
