@@ -32,7 +32,8 @@ REGISTRATION_FORMATS = {
   'CT-X5000': {'bank_size': 8, 'file_version': 1},
   'CT-X700':  {'bank_size': 4, 'file_version': 0},
   'CT-X800':  {'bank_size': 4, 'file_version': 0},  # ... presumed, not checked
-  'CDP-S350': {'bank_size': 4, 'file_version': 1}
+  'CDP-S350': {'bank_size': 4, 'file_version': 1},
+  'CT-X870IN': {'bank_size': 4, 'file_version': 0},
 }
   
   
@@ -257,7 +258,11 @@ class RegistrationBank:
 
   def writeFile(self, f):
     
-    fmt = REGISTRATION_FORMATS[self.keyboard]
+    fmt = REGISTRATION_FORMATS.get(self.keyboard, None)
+    if fmt is None:
+        fmt = REGISTRATION_FORMATS['CT-X5000']
+        # Use CT-X5000 as the default if the keyboard is unrecognised. It's probably
+        # wrong, but at least we're trying something
     
     regs = self.registrations
     
