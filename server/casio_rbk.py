@@ -17,7 +17,7 @@ class Part:
   U2 = 1
   Auto_Harmony = 4
   
-  # Values specific to CT-X700/800:
+  # Values specific to CT-X700/800/CDP-S:
   L = 2
   
   # Values specific to CT-X3000/5000:
@@ -33,6 +33,7 @@ REGISTRATION_FORMATS = {
   'CT-X700':  {'bank_size': 4, 'file_version': 0},
   'CT-X800':  {'bank_size': 4, 'file_version': 0},  # ... presumed, not checked
   'CDP-S350': {'bank_size': 4, 'file_version': 1},
+  'CDP-S360': {'bank_size': 4, 'file_version': 1},
   'CT-X870IN': {'bank_size': 4, 'file_version': 0},
 }
   
