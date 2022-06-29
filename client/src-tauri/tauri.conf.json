@@ -5,7 +5,7 @@
     },
     "build": {
         "distDir": "../public",
-        "devPath": "http://127.0.0.1:5000",
+        "devPath": "http://127.0.0.1:8080",
         "beforeDevCommand": "yarn build",
         "beforeBuildCommand": "yarn build",
         "withGlobalTauri": false
@@ -14,7 +14,7 @@
         "bundle": {
             "active": true,
             "targets": "all",
-            "identifier": "com.tauri.dev",
+            "identifier": "dev.rbk.migs",
             "icon": ["icons/112x112.png", "icons/icon.icns", "icons/icon.ico"],
             "resources": ["patch_data", "rbk_output", "db", "ui"],
             "externalBin": ["server/server"],
@@ -23,13 +23,11 @@
             "shortDescription": "",
             "longDescription": "",
             "deb": {
-                "depends": [],
-                "useBootstrapper": false
+                "depends": []
             },
             "macOS": {
                 "frameworks": [],
                 "minimumSystemVersion": "11.6",
-                "useBootstrapper": false,
                 "exceptionDomain": "",
                 "signingIdentity": null,
                 "entitlements": null
@@ -50,14 +48,19 @@
             "http": {
                 "all": true,
                 "request": true,
-                "scope": ["http://localhost:6980/*"]
+                "scope": [
+                    "http://0.0.0.0:6980/export",
+                    "http://0.0.0.0:6980/update",
+                    "http://0.0.0.0:6980/import"
+                ]
             },
             "path": {
                 "all": true
             },
             "shell": {
                 "all": false,
-                "execute": true
+                "execute": true,
+                "sidecar": true
             }
         },
         "windows": [

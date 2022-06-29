@@ -102,7 +102,7 @@ fn main() {
 
             let mut be_safe = false;
             if resource_str.contains("Program Files") {
-                println!("lets copypasta in 5 secs");
+                println!("let's copypasta");
                 data_dir.push("RBK Mixer");
                 match copy_files(resource_dir.clone(), data_dir.clone()) {
                     Ok(()) => println!("files copied"),
@@ -131,7 +131,7 @@ fn main() {
             window.on_window_event(move |event| match event {
                 WindowEvent::CloseRequested { .. } => {
                     let status = manual_kill(server_id);
-                    println!("{:#?}", &status.stdout);
+                    println!("{:#?}", &status);
                 }
                 _ => {}
             });

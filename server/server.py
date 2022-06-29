@@ -14,21 +14,21 @@ FILE_FOLDER = APP_FOLDER / 'rbk_output'
 
 app = Flask(__name__)
 
-# Path for our main Svelte page
-@app.route("/", methods=['GET'])
-def base():
-    return send_from_directory(PUBLIC_FOLDER, 'index.html')
+# # Path for our main Svelte page
+# @app.route("/", methods=['GET'])
+# def base():
+#     return send_from_directory(PUBLIC_FOLDER, 'index.html')
 
-# Path for all the static files (compiled JS/CSS, etc.)
-@app.route("/<path:path>")
-def home(path):
-    return send_from_directory(PUBLIC_FOLDER, path)
+# # Path for all the static files (compiled JS/CSS, etc.)
+# @app.route("/<path:path>")
+# def home(path):
+#     return send_from_directory(PUBLIC_FOLDER, path)
 
-@app.route("/log", methods = ['PUT'])
-def logFromPut():
-    if request.method == 'PUT':
-        log(' : putlog ::   ' + request.form['line'])
-        return jsonify('OK')
+# @app.route("/log", methods = ['PUT'])
+# def logFromPut():
+#     if request.method == 'PUT':
+#         log(' : putlog ::   ' + request.form['line'])
+#         return jsonify('OK')
 
 @app.route("/update", methods=['GET'])
 def rbkUpdate():
