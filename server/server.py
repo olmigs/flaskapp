@@ -1,7 +1,7 @@
-import traceback, os, json, time, datetime
+import traceback, os, json, datetime
 import casio_rbk as cas
 import patch_name as ptch
-from flask import Flask, send_from_directory, request, jsonify
+from flask import Flask, request, jsonify
 from pathlib import Path
 from shutil import copyfile
 from functools import lru_cache
@@ -14,22 +14,6 @@ FILE_FOLDER = APP_FOLDER / 'rbk_output'
 
 app = Flask(__name__)
 
-# # Path for our main Svelte page
-# @app.route("/", methods=['GET'])
-# def base():
-#     return send_from_directory(PUBLIC_FOLDER, 'index.html')
-
-# # Path for all the static files (compiled JS/CSS, etc.)
-# @app.route("/<path:path>")
-# def home(path):
-#     return send_from_directory(PUBLIC_FOLDER, path)
-
-# @app.route("/log", methods = ['PUT'])
-# def logFromPut():
-#     if request.method == 'PUT':
-#         log(' : putlog ::   ' + request.form['line'])
-#         return jsonify('OK')
-
 @app.route("/update", methods=['GET'])
 def rbkUpdate():
     if request.method == 'GET':
@@ -38,18 +22,7 @@ def rbkUpdate():
 @app.route("/import", methods=['POST'])
 def rbkImport():
     if request.method == 'POST':
-        # begin = time.time()
-        # no_cache = getInfoNoCache(request.get_json()['filename'])
-        # end = time.time()
-        # print("Time taken to execute the\
-        #     function without lru_cache is", end-begin)
-
-        # begin = time.time()
         success = getInfoFromRBKFile(request.get_json()['filename'])
-        # end = time.time()
-        # print("Time taken to execute the \
-        #     function with lru_cache is", end-begin)
-        
         return jsonify(success)
 
 @app.route("/export", methods=['POST'])
@@ -68,48 +41,6 @@ def rbkExport():
             # os.remove(os.path.join(FILE_FOLDER, 'copy.rbk'))
             return jsonify('FILE NOT FOUND'), 401
         return jsonify(data)
-
-def getInfoNoCache(absFilename):
-    with open(absFilename, "rb") as f:
-        dict = {'slots': [], 'names': [], 'patch_info': []}
-        rb = cas.RegistrationBank.readFile(f)
-        try:
-            for r in rb[0:4]:
-                (patch_u1, bankmsb_u1) = r.getPatchBank(cas.Part.U1)
-                (patch_u2, bankmsb_u2) = r.getPatchBank(cas.Part.U2)
-                (patch_l, bankmsb_l) = r.getPatchBank(cas.Part.L)
-
-                # returns { u1, u2, l }
-                vols = r.getVolumes()
-                pans = r.getPans()
-
-                slotlist = [ vols[0], pans[0], vols[1], pans[1], vols[2], pans[2] ]
-                dict['slots'].append(formatSlotList(slotlist))
-                dict['names'].append({
-                    'isMono': r.isMonoCompatible(),
-                    'u1': ptch.patch_name(patch_u1, bankmsb_u1),
-                    'u2': ptch.patch_name(patch_u2, bankmsb_u2),
-                    'l': ptch.patch_name(patch_l, bankmsb_l)
-                })
-                dict['patch_info'].append({
-                    'u1': {
-                        'patch': patch_u1,
-                        'bankMSB': bankmsb_u1
-                    },
-                    'u2': {
-                        'patch': patch_u2,
-                        'bankMSB': bankmsb_u2
-                    },
-                    'l': {
-                        'patch': patch_l,
-                        'bankMSB': bankmsb_l
-                    }
-                })
-        except:
-            log("Unexpected error: " + traceback.format_exc())
-            log("fuck, this file don't exist: " + absFilename)
-    updateState(dict)
-    return absFilename # return
 
 @lru_cache(1)
 def getInfoFromRBKFile(absFilename):
