@@ -117,7 +117,7 @@ fn main() {
             }
 
             // start the server
-            let (_rcv, server) = Command::new_sidecar("server")
+            let (_rcv, server) = Command::new_sidecar("rbk_server")
                 .expect("failed to create command")
                 .current_dir(curr_dir)
                 .spawn()

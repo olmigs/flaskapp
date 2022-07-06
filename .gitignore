@@ -11,4 +11,5 @@ scripts/node_modules/
 *.zip
 **/__pycache__
 .DS_Store
+.github
 server.log

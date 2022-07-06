@@ -17,7 +17,7 @@
             "identifier": "dev.rbk.migs",
             "icon": ["icons/112x112.png", "icons/icon.icns", "icons/icon.ico"],
             "resources": ["patch_data", "rbk_output", "db", "ui"],
-            "externalBin": ["server/server"],
+            "externalBin": ["server/rbk_server"],
             "copyright": "",
             "category": "DeveloperTool",
             "shortDescription": "",
