@@ -20,8 +20,8 @@
             "externalBin": ["server/rbk_server"],
             "copyright": "",
             "category": "DeveloperTool",
-            "shortDescription": "",
-            "longDescription": "",
+            "shortDescription": "RBK File Editor",
+            "longDescription": "File editor tool to create Casio RBK files for CT-X700, CT-X800, CT-X870IN, CDP-S350, and CDP-S350 models",
             "deb": {
                 "depends": []
             },
@@ -39,7 +39,12 @@
             }
         },
         "updater": {
-            "active": false
+            "active": true,
+            "endpoints": [
+                "https://mdguerrero.com/tauri/rbk_mixer/metadata.json"
+            ],
+            "dialog": true,
+            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDNFQjA0RTgzODE5OTJDQzEKUldUQkxKbUJnMDZ3UGhEVEdOUGF0SjRncXdJcTVCSkVpSklaQ01JWXBkUSt6d2NpcTRSTStxdE4K"
         },
         "allowlist": {
             "dialog": {
