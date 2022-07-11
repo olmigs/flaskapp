@@ -1,15 +1,15 @@
 // const http = require('@tauri-apps/api/http');
-import { http } from '@tauri-apps/api';
+import { http, invoke } from '@tauri-apps/api';
 
-export function callEndpoint(
+export async function callEndpoint(
     server,
     endpoint,
     responseType = 'json',
     method = 'GET',
     data = ''
 ) {
-    const url = server + '/' + endpoint;
-    var type;
+    
+    let type;
     switch (responseType) {
         case 'json':
             type = http.ResponseType.JSON;
@@ -18,10 +18,16 @@ export function callEndpoint(
             type = http.ResponseType.Text;
             break;
     }
+    const url = server + '/' + endpoint;
+    const key = await getAPIKey();
+    // console.log(key);
     if (method === 'GET') {
         return http
             .fetch(url, {
                 method: 'GET',
+                headers: {
+                    'X-API-Key': key
+                },
                 responseType: type,
             })
             .then(resp => {
@@ -31,6 +37,9 @@ export function callEndpoint(
         return http
             .fetch(url, {
                 method: method,
+                headers: {
+                    'X-API-Key': key
+                },
                 body: http.Body.form(data),
                 responseType: type,
             })
@@ -41,6 +50,9 @@ export function callEndpoint(
         return http
             .fetch(url, {
                 method: method,
+                headers: {
+                    'X-API-Key': key
+                },
                 body: http.Body.json(data),
                 responseType: type,
             })
@@ -48,4 +60,8 @@ export function callEndpoint(
                 return resp.data;
             });
     }
+}
+
+function getAPIKey() {
+    return invoke('get_api_key');
 }

@@ -1,10 +1,11 @@
-import traceback, os, json, datetime
+import sys, traceback, os, json, datetime
 import casio_rbk as cas
 import patch_name as ptch
 from flask import Flask, request, jsonify
+from hashlib import blake2s
 from pathlib import Path
 from shutil import copyfile
-from functools import lru_cache
+from functools import lru_cache, wraps
 from waitress import serve
 
 APP_FOLDER = Path.cwd() # dev_migs: .parents[0] / 'client' / 'src-tauri'
@@ -12,20 +13,43 @@ PUBLIC_FOLDER = APP_FOLDER / 'ui' / 'public'
 DB_FOLDER = APP_FOLDER / 'db'
 FILE_FOLDER = APP_FOLDER / 'rbk_output'
 
+def getSessionKey(pid):
+    h = blake2s(key=str(pid).encode(), digest_size=16)
+    return h.hexdigest()
+
+SESSION_KEY = getSessionKey(os.getpid())
+
+def key_required(func):
+    @wraps(func)
+    def decorator(*args, **kwargs):
+        if request.headers:
+            api_key = request.headers.get('X-API-Key')
+        else:
+            return jsonify('Please provide an API key'), 400
+        # Check if API key is correct and valid
+        if api_key == SESSION_KEY:
+            return func(*args, **kwargs)
+        else:
+            return jsonify('The provided API key is not valid'), 403
+    return decorator
+
 app = Flask(__name__)
 
 @app.route("/update", methods=['GET'])
+@key_required
 def rbkUpdate():
     if request.method == 'GET':
         return jsonify(getState())
 
 @app.route("/import", methods=['POST'])
+@key_required
 def rbkImport():
     if request.method == 'POST':
         success = getInfoFromRBKFile(request.get_json()['filename'])
         return jsonify(success)
 
 @app.route("/export", methods=['POST'])
+@key_required
 def rbkExport():
     if request.method == 'POST':
         dict = request.form
@@ -141,6 +165,7 @@ def outputToRBKFile(path, filename, last, slots):
     except:
         log("Error in export: " + traceback.format_exc())
 
+# migstodo: remove
 def writeToFileFromDummy(absFilename, slots):
     dummyFile = os.path.join(FILE_FOLDER, '.dummy.rbk') # read only
     dummyFileCopy = os.path.join(FILE_FOLDER, 'copy.rbk')
@@ -187,9 +212,11 @@ def log(msg):
         now_str = now.strftime("%m/%d/%Y %H:%M:%S")
         logfile.write(now_str + '     ' + msg + '\n')
 
-# dev server
-# if __name__ == "__main__":
-#     app.run(host="localhost", port=6980, debug=True)
 
-# prod server
-serve(app, host='0.0.0.0', port=6980)
+if __name__ == "__main__":
+    print(f'starting session {SESSION_KEY}', file = sys.stderr)
+    # dev server
+    # app.run(host="0.0.0.0", port=6980, debug=True)
+
+    # prod server
+    serve(app, host='0.0.0.0', port=6980)
