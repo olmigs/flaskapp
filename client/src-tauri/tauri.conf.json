@@ -54,9 +54,9 @@
                 "all": true,
                 "request": true,
                 "scope": [
-                    "http://0.0.0.0:6980/export",
-                    "http://0.0.0.0:6980/update",
-                    "http://0.0.0.0:6980/import"
+                    "http://127.0.0.1:6980/export",
+                    "http://127.0.0.1:6980/update",
+                    "http://127.0.0.1:6980/import"
                 ]
             },
             "path": {
