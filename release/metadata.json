@@ -1,0 +1,19 @@
+{
+    "version": "v0.3.1",
+    "notes": "Stable release Tauri@v1.0.2\nIncludes added server security functionality",
+    "pub_date": "2022-07-13T16:38:32.749Z",
+    "platforms": {
+        "darwin-x86_64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUQkxKbUJnMDZ3UHAwaWJIak11UzhhNmxZbnNDdGltM1p5YjRhdzlXd085ekkvMnowREQ1SmxZRE5nMkR4TitCNXNoUjAzRjJSdHN4Ty80RGhSSDUzbXVxWnV0MTBDQlE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjU3NzI4NjQ3CWZpbGU6UkJLIE1peGVyLmFwcC50YXIuZ3oKQ25MMkoyNUZUd0kyNXplYW11QVZWV2VlZUlZMjJ2cnVLd2V0S2lwMC9wNC9keXRLbkZrZ0pUUHZyci84bEQzUHllMEEwT250TEFXdDZ3dmZNRW1VQ2c9PQo=",
+            "url": "https://github.com/olmigs/rbk-mixer/raw/main/release/download/v0.3.1/RBK Mixer.app.tar.gz"
+        },
+        "darwin-aarch64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUQkxKbUJnMDZ3UHNpNlpWWGpHT2oweG9HWUlPL3R2U1Y1SmpGU2xjTnY5NkNDTVRnL2o4cUFQVmJTL1pieCtUTUJrRHdsVGFuMlJORTgrMFd2dlkyL3F2aGw5RDFIOXdzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjU3NzI2NDc5CWZpbGU6UkJLIE1peGVyLmFwcC50YXIuZ3oKWEpnZ2tlUGovZGwzNzBIK3FZVGI2RXh3Sk9FTjNDVGdQMUEwSTNKYk0zVDlFUTY2Um9wbU1TWGUzOWsyVHk5VGFOS2lhakZzUkpoUUFyZ1FuRmhMQnc9PQo=",
+            "url": "https://github.com/olmigs/rbk-mixer/raw/main/release/download/v0.3.1/silicon/RBK Mixer.app.tar.gz"
+        },
+        "windows-x86_64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUQkxKbUJnMDZ3UGdOWldaOGtscVVUcncyc2tBTUN4T3dxdVp0eERFNmFYUTBDc1NaSGkvMTVwQlpXU1c1Ri81dEFTTERISmZVWFlFZHRDbjFZRVY0cDJWaXpkc3ZVYlFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjU3NzI4NTE4CWZpbGU6UkJLIE1peGVyXzAuMy4xX3g2NF9lbi1VUy5tc2kuemlwCkk1Mm93Z0xmS3RaWC9vcHY5SEFIMWxRYnlLL29NQVIyMThVOWtrR3FzSm1uZGwyUzZYbWtUQTR3RGpySE8vYW1nTWcrd2NhdUFMMVhQMGExYU1kdUFBPT0K",
+            "url": "https://github.com/olmigs/rbk-mixer/raw/main/release/download/v0.3.1/RBK Mixer_0.3.1_x64_en-US.msi.zip"
+        }
+    }
+}

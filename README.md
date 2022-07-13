@@ -32,15 +32,18 @@ Brave Linux users can follow the development steps below, and submit a PR with t
 
 A window magically opens. Also, a Python server will be running at `localhost:6980`.
 
-_Warning: The server may still be running, even after the Tauri window closes. See Notice below._
+_Warning: The server may still be running, even after the Tauri window closes. See Architecture Notice below._
 
-#### Python backend
+#### Building Python backend server
 
 Check `client/src-tauri/server` for available server executables. If you don't find one for your architecture, why not build one and add it to the repo?
 
 ```shell
 cd server
+# if you have pyinstaller
 pyinstaller -F server.py
+# alternatively (usually on Windows)
+python3 install.py
 ```
 
 Navigate to the newly created `dist/server` to find your fresh executable. To rename this executable for use in application:
@@ -54,13 +57,14 @@ yarn move
 
 Move this executable to `client/src-tauri/server` to be included in the app bundle.
 
-### Notice
+### Architecture Notice
 
-Using a Tauri sidecar to run a server is an anti-pattern. To get this to work, the server executable is called in the Tauri setup hook. When spawned, a Tauri sidecar returns a `tauri::api::process::CommandChild` that must be killed when the Tauri application closes/exits. If the child is not killed, it will outlive the application, becoming a "zombie."
+Using a Tauri sidecar to run a server is an anti-pattern. When spawned, a Tauri sidecar returns a `tauri::api::process::CommandChild` that must be killed when the Tauri application closes/exits. If the child is not killed, it will outlive the application, becoming a "zombie."
 
-Currently, to kill this process, I spawn another command - `taskkill` on Windows, `kill` otherwise - with the server process ID when the user requests the application window closed.
+Though Tauri does its best to clean up managed child processes, due to a healthy fear of zombies, I spawn another command - `taskkill` on Windows, `kill` otherwise - with the server process ID when the user requests the application window closed.
 
 ### Acknowledgements
 
--   Project Lead: [Chandler Holloway](https://chandykeys.unicornplatform.page/)
--   RBK Mixer uses a fork of [Casio-Registrations](https://github.com/michgz/casio-registrations)
+This project was spearheaded by the capable [Chandler Holloway](https://chandykeys.unicornplatform.page/).
+
+RBK Mixer uses a fork of [Casio-Registrations](https://github.com/michgz/casio-registrations). My thanks to Mike, without whose effort and support, the conclusion of this project would not have been possible. [Check out Tone Tyrant](https://github.com/michgz/tonetyrant), it's got a slick UI and realtime MIDI!

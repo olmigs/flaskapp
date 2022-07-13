@@ -4,7 +4,8 @@
   "description": "",
   "main": "move-binary.js",
   "scripts": {
-    "move": "node move-binary.js"
+    "move": "node move-binary.js",
+    "meta": "node --experimental-json-modules json-metadata.mjs"
   },
   "author": "",
   "license": "ISC",

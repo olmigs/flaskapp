@@ -31,13 +31,14 @@ export function openDialog(dir, serv, last) {
                     filename: input,
                 })
                     .then(async (resp) => {
+                        // if (!resp.ok) {
+                        //     console.log(resp);
+                        // }
                         if (input == last) {
                             hackDOM(input, last);
                         } else {
                             updateContext(serv, resp);
                         }
-                        
-                        
                     })
                     .catch((err) => console.log(err));
             }

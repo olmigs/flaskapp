@@ -4,27 +4,64 @@
 )]
 
 // use pyo3::prelude::*;
+// use hex;
 use serde::Deserialize;
 use std::{
     fs,
     io::{BufReader, Result},
     path::PathBuf,
+    sync::{Arc, Mutex},
     thread,
     time::Duration,
 };
 use tauri::{
     api::{
         path,
-        process::{Command, Output},
+        process::{Command, CommandEvent, Output},
     },
-    Manager, WindowEvent,
+    Manager, WindowEvent, State
 };
+// use blake2::{Blake2s256, Digest};
 
 #[derive(Deserialize, Debug)]
 struct FolderDesc {
     name: String,
     files: Vec<String>,
 }
+
+// #[derive(Sync)]
+struct ApiKey{
+    key: Arc<Mutex<String>>
+}
+
+impl ApiKey {
+    pub fn new() -> ApiKey {
+        ApiKey {
+            key: Arc::new(Mutex::new("".to_string()))
+        }
+    }
+    pub fn get(&self) -> String {
+        return self.key.lock().unwrap().clone();
+    }
+    pub fn set(&self, update_val: String) {
+        // ideally happens exactly once
+        if self.get().is_empty() {
+            *self.key.lock().unwrap() = update_val;
+        }
+    }
+    pub fn is_valid(value: String) -> (bool, String) {
+        let split = value.split("starting session ");
+        let vec = split.collect::<Vec<&str>>();
+        if vec.len() == 2 {
+            // println!("{}", vec[1]);
+            (true, vec[1].to_string())
+        } else {
+            (false, value)
+        }
+    }
+}
+
+//#region STAGEFILES
 
 fn get_copy_files(mut app_dir: PathBuf) -> Result<Vec<FolderDesc>> {
     app_dir.push("db");
@@ -77,6 +114,8 @@ fn copy_files(mut src: PathBuf, mut dest: PathBuf) -> Result<()> {
     Ok(())
 }
 
+//#endregion
+
 #[cfg(not(windows))]
 fn manual_kill(id: u32) -> Output {
     let cmd = Command::new("kill").args(&[id.to_string()]);
@@ -89,8 +128,15 @@ fn manual_kill(id: u32) -> Output {
     cmd.output().expect("process failed to be killed")
 }
 
+#[tauri::command]
+fn get_api_key(state: State<ApiKey>) -> String {
+    state.inner().get()
+}
+
 fn main() {
+    // let session_key = ApiKey::new();
     tauri::Builder::default()
+        .manage(ApiKey::new())
         .setup(|app| {
             let package_info = app.package_info();
             let resource_dir =
@@ -102,7 +148,7 @@ fn main() {
 
             let mut be_safe = false;
             if resource_str.contains("Program Files") {
-                println!("lets copypasta in 5 secs");
+                println!("let's copypasta");
                 data_dir.push("RBK Mixer");
                 match copy_files(resource_dir.clone(), data_dir.clone()) {
                     Ok(()) => println!("files copied"),
@@ -117,26 +163,48 @@ fn main() {
             }
 
             // start the server
-            let (_rcv, server) = Command::new_sidecar("server")
+            let (mut rx, server) = Command::new_sidecar("rbk_server")
                 .expect("failed to create command")
                 .current_dir(curr_dir)
                 .spawn()
                 .expect("server failed to execute");
-            println!("{:#?}", server.pid());
+            let server_id = server.pid();
+            println!("CHILD PID: {:#?}", &server_id);
+            // get app handle
+            let app_handle = app.handle();
+            // register API key listener
+            tauri::async_runtime::spawn(async move {
+                // read events such as stdout
+                while let Some(event) = rx.recv().await {
+                    if let CommandEvent::Stderr(line) = event {
+                        let state: State<ApiKey> = app_handle.state();
+                        // check validity and scrub value
+                        let (valid, scrubbed_val) = ApiKey::is_valid(line);
+                        if valid {
+                            state.set(scrubbed_val);
+                        } else {
+                            println!("FROM SERVER STDERR: {}", scrubbed_val);
+                        }
+                        
+                    }
+                }
+            });
             // migsnote: hack!
             thread::sleep(Duration::from_millis(5000));
 
-            let server_id = server.pid();
             let window = app.get_window("main").unwrap();
             window.on_window_event(move |event| match event {
                 WindowEvent::CloseRequested { .. } => {
                     let status = manual_kill(server_id);
-                    println!("{:#?}", &status.stdout);
+                    println!("{:#?}", &status);
                 }
                 _ => {}
             });
             Ok(())
         })
+        .invoke_handler(tauri::generate_handler![
+            get_api_key,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
