@@ -3,7 +3,7 @@ import config from '../client/src-tauri/tauri.conf.json';
 
 const vNo = 'v' + config.package.version;
 const githubPre =
-    'https://github.com/olmigs/rbk-mixer/raw/rc/release/download/'; // https://github.com/olmigs/rbk_mixer/release/download/';
+    'https://github.com/olmigs/rbk-mixer/raw/main/release/download/'; // https://github.com/olmigs/rbk_mixer/release/download/';
 const now = () => {
     return new Date();
 };
@@ -11,15 +11,17 @@ const now = () => {
 const mac1 = 'darwin-x86_64';
 const mac2 = 'darwin-aarch64';
 const win = 'windows-x86_64';
+const rbkFilter = (val) => val.includes('RBK Mixer');
 
 const releaseRoot = `../release/download/${vNo}`;
-const x86s = readdirSync(releaseRoot).filter((val) =>
-    val.includes('RBK Mixer')
-);
+const x86s = readdirSync(releaseRoot).filter(rbkFilter);
 const aarchPre = '/silicon';
 const pkgNames = {
     'darwin-x86_64': '/' + x86s.filter((val) => val.includes('tar')).join(),
-    'darwin-aarch64': aarchPre + '/' + readdirSync(releaseRoot + aarchPre)[0],
+    'darwin-aarch64':
+        aarchPre +
+        '/' +
+        readdirSync(releaseRoot + aarchPre).filter(rbkFilter)[0],
     'windows-x86_64': '/' + x86s.filter((val) => val.includes('msi')).join(),
 };
 
@@ -57,12 +59,15 @@ const plats = {
     },
 };
 
+let notes =
+    'Stable release Tauri@v1.0.2\nIncludes added server security functionality';
+
 const json = {
     version: vNo,
-    notes: "I'm testing the updater",
+    notes: notes,
     pub_date: now(),
     platforms: plats,
 };
 
 // console.log(json);
-writeFileSync('../release/metadata.json', JSON.stringify(json));
+writeFileSync('../release/metadata.json', JSON.stringify(json, null, 4));

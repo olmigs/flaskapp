@@ -1,1 +1,19 @@
-{"version":"v0.3.0","notes":"I'm testing the updater","pub_date":"2022-07-11T14:05:04.136Z","platforms":{"darwin-x86_64":{"signature":"dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUQkxKbUJnMDZ3UG9oWjlsRDRUdDhJb2gyM05RN2Ywbzk2SFAyem9ZSWFqWEdyMVBqVUhGSDRBU28wV0VjTHJqUE5HcDFKZzIxZ0Y5SURTNDliWGhvRGIybVBQUUI3bEFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjU3MTc1NjIwCWZpbGU6UkJLIE1peGVyLmFwcC50YXIuZ3oKZEJCS1RnVlRXeTdaZDZHT1RxdlRNTTJTS0NFY1RCY3Nwb294M3hOdUhBYysvS3ZsVktjVnRKVkNYb3N1NExsbjloWjNhWEpPNDVBcm9WVEF4Zk1PQlE9PQo=","url":"https://github.com/olmigs/rbk-mixer/raw/rc/release/download/v0.3.0/RBK Mixer.app.tar.gz"},"darwin-aarch64":{"signature":"dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUQkxKbUJnMDZ3UGd3ZlY3aE9nTWdoeHBQdDFsSzZKUlBzZTZPZWlHSS91VkpyTjNmbEZnamllSTVWTlJxOE9UcHh6U0ovam9sZW9OWjVWem9RSDFydDR0Sk1ucVpNREEwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjU3MTczMjIyCWZpbGU6UkJLIE1peGVyLmFwcC50YXIuZ3oKc2JlOFlIZFZuQWhFdUs4Sys4ZjhtZ3FmUDdEUFo1bm1FRzY2V1prN01IN1dIc3kwSXJ4b3dLMm15TXc2SXgvNUtNbTdYSWNwUjlWTUxCQ1d4VnYrQmc9PQo=","url":"https://github.com/olmigs/rbk-mixer/raw/rc/release/download/v0.3.0/silicon/RBK Mixer.app.tar.gz"},"windows-x86_64":{"signature":"dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUQkxKbUJnMDZ3UHYyYit2c3RVdTExZXpySVFtRmd5eTFLMzFPT05nZFpTYUtiYjRaMTN5Y0NLOW5sYjhzTGFjZTFpVkE5QXZRbXVlV3FxT3BhYUhUM1J1RDRXeFZMaHcwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjU3MTc1MDQyCWZpbGU6UkJLIE1peGVyXzAuMy4wX3g2NF9lbi1VUy5tc2kuemlwCkt2N1RhUm1SNStoTTdKcFFYN0JHN1FtcVZjRHEzSk92Nld4Wm9iTXZ0S2x6SVFlWU9BQTljdk9LOU1yUWc4RFhvMXk4eDhhODJVbE1ub1hxTS9IZERnPT0K","url":"https://github.com/olmigs/rbk-mixer/raw/rc/release/download/v0.3.0/RBK Mixer_0.3.0_x64_en-US.msi.zip"}}}
+{
+    "version": "v0.3.1",
+    "notes": "Stable release Tauri@v1.0.2\nIncludes added server security functionality",
+    "pub_date": "2022-07-13T16:38:32.749Z",
+    "platforms": {
+        "darwin-x86_64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUQkxKbUJnMDZ3UHAwaWJIak11UzhhNmxZbnNDdGltM1p5YjRhdzlXd085ekkvMnowREQ1SmxZRE5nMkR4TitCNXNoUjAzRjJSdHN4Ty80RGhSSDUzbXVxWnV0MTBDQlE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjU3NzI4NjQ3CWZpbGU6UkJLIE1peGVyLmFwcC50YXIuZ3oKQ25MMkoyNUZUd0kyNXplYW11QVZWV2VlZUlZMjJ2cnVLd2V0S2lwMC9wNC9keXRLbkZrZ0pUUHZyci84bEQzUHllMEEwT250TEFXdDZ3dmZNRW1VQ2c9PQo=",
+            "url": "https://github.com/olmigs/rbk-mixer/raw/main/release/download/v0.3.1/RBK Mixer.app.tar.gz"
+        },
+        "darwin-aarch64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUQkxKbUJnMDZ3UHNpNlpWWGpHT2oweG9HWUlPL3R2U1Y1SmpGU2xjTnY5NkNDTVRnL2o4cUFQVmJTL1pieCtUTUJrRHdsVGFuMlJORTgrMFd2dlkyL3F2aGw5RDFIOXdzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjU3NzI2NDc5CWZpbGU6UkJLIE1peGVyLmFwcC50YXIuZ3oKWEpnZ2tlUGovZGwzNzBIK3FZVGI2RXh3Sk9FTjNDVGdQMUEwSTNKYk0zVDlFUTY2Um9wbU1TWGUzOWsyVHk5VGFOS2lhakZzUkpoUUFyZ1FuRmhMQnc9PQo=",
+            "url": "https://github.com/olmigs/rbk-mixer/raw/main/release/download/v0.3.1/silicon/RBK Mixer.app.tar.gz"
+        },
+        "windows-x86_64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUQkxKbUJnMDZ3UGdOWldaOGtscVVUcncyc2tBTUN4T3dxdVp0eERFNmFYUTBDc1NaSGkvMTVwQlpXU1c1Ri81dEFTTERISmZVWFlFZHRDbjFZRVY0cDJWaXpkc3ZVYlFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjU3NzI4NTE4CWZpbGU6UkJLIE1peGVyXzAuMy4xX3g2NF9lbi1VUy5tc2kuemlwCkk1Mm93Z0xmS3RaWC9vcHY5SEFIMWxRYnlLL29NQVIyMThVOWtrR3FzSm1uZGwyUzZYbWtUQTR3RGpySE8vYW1nTWcrd2NhdUFMMVhQMGExYU1kdUFBPT0K",
+            "url": "https://github.com/olmigs/rbk-mixer/raw/main/release/download/v0.3.1/RBK Mixer_0.3.1_x64_en-US.msi.zip"
+        }
+    }
+}
