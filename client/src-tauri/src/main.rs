@@ -53,8 +53,15 @@ impl ApiKey {
         let split = value.split("starting session ");
         let vec = split.collect::<Vec<&str>>();
         if vec.len() == 2 {
-            // println!("{}", vec[1]);
-            (true, vec[1].to_string())
+            let mut test_str = vec[1].to_string();
+            // let mut test_str1 = test_str.clone();
+            // println!("{}", test_str);
+            // println!("{}", test_str.len());
+            test_str = test_str.replace(|c: char| !c.is_ascii_hexdigit(), "");
+            // println!("{}", &test_str1);
+            // println!("{}", test_str1.len());
+            // println!("{}", test_str1.chars().last().unwrap());
+            (true, test_str)
         } else {
             (false, value)
         }
@@ -75,12 +82,12 @@ fn get_copy_files(mut app_dir: PathBuf) -> Result<Vec<FolderDesc>> {
 fn check_then_create_or_write(src: PathBuf, dest: PathBuf, is_dir: bool) {
     if !dest.as_path().exists() {
         if is_dir {
-            println!("about to make {:#?}", &dest);
+            println!("about to make dir {:#?}", &dest);
             // thread::sleep(Duration::from_millis(5000));
             fs::create_dir(&dest).expect("dir not created");
             println!("wrote to dir: {:#?}", dest);
         } else {
-            println!("about to make {:#?}", &dest);
+            println!("about to make file {:#?}", &dest);
             let data = fs::read(src).expect("couldn't read src data");
             fs::write(&dest, data).expect("couldn't write to dest");
             println!("wrote to file: {:#?}", dest);
@@ -144,14 +151,14 @@ fn main() {
             let mut data_dir = path::data_dir().expect("data not found");
             let resource_str =
                 String::from(resource_dir.clone().to_str().expect("couldn't to_str"));
-            println!("{}", &resource_str);
+            println!("RESOURCE DIR: {}", &resource_str);
 
             let mut be_safe = false;
             if resource_str.contains("Program Files") {
-                println!("let's copypasta");
+                println!("Installed to an elevated directory....");
                 data_dir.push("RBK Mixer");
                 match copy_files(resource_dir.clone(), data_dir.clone()) {
-                    Ok(()) => println!("files copied"),
+                    Ok(()) => println!("Files copied to resource directory."),
                     Err(e) => panic!("{}", e),
                 }
                 be_safe = true;

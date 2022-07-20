@@ -20,46 +20,82 @@ export async function callEndpoint(
     }
     const url = server + '/' + endpoint;
     const key = await getAPIKey();
-    // console.log(key);
+    let opts;
     if (method === 'GET') {
-        return http
-            .fetch(url, {
-                method: 'GET',
-                headers: {
-                    'X-API-Key': key
-                },
-                responseType: type,
-            })
-            .then(resp => {
-                return resp.data;
-            });
-    } else if (['export', 'log'].includes(endpoint)) {
-        return http
-            .fetch(url, {
-                method: method,
-                headers: {
-                    'X-API-Key': key
-                },
-                body: http.Body.form(data),
-                responseType: type,
-            })
-            .then(resp => {
-                return resp;
-            });
+        opts = {
+            method: 'GET',
+            headers: {
+                'X-API-Key': key
+            },
+            responseType: type,
+        }
+    } else if (endpoint === 'export') {
+        opts = {
+            method: method,
+            headers: {
+                'X-API-Key': key
+            },
+            body: http.Body.form(data),
+            responseType: type,
+        }
     } else {
-        return http
-            .fetch(url, {
-                method: method,
-                headers: {
-                    'X-API-Key': key
-                },
-                body: http.Body.json(data),
-                responseType: type,
-            })
-            .then(resp => {
-                return resp.data;
-            });
+        opts = {
+            method: method,
+            headers: {
+                'X-API-Key': key
+            },
+            body: http.Body.json(data),
+            responseType: type,
+        }
     }
+    return http
+        .fetch(url, opts)
+        .then(resp => {
+            if (endpoint === 'export') {
+                return resp;
+            } else {
+                return resp.data;
+            }
+        });
+    // if (method === 'GET') {
+    //     return http
+    //         .fetch(url, {
+    //             method: 'GET',
+    //             headers: {
+    //                 'X-API-Key': key
+    //             },
+    //             responseType: type,
+    //         })
+    //         .then(resp => {
+    //             return resp.data;
+    //         });
+    // } else if (['export', 'log'].includes(endpoint)) {
+    //     return http
+    //         .fetch(url, {
+    //             method: method,
+    //             headers: {
+    //                 'X-API-Key': key
+    //             },
+    //             body: http.Body.form(data),
+    //             responseType: type,
+    //         })
+    //         .then(resp => {
+    //             return resp;
+    //         });
+    // } else {
+    //     return http
+    //         .fetch(url, {
+    //             method: method,
+    //             headers: {
+    //                 'X-API-Key': key
+    //             },
+    //             body: http.Body.json(data),
+    //             responseType: type,
+    //         })
+    //         .then(resp => {
+    //             return resp.data;
+    //         });
+    // }
 }
 
 function getAPIKey() {
