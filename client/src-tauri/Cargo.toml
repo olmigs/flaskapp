@@ -19,7 +19,7 @@ tauri-build = { version = "1.0.2", features = [] }
 # hex = "0.4.3"
 serde = "1.0.130"
 serde_json = "1.0.68"
-tauri = { version = "1.0.2", features = ["dialog-all", "http-all", "path-all", "reqwest-client", "shell-execute", "shell-sidecar", "updater"] }
+tauri = { version = "1.0.2", features = ["dialog-all", "http-all", "path-all", "shell-execute", "shell-sidecar", "updater"] }
 
 # [dependencies.pyo3]
 # version = "0.14.5"
