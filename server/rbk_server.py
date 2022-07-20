@@ -165,16 +165,6 @@ def outputToRBKFile(path, filename, last, slots):
     except:
         log("Error in export: " + traceback.format_exc())
 
-# migstodo: remove
-def writeToFileFromDummy(absFilename, slots):
-    dummyFile = os.path.join(FILE_FOLDER, '.dummy.rbk') # read only
-    dummyFileCopy = os.path.join(FILE_FOLDER, 'copy.rbk')
-    copyfile(dummyFile, dummyFileCopy)
-    with open(dummyFileCopy, "r+b") as file:
-        writeToFile(file, slots)
-    copyfile(dummyFileCopy, absFilename)
-    os.remove(dummyFileCopy)
-
 def writeToFileFromLastImport(absFilename, last, slots):
     dummyFile = os.path.join(FILE_FOLDER, '.dummy.rbk')
     copyfile(last, dummyFile)

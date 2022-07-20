@@ -3,8 +3,6 @@
     windows_subsystem = "windows"
 )]
 
-// use pyo3::prelude::*;
-// use hex;
 use serde::Deserialize;
 use std::{
     fs,
@@ -21,7 +19,6 @@ use tauri::{
     },
     Manager, WindowEvent, State
 };
-// use blake2::{Blake2s256, Digest};
 
 #[derive(Deserialize, Debug)]
 struct FolderDesc {
@@ -54,13 +51,7 @@ impl ApiKey {
         let vec = split.collect::<Vec<&str>>();
         if vec.len() == 2 {
             let mut test_str = vec[1].to_string();
-            // let mut test_str1 = test_str.clone();
-            // println!("{}", test_str);
-            // println!("{}", test_str.len());
             test_str = test_str.replace(|c: char| !c.is_ascii_hexdigit(), "");
-            // println!("{}", &test_str1);
-            // println!("{}", test_str1.len());
-            // println!("{}", test_str1.chars().last().unwrap());
             (true, test_str)
         } else {
             (false, value)
@@ -83,7 +74,6 @@ fn check_then_create_or_write(src: PathBuf, dest: PathBuf, is_dir: bool) {
     if !dest.as_path().exists() {
         if is_dir {
             println!("about to make dir {:#?}", &dest);
-            // thread::sleep(Duration::from_millis(5000));
             fs::create_dir(&dest).expect("dir not created");
             println!("wrote to dir: {:#?}", dest);
         } else {
@@ -100,7 +90,6 @@ fn copy_files(mut src: PathBuf, mut dest: PathBuf) -> Result<()> {
     if !dest.as_path().exists() {
         fs::create_dir(&dest).expect("dir not created");
         let files = get_copy_files(src.clone()).unwrap();
-        // println!("{:#?}", files);
         for folder in files {
             // create folder, if doesn't exist
             src.push(&folder.name);
@@ -141,7 +130,6 @@ fn get_api_key(state: State<ApiKey>) -> String {
 }
 
 fn main() {
-    // let session_key = ApiKey::new();
     tauri::Builder::default()
         .manage(ApiKey::new())
         .setup(|app| {
